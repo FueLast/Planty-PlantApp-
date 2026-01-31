@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.ChatPage"
+             xmlns:model="clr-namespace:PlantApp.Data"
+             Title="Chat"
+             Background="#F0EEE9">
+
+    <Grid RowDefinitions="*">
+
+        <!-- Список сообщений -->
+        <CollectionView ItemsSource="{Binding Messages}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ChatMessage">
+                    <Frame Margin="50"
+                           Padding="15"
+                           CornerRadius="15"
+                           BackgroundColor="White"
+                           BorderColor="White">
+
+                        <VerticalStackLayout Spacing="4">
+
+                            <!-- Никнейм -->
+                            <Label Text="{Binding UserProfile.UserName, TargetNullValue=''}"
+                                   FontAttributes="Bold"
+                                   FontSize="Medium"
+                                   TextColor="#367900"/>
+
+                            <!-- Текст сообщения -->
+                            <Label Text="{Binding TextMessage}"
+                                   FontSize="Small"
+                                   TextColor="Black"/>
+
+                            <!-- Время -->
+                            <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
+                                   FontSize="Micro"
+                                   TextColor="Gray"
+                                   HorizontalOptions="End"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="PlantApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:PlantApp.Views"
+    Shell.FlyoutBehavior="Flyout"
+    Title="PlantApp"
+
+    Shell.TabBarBackgroundColor="White"
+    Shell.TabBarForegroundColor="#367900"
+    Shell.TabBarUnselectedColor="LightGray"
+    Shell.TabBarTitleColor="#367900" >
+
+    <TabBar>
+        <Tab Title="Главная" Icon="main_page_plant.png">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}"
+                Route="mainPage"/>
+        </Tab>
+
+        <Tab Title="Чат" Icon="chat_page.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ChatPage}"
+                Route="ChatPage"/>
+        </Tab>
+
+        <Tab Title="Календарь" Icon="calendar.png">
+            <ShellContent ContentTemplate="{DataTemplate views:CalendarPage}"
+                Route="CalendarPage"/>
+        </Tab>
+
+        <Tab Title="Профиль" Icon="profile_page.png" >
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"
+                Route="ProfilePage"/>
+        </Tab>
+    </TabBar>
+</Shell>

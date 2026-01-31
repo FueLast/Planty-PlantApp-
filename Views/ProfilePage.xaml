@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.ProfilePage"
+             Title="ProfilePage" Background="#F0EEE9">
+
+        <Border 
+            Margin="5"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15"
+            HeightRequest="300"
+            Padding="0"
+            VerticalOptions="Start">
+            <!-- Убираем Padding здесь, чтобы картинка прилегала к краям -->
+
+            <Grid IsClippedToBounds="True">
+                <!-- Слой 1: Белый фон -->
+                <BoxView Color="White"/>
+
+                <!-- Слой 2: Полупрозрачное изображение -->
+                <Image
+            Source="background_listik_profile.png" 
+            Opacity="0.05"
+            Aspect="AspectFill"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+
+                <!-- Слой 3: Основной контент (StackLayout теперь внутри Grid) -->
+                <StackLayout 
+            Spacing="0" 
+            Padding="15" 
+            VerticalOptions="Center" 
+            HorizontalOptions="Start">
+
+                    <!-- Иконка профиля -->
+                    <Border WidthRequest="80" 
+                    HeightRequest="80"
+                    StrokeThickness="3"
+                    StrokeShape="RoundRectangle 150"
+                    Stroke="#367900">
+                    <Image Source="profile_image.png" Aspect="AspectFit"/>
+                    </Border>
+
+                    <Label Text="Профиль"
+                   FontSize="24"
+                   TextColor="Black" 
+                   HorizontalTextAlignment="Start"/>
+                </StackLayout>
+            </Grid>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnProfileCommand}"/>
+            </Border.GestureRecognizers>
+        </Border>
+
+</ContentPage>
