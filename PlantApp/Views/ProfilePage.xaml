@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PlantApp.Views.ProfilePage"
+    Background="#F0EEE9">
+
+    <ScrollView>
+
+        <!-- ОСНОВНАЯ СТРУКТУРА -->
+        <Grid
+            Margin="15"
+            RowDefinitions="Auto,Auto,Auto"
+            RowSpacing="20">
+
+            <!-- ================== ВЕРХНИЙ БЛОК ================== -->
+            <Border
+                Grid.Row="0"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 30">
+    
+                <Grid IsClippedToBounds="True">
+
+                    <BoxView Color="White"/>
+
+                    <Image
+                        Source="background_listik_profile.png"
+                        Opacity="0.15"
+                        Aspect="AspectFill" />
+
+                    <Grid
+                        Padding="20"
+                        ColumnDefinitions="Auto, Auto"
+                        ColumnSpacing="20">
+
+                        <!-- Аватар -->
+                        <Border 
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            Stroke="#367900"
+                            StrokeThickness="3"
+                            StrokeShape="RoundRectangle 150"
+                            Background="White">
+
+                            <Image
+                                Source="main_profile_image.png"
+                                Aspect="AspectFit"/>
+                        </Border> 
+                            <!-- Правая часть -->
+                            <StackLayout 
+                                Grid.Column="1"
+                                Spacing="12"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center">
+
+                                <Label
+                                Text="Профиль"
+                                FontSize="24"
+                                TextColor="Black"/>
+
+                                <Border
+                                Stroke="#367900"
+                                StrokeShape="RoundRectangle 20"
+                                Background="#F0EEE9">
+
+                                    <Editor
+                                    Placeholder="Опишите чем вам нравится заниматься"
+                                    TextColor="Black"
+                                    PlaceholderColor="Gray"
+                                    AutoSize="TextChanges"/>
+                                </Border>
+
+                            </StackLayout> 
+                    </Grid>
+
+                </Grid>
+            </Border>
+
+            <!-- ================== ДВА НИЖНИХ БЛОКА ================== -->
+            <Grid
+                Grid.Row="1"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="15">
+
+                <Border
+                    Stroke="#367900"
+                    StrokeShape="RoundRectangle 30"
+                    Background="White"
+                    HeightRequest="200"/>
+
+                <Border
+                    Grid.Column="1"
+                    Stroke="#367900"
+                    StrokeShape="RoundRectangle 30"
+                    Background="White"
+                    HeightRequest="200"/>
+
+            </Grid>
+
+            <!-- ================== КНОПКА ================== -->
+            <Button
+                Grid.Row="2"
+                Text="Выход"
+                HeightRequest="50"
+                BackgroundColor="Red"
+                TextColor="White"
+                CornerRadius="25"/>
+
+        </Grid>
+
+    </ScrollView>
+
+</ContentPage>   

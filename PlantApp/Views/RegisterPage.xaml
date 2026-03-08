@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.RegisterPage" 
+             Background="#F0EEE9"> 
+    <Grid
+        RowDefinitions="*, *, *"
+        ColumnDefinitions="*, Auto, *"
+        >
+        <Border
+            Background="White"
+            Grid.Column="1"
+            Grid.Row="1"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 25"            
+            >
+            
+            <VerticalStackLayout Padding="30" Spacing="15">
+
+                <Entry Placeholder="Логин" 
+                       Text="{Binding Login}" 
+                       TextColor="Black"/>
+
+                 <Entry Placeholder="Пароль"
+                        IsPassword="True"
+                        Text="{Binding Password}" 
+                        TextColor="Black"/>
+
+                 <Button Text="Зарегистрироваться"
+                         Background="#367900"
+                         TextColor="White"
+                         Command="{Binding RegisterCommand}" />
+
+            </VerticalStackLayout>
+        </Border>
+    </Grid> 
+</ContentPage>

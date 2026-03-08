@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.EncyclopediaPage"
+             xmlns:model="clr-namespace:PlantApp.Data"
+             Title="Encyclopedia"
+             Background="#F0EEE9"
+             x:Name="EncyclopediaPageRoot">
+
+    <!-- 1. Определяем неявный стиль для всех Border на этой странице -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border">
+                <Setter Property="StrokeThickness" Value="0" />
+                <!-- Устанавливаем радиус скругления 20pt -->
+                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+                <!-- CRITICAL: Обрезает изображение внутри по этой форме -->
+                <Setter Property="Margin" Value="0, 0, 0, 0" />
+                <!-- Небольшой отступ между карточками -->
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- 2. Используем ScrollView для прокрутки всего контента -->
+    <ScrollView>
+        <!-- 3. Основная сетка на 3 колонки -->
+        <Grid ColumnDefinitions="*, *, *" 
+              ColumnSpacing="10" 
+              Padding="10, 10, 10, 0">
+
+            <!-- Колонка 0 (Левая) -->
+            <VerticalStackLayout x:Name="Column0Layout" Grid.Column="0" Spacing="10"  />
+            <VerticalStackLayout x:Name="Column1Layout" Grid.Column="1" Spacing="10"  />
+            <VerticalStackLayout x:Name="Column2Layout" Grid.Column="2" Spacing="10"  />
+ 
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

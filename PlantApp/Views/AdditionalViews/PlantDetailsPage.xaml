@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.AdditionalViews.PlantDetailsPage"
+             xmlns:model="clr-namespace:PlantApp.Data" 
+             Background="#F0EEE9"
+             Title ="PlantDetails"> 
+
+    <ScrollView> 
+        <Grid>
+
+            <VerticalStackLayout>
+
+                <Border StrokeThickness="0" 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"> 
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                        <Image Source="{Binding PlantImage}"
+                               Aspect="AspectFill" />
+                </Border>
+
+                <Border Stroke="Transparent">
+                    <Label Text="{Binding NamePlant}"
+                           FontSize="25"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" 
+                           />
+                </Border>
+
+                <Border Stroke="Transparent" >
+                    <Label Text="{Binding DescriptionPlant}"
+                           FontSize="18"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border> 
+ 
+                <Border StrokeShape="RoundRectangle 30"
+                        Stroke="Transparent"
+                        BackgroundColor="#BBFFBB">
+
+                    <Label Text="{Binding PlantCare}"
+                           FontSize="18"
+                           TextColor="Black"  
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" 
+                           Margin="10"/>
+                </Border>
+                <Button Text="⭐"
+                        BackgroundColor="White" 
+                        Command="{Binding ToggleFavoriteCommand}" />
+            </VerticalStackLayout>
+
+            
+
+        </Grid>
+    </ScrollView>
+
+
+
+</ContentPage>

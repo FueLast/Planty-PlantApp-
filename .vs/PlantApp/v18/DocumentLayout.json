@@ -1,0 +1,261 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\views\\additionalviews\\plantdetailspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\views\\additionalviews\\plantdetailspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\views\\additionalviews\\plantdetailspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\views\\additionalviews\\plantdetailspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\views\\registerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\views\\registerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\viewmodels\\encyclopediaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\viewmodels\\encyclopediaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\data\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\data\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\services\\plantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\services\\plantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\viewmodels\\registerpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\viewmodels\\registerpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\viewmodels\\plantdetailsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\viewmodels\\plantdetailsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\views\\favoritespage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\views\\favoritespage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\viewmodels\\favoritespageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\viewmodels\\favoritespageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|c:\\users\\glebm\\source\\repos\\plantapp_backup\\plantapp\\data\\favoriteplant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AE064DF-2383-463E-A215-71E38FD9ADD7}|PlantApp\\PlantApp.csproj|solutionrelative:plantapp\\data\\favoriteplant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 345,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterPage.xaml",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\RegisterPage.xaml",
+              "RelativeDocumentMoniker": "PlantApp\\Views\\RegisterPage.xaml",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\RegisterPage.xaml",
+              "RelativeToolTip": "PlantApp\\Views\\RegisterPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-06T15:22:52.692Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Data\\User.cs",
+              "RelativeDocumentMoniker": "PlantApp\\Data\\User.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Data\\User.cs",
+              "RelativeToolTip": "PlantApp\\Data\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T15:19:30.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\App.xaml.cs",
+              "RelativeDocumentMoniker": "PlantApp\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\App.xaml.cs",
+              "RelativeToolTip": "PlantApp\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T15:09:51.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PlantService.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Services\\PlantService.cs",
+              "RelativeDocumentMoniker": "PlantApp\\Services\\PlantService.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Services\\PlantService.cs",
+              "RelativeToolTip": "PlantApp\\Services\\PlantService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAwAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:52:24.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FavoritesPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\FavoritesPageViewModel.cs",
+              "RelativeDocumentMoniker": "PlantApp\\ViewModels\\FavoritesPageViewModel.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\FavoritesPageViewModel.cs",
+              "RelativeToolTip": "PlantApp\\ViewModels\\FavoritesPageViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:51:05.922Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "FavoritesPage.xaml",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\FavoritesPage.xaml",
+              "RelativeDocumentMoniker": "PlantApp\\Views\\FavoritesPage.xaml",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\FavoritesPage.xaml",
+              "RelativeToolTip": "PlantApp\\Views\\FavoritesPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-06T14:50:38.992Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlantDetailsPage.xaml",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml",
+              "RelativeDocumentMoniker": "PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml",
+              "RelativeToolTip": "PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-06T14:49:53.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlantDetailsPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml.cs",
+              "RelativeDocumentMoniker": "PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml.cs",
+              "RelativeToolTip": "PlantApp\\Views\\AdditionalViews\\PlantDetailsPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:49:51.627Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PlantDetailsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\PlantDetailsViewModel.cs",
+              "RelativeDocumentMoniker": "PlantApp\\ViewModels\\PlantDetailsViewModel.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\PlantDetailsViewModel.cs",
+              "RelativeToolTip": "PlantApp\\ViewModels\\PlantDetailsViewModel.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAwBUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:49:18.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "PlantApp\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "PlantApp\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:48:37.571Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "FavoritePlant.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Data\\FavoritePlant.cs",
+              "RelativeDocumentMoniker": "PlantApp\\Data\\FavoritePlant.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\Data\\FavoritePlant.cs",
+              "RelativeToolTip": "PlantApp\\Data\\FavoritePlant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:48:10.58Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EncyclopediaViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\EncyclopediaViewModel.cs",
+              "RelativeDocumentMoniker": "PlantApp\\ViewModels\\EncyclopediaViewModel.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\EncyclopediaViewModel.cs",
+              "RelativeToolTip": "PlantApp\\ViewModels\\EncyclopediaViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:43:21.543Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "PlantApp\\MauiProgram.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\MauiProgram.cs",
+              "RelativeToolTip": "PlantApp\\MauiProgram.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAiwCgAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:43:04.831Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "PlantApp\\ViewModels\\MainViewModel.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\MainViewModel.cs",
+              "RelativeToolTip": "PlantApp\\ViewModels\\MainViewModel.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAewDoAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:42:20.269Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RegisterPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\RegisterPageViewModel.cs",
+              "RelativeDocumentMoniker": "PlantApp\\ViewModels\\RegisterPageViewModel.cs",
+              "ToolTip": "C:\\Users\\glebm\\source\\repos\\PlantApp_backup\\PlantApp\\ViewModels\\RegisterPageViewModel.cs",
+              "RelativeToolTip": "PlantApp\\ViewModels\\RegisterPageViewModel.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAjwC0AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T14:38:20.726Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
