@@ -1,37 +1,110 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantApp.Views.RegisterPage" 
-             Background="#F0EEE9"> 
+             x:Class="PlantApp.Views.RegisterPage"
+             Background="#F0EEE9">
+
     <Grid
-        RowDefinitions="*, *, *"
-        ColumnDefinitions="*, Auto, *"
-        >
+        RowDefinitions="*,Auto,*"
+        ColumnDefinitions="*,Auto,*">
+
         <Border
-            Background="White"
-            Grid.Column="1"
             Grid.Row="1"
+            Grid.Column="1"
+            Background="White"
             Stroke="Transparent"
-            StrokeShape="RoundRectangle 25"            
-            >
-            
-            <VerticalStackLayout Padding="30" Spacing="15">
+            StrokeShape="RoundRectangle 25">
 
-                <Entry Placeholder="Логин" 
-                       Text="{Binding Login}" 
-                       TextColor="Black"/>
+            <ScrollView>
 
-                 <Entry Placeholder="Пароль"
-                        IsPassword="True"
-                        Text="{Binding Password}" 
+                <VerticalStackLayout Padding="30" Spacing="12">
+
+                    <!-- Заголовок -->
+                    <Label Text="Регистрация"
+                           FontSize="24"
+                           HorizontalOptions="Center"
+                           TextColor="Black"
+                           Margin="0,0,0,10"/>
+
+                    <!-- LOGIN -->
+                    <Entry
+                        Placeholder="Логин"
+                        Text="{Binding Login}"
                         TextColor="Black"/>
 
-                 <Button Text="Зарегистрироваться"
-                         Background="#367900"
-                         TextColor="White"
-                         Command="{Binding RegisterCommand}" />
+                    <!-- PASSWORD -->
+                    <Entry
+                        Placeholder="Пароль"
+                        IsPassword="True"
+                        Text="{Binding Password}"
+                        TextColor="Black"/>
 
-            </VerticalStackLayout>
+                    <!-- CONFIRM PASSWORD -->
+                    <Entry
+                        Placeholder="Подтвердите пароль"
+                        IsPassword="True"
+                        Text="{Binding ConfirmPassword}"
+                        TextColor="Black"/>
+
+                    <!-- USERNAME -->
+                    <Entry
+                        Placeholder="Имя пользователя"
+                        Text="{Binding Username}"
+                        TextColor="Black"/>
+
+                    <!-- OPTIONAL SECTION -->
+                    <Label Text="Дополнительно"
+                           FontSize="14"
+                           TextColor="Gray"
+                           Margin="0,10,0,0"/>
+
+                    <!-- CITY -->
+                    <Entry
+                        Placeholder="Город (необязательно)"
+                        Text="{Binding City}"
+                        TextColor="Black"/>
+
+                    <!-- AGE -->
+                    <Entry
+                        Placeholder="Возраст (необязательно)"
+                        Keyboard="Numeric"
+                        Text="{Binding Age}"
+                        TextColor="Black"/>
+
+                    <!-- REGISTER BUTTON -->
+                    <Button
+                        Text="Зарегистрироваться"
+                        Background="#367900"
+                        TextColor="White"
+                        CornerRadius="12"
+                        HeightRequest="45"
+                        Margin="0,10,0,0"
+                        Command="{Binding RegisterCommand}" />
+
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+
+                        <Label Text="Уже есть аккаунт?"
+                               TextColor="Black"/>
+
+                        <Label Text="Войти"
+                               TextColor="#367900"
+                               FontAttributes="Bold">
+
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToLoginCommand}" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </ScrollView>
+
         </Border>
-    </Grid> 
+
+    </Grid>
+
 </ContentPage>

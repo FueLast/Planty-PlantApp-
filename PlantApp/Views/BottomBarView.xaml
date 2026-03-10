@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.BottomBarView">
+    <VerticalStackLayout>
+        <Grid Padding="10" BackgroundColor="#F0EEE9">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Clicked="HomeClicked"
+                    Background="#F0EEE9" TextColor="Black"
+                    ImageSource="main_page_plant.png"/>
+            
+            <Button Grid.Column="1" Clicked="ChatClicked"
+                    Background="#F0EEE9" TextColor="Black"
+                    ImageSource="chat_page.png"/>
+            
+            <Button Grid.Column="2" Clicked="CalendarClicked"
+                    Background="#F0EEE9" TextColor="Black"
+                    ImageSource="calendar.png"/>
+            
+            <Button Grid.Column="3" Clicked="ProfileClicked"
+                    Background="#F0EEE9" TextColor="Black"
+                    ImageSource="main_profile_image.png"/>
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

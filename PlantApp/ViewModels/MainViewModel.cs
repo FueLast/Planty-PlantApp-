@@ -28,6 +28,7 @@ namespace PlantApp.ViewModels
             OnEncyclopediaCommand = new AsyncRelayCommand(OpenEncyclopedia);
             OnGPTCommand = new AsyncRelayCommand(OpenGPT);
             OnRemindersCommand = new AsyncRelayCommand(OpenReminders);
+            OnFavoritesCommand = new AsyncRelayCommand(OpenFavorites);
         }
 
         public async Task LoadPopularPlantsAsync()
@@ -66,6 +67,10 @@ namespace PlantApp.ViewModels
         private async Task OpenReminders()
         {
             await _navigationService.NavigateToAsync<RemindersPage>();
+        }
+        private async Task OpenFavorites()
+        {
+            await _navigationService.NavigateToAsync<FavoritesPage>();
         }
 
 

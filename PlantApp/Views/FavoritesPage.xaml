@@ -1,12 +1,61 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantApp.Views.FavoritesPage"
-             Title="FavoritesPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="PlantApp.Views.FavoritesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Favorites">
+
+    <Grid Padding="20">
+
+        <CollectionView
+            ItemsSource="{Binding FavoritePlants}"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Border
+                        StrokeThickness="1"
+                        Stroke="#F0EEE9"
+                        Padding="12"
+                        Margin="0,0,0,12">
+
+                        <Grid ColumnDefinitions="90,*"
+                              ColumnSpacing="12">
+
+                            <Image
+                                Source="{Binding PlantImage}"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Aspect="AspectFill"/>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Spacing="6">
+
+                                <Label
+                                    Text="{Binding NamePlant}"
+                                    FontSize="18"
+                                    FontAttributes="Bold"/>
+
+                                <Label
+                                    Text="{Binding DescriptionPlant}"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
 </ContentPage>

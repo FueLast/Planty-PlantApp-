@@ -9,9 +9,7 @@ namespace PlantApp
         public App(AppDbContext db)
         {
             InitializeComponent();
-
-            // создаёт базу и таблицы
-            db.Database.EnsureCreated();
+             
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

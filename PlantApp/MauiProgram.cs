@@ -55,30 +55,40 @@ namespace PlantApp
             //builder.Services.AddSingleton(new PlantService(plantDbPath));
             builder.Services.AddSingleton(new ChatService(chatdbPath));
             builder.Services.AddSingleton<INavigationService, NavigationService>();
-             
+
 
 
             // Pages
+            builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegisterPage>();
+            builder.Services.AddTransient<PlantDetailsPage>();
+
+
+            //BottomBar
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<ChatPage>();
-            builder.Services.AddTransient<PlantDetailsPage>();
+            builder.Services.AddTransient<CalendarPage>();
+            builder.Services.AddTransient<ProfilePage>();
+            //Pages Form Main Page
+            builder.Services.AddTransient<GPTPage>();
             builder.Services.AddTransient<EncyclopediaPage>();
-
-
+            builder.Services.AddTransient<RemindersPage>();
+            builder.Services.AddTransient<FavoritesPage>();
 
             //ViewModels 
+            builder.Services.AddTransient<LoginPageViewModel>(); 
             builder.Services.AddTransient<RegisterPageViewModel>();
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<ChatPageViewModel>();
             builder.Services.AddTransient<EncyclopediaViewModel>();
+            builder.Services.AddTransient<FavoritesPageViewModel>();
 
-            //Data
+            //Data & Service
             builder.Services.AddSingleton<SecurityService>();
-             
-             
-                
-              
+            builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddScoped<FavoriteService>();
+
+
 
 #if DEBUG
             builder.Logging.AddDebug();

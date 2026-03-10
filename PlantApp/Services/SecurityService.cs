@@ -14,15 +14,15 @@ namespace PlantApp.Services
             salt = hmac.Key;
 
             hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        }
-
-        public bool VerifyPassword(string password, byte[] hash, byte[] salt)
+        } 
+        public bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
-            using var hmac = new HMACSHA512(salt);
+            using var hmac = new HMACSHA512(storedSalt);
 
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-            return computedHash.SequenceEqual(hash);
+            return computedHash.SequenceEqual(storedHash);
         }
+
     }
 }

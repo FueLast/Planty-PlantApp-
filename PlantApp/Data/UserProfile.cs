@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,16 @@ namespace PlantApp.Data
 {
     public class UserProfile
     {
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public string UserName { get; set; } = null!;
-        public string? ProfileDescription { get; set; }
-        public int Age { get; set; }
-        public string? City { get; set; }
-        public byte[]? UserProfileImage { get; set; } //тут пользователь должен загружать своё фото в профиль (далее оно преобразуется в двоичный код)
-        public int UserId {  get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public int? Age { get; set; }
+
+        // Внешний ключ для связи с User
+        public int UserId { get; set; }
         public User User { get; set; } = null!;
     }
 }
+
