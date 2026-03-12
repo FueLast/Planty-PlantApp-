@@ -1,22 +1,23 @@
-using System.ComponentModel;
-using Microsoft.Maui.Controls.Handlers;
-using Microsoft.Maui.Controls.Platform;
-using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
-using PlantApp.ViewModels; 
+using PlantApp.ViewModels;
 
 namespace PlantApp.Views;
 
 public partial class ProfilePage : ContentPage
 {
-	public ProfilePage()
-	{
-		InitializeComponent();
-	}
+    private readonly ProfilePageViewModel _viewModel;
 
-    private void Image_SizeChanged(object sender, EventArgs e)
+    public ProfilePage(ProfilePageViewModel viewModel)
     {
+        InitializeComponent();
 
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
     }
 
- 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await _viewModel.LoadProfile();
+    }
 }

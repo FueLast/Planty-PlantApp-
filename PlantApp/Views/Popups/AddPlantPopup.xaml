@@ -1,0 +1,55 @@
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="PlantApp.Views.Popups.AddPlantPopup">
+
+    <Border
+        Background="White"
+        StrokeShape="RoundRectangle 30"
+        Padding="20">
+
+        <StackLayout Spacing="15">
+
+            <Label Text="Добавить растение"/>
+
+            <!-- выбор растения -->
+            <Picker
+                Title="Выберите растение"
+                ItemsSource="{Binding Plants}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedPlant}"/>
+
+            <!-- имя -->
+            <Entry
+                Placeholder="Имя растения"
+                Text="{Binding CustomName}"/>
+
+            <!-- возраст -->
+            <Entry
+                Placeholder="Сколько растет (дней)"
+                Keyboard="Numeric"
+                Text="{Binding AgeDays}"/>
+
+            <!-- описание -->
+            <Editor
+                Placeholder="Описание"
+                Text="{Binding Description}"/>
+
+            <Button
+                Text="Добавить фото"
+                Clicked="OnPickImageClicked"/>
+
+            <Button
+                Text="Сохранить"
+                Clicked="OnSaveClicked"/>
+
+            <Button
+                Text="Отмена"
+                Clicked="OnCancelClicked" />
+
+        </StackLayout>
+
+    </Border>
+
+</toolkit:Popup>

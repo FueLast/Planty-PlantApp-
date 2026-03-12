@@ -81,21 +81,104 @@
             <!-- ================== ДВА НИЖНИХ БЛОКА ================== -->
             <Grid
                 Grid.Row="1"
-                ColumnDefinitions="*,*"
+                ColumnDefinitions="2*,*"
                 ColumnSpacing="15">
 
+                <!-- МОИ РАСТЕНИЯ -->
                 <Border
                     Stroke="#367900"
-                    StrokeShape="RoundRectangle 30"
+                    StrokeShape="RoundRectangle 25"
                     Background="White"
-                    HeightRequest="200"/>
+                    Padding="15">
 
+                    <Grid RowDefinitions="Auto,*">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="Мои растения"
+                                FontSize="18"
+                                TextColor="Black"/>
+
+                            <Button
+                                Grid.Column="1"
+                                Text="+"
+                                WidthRequest="35"
+                                HeightRequest="35"
+                                Command="{Binding AddPlantCommand}"
+                                BackgroundColor="#367900"/>
+                        </Grid>
+
+                        <!-- список растений -->
+                        <CollectionView
+                            Grid.Row="1"
+                            ItemsSource="{Binding UserPlants}">
+
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Border
+                                        Stroke="#367900"
+                                        StrokeShape="RoundRectangle 15"
+                                        Padding="10"
+                                        Margin="0,5">
+
+                                        <Grid ColumnDefinitions="60,*">
+
+                                            <Image
+                                                Source="{Binding ImagePath}"
+                                                HeightRequest="60"
+                                                WidthRequest="60"
+                                                Aspect="AspectFill"/>
+
+                                            <StackLayout Grid.Column="1">
+
+                                                <Label
+                                                    Text="{Binding CustomName}"
+                                                    FontAttributes="Bold"/>
+
+                                                <Label
+                                                    Text="{Binding PlantName}"
+                                                    FontSize="12"/>
+
+                                                <Label
+                                                    Text="{Binding LastWateredText}"
+                                                    FontSize="11"
+                                                    TextColor="Gray"/>
+
+                                            </StackLayout>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </Grid>
+
+                </Border>
+
+
+                <!-- ДРУЗЬЯ -->
                 <Border
-                    Grid.Column="1"
-                    Stroke="#367900"
-                    StrokeShape="RoundRectangle 30"
-                    Background="White"
-                    HeightRequest="200"/>
+                     Grid.Column="1"
+                     Stroke="#367900"
+                     StrokeShape="RoundRectangle 30"
+                     Background="White">
+
+                    <Label
+                        FontSize="18"
+                        Text="Друзья"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        Padding="15"/>
+
+                </Border>
 
             </Grid>
 
@@ -103,10 +186,11 @@
             <Button
                 Grid.Row="2"
                 Text="Выход"
+                Command="{Binding LogoutCommand}"
                 HeightRequest="50"
                 BackgroundColor="Red"
                 TextColor="White"
-                CornerRadius="25"/> 
+                CornerRadius="25"/>
 
         </Grid>
 

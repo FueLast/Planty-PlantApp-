@@ -9,6 +9,7 @@ using PlantApp.ViewModels;
 using PlantApp.Views;
 using PlantApp.Views.AdditionalViews;
 using Microsoft.EntityFrameworkCore;
+using CommunityToolkit.Maui;
 
 namespace PlantApp
 {
@@ -21,6 +22,7 @@ namespace PlantApp
 
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -52,7 +54,10 @@ namespace PlantApp
             //builder.Services.AddSingleton(new PlantService(plantDbPath));
             builder.Services.AddSingleton(new ChatService(chatdbPath));
             builder.Services.AddSingleton<INavigationService, NavigationService>();
-             
+
+
+
+
 
             // Pages
             builder.Services.AddTransient<LoginPage>();
@@ -68,8 +73,7 @@ namespace PlantApp
             builder.Services.AddTransient<GPTPage>();
             builder.Services.AddTransient<EncyclopediaPage>();
             builder.Services.AddTransient<RemindersPage>();
-            builder.Services.AddTransient<FavoritesPage>();
-
+            builder.Services.AddTransient<FavoritesPage>(); 
             //ViewModels 
             builder.Services.AddTransient<LoginPageViewModel>(); 
             builder.Services.AddTransient<RegisterPageViewModel>();
@@ -77,13 +81,14 @@ namespace PlantApp
             builder.Services.AddTransient<ChatPageViewModel>();
             builder.Services.AddTransient<EncyclopediaViewModel>();
             builder.Services.AddTransient<FavoritesPageViewModel>();
+            builder.Services.AddTransient<ProfilePageViewModel>();
 
             //Data & Service
             builder.Services.AddSingleton<SecurityService>();
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddScoped<FavoriteService>();
-
-
+            builder.Services.AddScoped<ProfileService>();
+            builder.Services.AddScoped<UserPlantService>(); 
 
 #if DEBUG
             builder.Logging.AddDebug();

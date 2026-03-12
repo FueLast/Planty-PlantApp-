@@ -18,10 +18,16 @@ namespace PlantApp.Data
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<FavoritePlant> FavoritePlants { get; set; }
+        public DbSet<UserPlant> UserPlants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserPlant>()
+                .HasOne(p => p.Plant)
+                .WithMany()
+                .HasForeignKey(p => p.PlantId);
 
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Login)
