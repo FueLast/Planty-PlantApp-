@@ -16,22 +16,31 @@
 
                     <Border
                         StrokeThickness="1"
-                        Stroke="#F0EEE9"
+                        Stroke="#367900"
                         Padding="12"
-                        Margin="0,0,0,12">
-
+                        Margin="0,0,0,12"
+                        StrokeShape="RoundRectangle 15">
+                        
                         <Grid ColumnDefinitions="90,*"
                               ColumnSpacing="12">
-
-                            <Image
-                                Source="{Binding PlantImage}"
-                                HeightRequest="90"
-                                WidthRequest="90"
-                                Aspect="AspectFill"/>
+                            
+                            
+                            <Border StrokeThickness="0" 
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15"/>
+                                </Border.StrokeShape>
+                                <Image
+                                    Source="{Binding PlantImage}"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Aspect="AspectFill"/>
+                            </Border> 
 
                             <VerticalStackLayout
                                 Grid.Column="1"
-                                Spacing="6">
+                                Spacing="5">
 
                                 <Label
                                     Text="{Binding NamePlant}"
@@ -42,7 +51,7 @@
                                     Text="{Binding DescriptionPlant}"
                                     FontSize="14"
                                     LineBreakMode="TailTruncation"
-                                    MaxLines="2"/>
+                                    MaxLines="3"/>
 
                             </VerticalStackLayout>
 

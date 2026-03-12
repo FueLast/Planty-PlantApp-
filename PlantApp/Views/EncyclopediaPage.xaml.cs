@@ -1,17 +1,18 @@
 // Базовые пространства имён
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 // MAUI / UI
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Handlers;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+using PlantApp.Data;
+using PlantApp.Services;
 // ViewModel и модели
 using PlantApp.ViewModels;
-using PlantApp.Data;
 using PlantApp.Views.AdditionalViews;
-using PlantApp.Services;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PlantApp.Views;
 
@@ -19,18 +20,26 @@ public partial class EncyclopediaPage : ContentPage
 {
 // ViewModel внедряется через DI (НЕ создаётся вручную)
     private readonly EncyclopediaViewModel _viewModel;
-
-// Конструктор страницы
-// ViewModel приходит из DI-контейнера
-    public EncyclopediaPage(EncyclopediaViewModel viewModel)
+    private readonly IDbContextFactory<AppDbContext> _factory;
+    private readonly AuthService _authService;
+    // Конструктор страницы
+    // ViewModel приходит из DI-контейнера
+    public EncyclopediaPage(
+        EncyclopediaViewModel viewModel,
+        IDbContextFactory<AppDbContext> factory,
+        AuthService authService)
     {
-        InitializeComponent();     // Инициализация XAML
-        _viewModel = viewModel;    // Сохраняем ViewModel
-        BindingContext = _viewModel; // Связываем UI с ViewModel
+        InitializeComponent();
+
+        _viewModel = viewModel;
+        _factory = factory;
+        _authService = authService;
+
+        BindingContext = _viewModel;
     }
 
-// Жизненный цикл страницы
-// Вызывается каждый раз, когда страница появляется на экране
+    // Жизненный цикл страницы
+    // Вызывается каждый раз, когда страница появляется на экране
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -74,7 +83,7 @@ public partial class EncyclopediaPage : ContentPage
             var tapGesture = new TapGestureRecognizer();
             tapGesture.Tapped += async (s, e) =>
             {
-                await Navigation.PushAsync(new PlantDetailsPage(plant));
+                await Navigation.PushAsync(new PlantDetailsPage(plant, _factory, _authService));
             };
 
             // Оборачиваем изображение в Border

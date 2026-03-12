@@ -27,16 +27,7 @@ namespace PlantApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            //путь к Sqlite
-            builder.Services.AddSingleton<PlantService>(sp => // синглтон потому что
-            {                                           // один объект на всё приложение
-                var plantdbPath = Path.Combine(
-                    FileSystem.AppDataDirectory,
-                    "plants.db"
-                    );
-                return new PlantService(plantdbPath);
-            }
-            );
+
 
             //string plantdbPath = Path.Combine(FileSystem.AppDataDirectory, "plants.db");
             string chatdbPath = Path.Combine(FileSystem.AppDataDirectory, "chat.db");
@@ -48,21 +39,25 @@ namespace PlantApp
 
             string userDbPath = Path.Combine(FileSystem.AppDataDirectory, "users.db");
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite($"Filename={userDbPath}"));
 
+            builder.Services.AddDbContextFactory<AppDbContext>(options =>
+            {
+                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "plants.db");
+
+                options.UseSqlite($"Filename={dbPath}");
+            });
+            //путь к Sqlite 
+            builder.Services.AddScoped<PlantService>(); 
 
             //builder.Services.AddSingleton(new PlantService(plantDbPath));
             builder.Services.AddSingleton(new ChatService(chatdbPath));
             builder.Services.AddSingleton<INavigationService, NavigationService>();
-
-
+             
 
             // Pages
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegisterPage>();
-            builder.Services.AddTransient<PlantDetailsPage>();
-
+            builder.Services.AddTransient<PlantDetailsPage>(); 
 
             //BottomBar
             builder.Services.AddTransient<MainPage>();

@@ -2,49 +2,55 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using PlantApp.Data;
+using PlantApp.Services;
 
-namespace PlantApp.ViewModels
+public partial class PlantDetailsViewModel : ObservableObject
 {
-    public partial class PlantDetailsViewModel : ObservableObject
+    private readonly IDbContextFactory<AppDbContext> _factory;
+    private readonly AuthService _authService;
+
+    public Plant Plant { get; }
+    private readonly int _plantId;
+
+    public PlantDetailsViewModel(
+        IDbContextFactory<AppDbContext> factory,
+        Plant plant,
+        AuthService authService)
     {
-        private readonly IDbContextFactory<AppDbContext> _contextFactory;
+        _factory = factory;
+        _authService = authService;
 
-        // Удаляем ручное объявление ToggleFavoriteCommand из конструктора и свойств
+        Plant = plant;
+        _plantId = plant.Id;   // сохраняем ID
+    }
 
-        public PlantDetailsViewModel(IDbContextFactory<AppDbContext> contextFactory)
+    [RelayCommand]
+    public async Task ToggleFavorite()
+    {
+        using var db = _factory.CreateDbContext();
+
+        int currentUserId = _authService.GetUserId();
+
+        var favorite = await db.FavoritePlants
+            .FirstOrDefaultAsync(f =>
+                f.PlantId == _plantId &&
+                f.UserId == currentUserId);
+
+        if (favorite != null)
         {
-            _contextFactory = contextFactory;
+            db.FavoritePlants.Remove(favorite);
+        }
+        else
+        {
+            var newFavorite = new FavoritePlant
+            {
+                PlantId = _plantId,
+                UserId = currentUserId
+            };
+
+            db.FavoritePlants.Add(newFavorite);
         }
 
-        // Атрибут сам создаст ToggleFavoriteCommand (тип IAsyncRelayCommand<Plant>)
-        [RelayCommand]
-        public async Task ToggleFavorite(Plant plant)
-        {
-            if (plant == null) return;
-
-            using var db = _contextFactory.CreateDbContext();
-
-            // Важно: нужно учитывать UserId, иначе вы не поймете, чье это избранное
-            // Для примера используем заглушку или ваш сервис авторизации
-            int currentUserId = 1;
-
-            var fav = await db.FavoritePlants
-                .FirstOrDefaultAsync(f => f.PlantId == plant.Id && f.UserId == currentUserId);
-
-            if (fav == null)
-            {
-                db.FavoritePlants.Add(new FavoritePlant
-                {
-                    PlantId = plant.Id,
-                    UserId = currentUserId // Не забудьте привязать к пользователю
-                });
-            }
-            else
-            {
-                db.FavoritePlants.Remove(fav);
-            }
-
-            await db.SaveChangesAsync();
-        }
+        await db.SaveChangesAsync();
     }
 }

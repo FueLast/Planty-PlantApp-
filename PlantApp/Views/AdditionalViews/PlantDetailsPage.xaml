@@ -17,12 +17,12 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                        <Image Source="{Binding PlantImage}"
-                               Aspect="AspectFill" />
+                    <Image Source="{Binding Plant.PlantImage}" 
+                        Aspect="AspectFill" />
                 </Border>
 
                 <Border Stroke="Transparent">
-                    <Label Text="{Binding NamePlant}"
+                    <Label Text="{Binding Plant.NamePlant}"
                            FontSize="25"
                            TextColor="Black"
                            HorizontalOptions="Center"
@@ -31,7 +31,7 @@
                 </Border>
 
                 <Border Stroke="Transparent" >
-                    <Label Text="{Binding DescriptionPlant}"
+                    <Label Text="{Binding Plant.DescriptionPlant}" 
                            FontSize="18"
                            TextColor="Black"
                            HorizontalOptions="Center"
@@ -42,16 +42,17 @@
                         Stroke="Transparent"
                         BackgroundColor="#BBFFBB">
 
-                    <Label Text="{Binding PlantCare}"
+                    <Label Text="{Binding Plant.PlantCare}" 
                            FontSize="18"
                            TextColor="Black"  
                            HorizontalOptions="Center"
                            VerticalOptions="Center" 
                            Margin="10"/>
                 </Border>
-                <Button Text="⭐"
-                        BackgroundColor="White" 
-                        Command="{Binding ToggleFavoriteCommand}" />
+                <Button
+                    Text="⭐"
+                    BackgroundColor="White"
+                    Command="{Binding ToggleFavoriteCommand}" />
             </VerticalStackLayout>
 
             

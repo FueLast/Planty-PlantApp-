@@ -8,13 +8,13 @@ namespace PlantApp
     {
         public App(AppDbContext db)
         {
-            InitializeComponent();
-             
+            InitializeComponent(); 
+
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            var page = activationState?.Context.Services.GetRequiredService<RegisterPage>();
+            var page = activationState?.Context.Services.GetRequiredService<LoginPage>();
 
             var navigationPage = new NavigationPage(page);
 

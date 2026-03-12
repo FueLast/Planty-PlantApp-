@@ -4,8 +4,7 @@ namespace PlantApp.Views;
 
 public partial class FavoritesPage : ContentPage
 {
-    private readonly FavoritesPageViewModel _viewModel;
-
+    private readonly FavoritesPageViewModel _viewModel; 
     public FavoritesPage(FavoritesPageViewModel viewModel)
     {
         InitializeComponent();

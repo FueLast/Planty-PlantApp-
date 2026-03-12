@@ -1,10 +1,9 @@
-﻿using SQLite;
+﻿ 
 
 namespace PlantApp.Data
 {
     public class Plant
-    {
-        [PrimaryKey, AutoIncrement]
+    { 
         public int Id { get; set; }
 
         public string NamePlant { get; set; }
