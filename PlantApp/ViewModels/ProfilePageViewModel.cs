@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using PlantApp.Data;
 using PlantApp.Services;
 using PlantApp.Views;
 using PlantApp.Views.Popups;
-using System.Collections.ObjectModel;
+using System.Collections.ObjectModel; 
 
 namespace PlantApp.ViewModels;
 
@@ -13,11 +14,15 @@ public partial class ProfilePageViewModel : ObservableObject
 {
     private readonly UserPlantService _plantService;
     private readonly INavigationService _navigationService;
+    private readonly AppDbContext _context;
+    private readonly AuthService _authService;
 
-    // список растений пользователя
     public ObservableCollection<UserPlant> UserPlants { get; set; } = new();
 
-    // путь к фото растения
+    //подгружаем для отображения ника, города, возраста и тд
+    [ObservableProperty]
+    private UserProfile profile;
+
     private string _imagePath;
 
     public string ImagePath
@@ -28,22 +33,33 @@ public partial class ProfilePageViewModel : ObservableObject
 
     public ProfilePageViewModel(
         UserPlantService plantService,
-        INavigationService navigationService)
+        INavigationService navigationService,
+        AppDbContext context,
+        AuthService authService)
     {
-        _plantService = plantService; // сохраняем сервис растений
+        _plantService = plantService;
         _navigationService = navigationService;
+        _context = context;
+        _authService = authService;
     }
 
-    // вызывается при открытии страницы
     public async Task LoadProfile()
     {
+        await LoadUserProfile();
         await LoadPlants();
     }
 
-    // загрузка растений пользователя
+    private async Task LoadUserProfile()
+    {
+        var userId = _authService.GetUserId();
+
+        Profile = await _context.UserProfiles
+            .FirstOrDefaultAsync(p => p.UserId == userId);
+    }
+
     private async Task LoadPlants()
     {
-        var userId = Preferences.Get("UserId", 0);
+        var userId = _authService.GetUserId();
 
         var plants = await _plantService.GetUserPlants(userId);
 
@@ -56,32 +72,23 @@ public partial class ProfilePageViewModel : ObservableObject
     [RelayCommand]
     async Task AddPlant()
     {
-        // пока просто сообщение
-        await Application.Current.MainPage.ShowPopupAsync(new AddPlantPopup());
-    }
+        var services = Application.Current.Handler.MauiContext.Services;
 
-    [RelayCommand]
-    async Task PickImage()
-    {
-        var result = await MediaPicker.PickPhotoAsync();
+        var vm = services.GetRequiredService<AddPlantPopupViewModel>();
+        var popup = new AddPlantPopup(vm);
 
-        if (result == null)
-            return;
+        await Application.Current.MainPage.ShowPopupAsync(popup);
 
-        var path = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
+        var added = await popup.Result;
 
-        using var stream = await result.OpenReadAsync();
-        using var fileStream = File.OpenWrite(path);
-
-        await stream.CopyToAsync(fileStream);
-
-        ImagePath = path;
+        if (added)
+            await LoadPlants();
     }
 
     [RelayCommand]
     async Task Logout()
     {
-        Preferences.Remove("UserId");
+        _authService.Logout();
 
         await _navigationService.NavigateToAsync<LoginPage>();
     }

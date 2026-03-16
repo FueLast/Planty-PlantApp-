@@ -49,30 +49,41 @@
                                 Aspect="AspectFit"/>
                         </Border> 
                             <!-- Правая часть -->
-                            <StackLayout 
-                                Grid.Column="1"
-                                Spacing="12"
-                                HorizontalOptions="End"
-                                VerticalOptions="Center">
+                        <StackLayout 
+                            Grid.Column="1"
+                            Spacing="10"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center">
 
-                                <Label
-                                Text="Профиль"
+                            <Label
+                                Text="{Binding Profile.UserName}"
                                 FontSize="24"
                                 TextColor="Black"/>
 
-                                <Border
+                            <Label
+                                Text="{Binding Profile.City, StringFormat='Город: {0}'}"
+                                FontSize="16"
+                                TextColor="Gray"/>
+
+                            <Label
+                                Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"
+                                FontSize="16"
+                                TextColor="Gray"/>
+
+                            <Border
                                 Stroke="#367900"
                                 StrokeShape="RoundRectangle 20"
                                 Background="#F0EEE9">
 
-                                    <Editor
+                                <Editor
                                     Placeholder="Опишите чем вам нравится заниматься"
                                     TextColor="Black"
                                     PlaceholderColor="Gray"
                                     AutoSize="TextChanges"/>
-                                </Border>
 
-                            </StackLayout> 
+                            </Border>
+
+                        </StackLayout>
                     </Grid>
 
                 </Grid>
@@ -96,7 +107,7 @@
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-                                Text="Мои растения"
+                                Text="Мои растения" 
                                 FontSize="18"
                                 TextColor="Black"/>
 
@@ -106,7 +117,8 @@
                                 WidthRequest="35"
                                 HeightRequest="35"
                                 Command="{Binding AddPlantCommand}"
-                                BackgroundColor="#367900"/>
+                                BackgroundColor="#367900"
+                                Margin="0, 0, 0, 10"/>
                         </Grid>
 
                         <!-- список растений -->
@@ -118,34 +130,44 @@
 
                                 <DataTemplate>
 
-                                    <Border
-                                        Stroke="#367900"
+                                    <Border 
+                                        StrokeThickness="0"
                                         StrokeShape="RoundRectangle 15"
                                         Padding="10"
                                         Margin="0,5">
 
                                         <Grid ColumnDefinitions="60,*">
 
-                                            <Image
-                                                Source="{Binding ImagePath}"
-                                                HeightRequest="60"
-                                                WidthRequest="60"
-                                                Aspect="AspectFill"/>
+                                            <Border StrokeThickness="0" 
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="15"/>
+                                                </Border.StrokeShape>
+                                                <Image
+                                                    Source="{Binding ImagePath}"
+                                                    HeightRequest="60"
+                                                    WidthRequest="60"
+                                                    Aspect="AspectFill"/>
+                                            </Border>
 
                                             <StackLayout Grid.Column="1">
 
                                                 <Label
                                                     Text="{Binding CustomName}"
-                                                    FontAttributes="Bold"/>
+                                                    FontAttributes="Bold"
+                                                    Margin="10, 0, 0, 0"/>
 
                                                 <Label
                                                     Text="{Binding PlantName}"
-                                                    FontSize="12"/>
+                                                    FontSize="12"
+                                                    Margin="10, 0, 0, 0"/>
 
                                                 <Label
                                                     Text="{Binding LastWateredText}"
                                                     FontSize="11"
-                                                    TextColor="Gray"/>
+                                                    TextColor="Gray"
+                                                    Margin="10, 0, 0, 0"/>
 
                                             </StackLayout>
 

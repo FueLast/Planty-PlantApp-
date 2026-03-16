@@ -12,7 +12,7 @@ public class UserPlant
 
     public string Description { get; set; }
 
-    public int AgeDays { get; set; }
+    public string AgeDays { get; set; }
 
     public string ImagePath { get; set; }
 

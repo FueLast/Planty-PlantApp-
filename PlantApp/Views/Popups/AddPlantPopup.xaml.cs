@@ -1,56 +1,40 @@
 using CommunityToolkit.Maui.Views;
+using PlantApp.ViewModels;
 
 namespace PlantApp.Views.Popups;
 
 public partial class AddPlantPopup : Popup
 {
-    public AddPlantPopup()
+    private readonly TaskCompletionSource<bool> _result = new();
+    public Task<bool> Result => _result.Task;
+
+    public AddPlantPopup(AddPlantPopupViewModel vm)
     {
         InitializeComponent();
+        BindingContext = vm; 
     }
 
-    void OnCancelClicked(object sender, EventArgs e)
+    async void OnCancelClicked(object sender, EventArgs e)
     {
-        // закрываем popup
-        CloseAsync();
+        _result.TrySetResult(false);
+        await CloseAsync();
     }
 
-    void OnSaveClicked(object sender, EventArgs e)
+    async void OnSaveClicked(object sender, EventArgs e)
     {
-        // пока просто закрываем окно
-        // позже сюда добавим сохранение растения
-
-        CloseAsync();
-    }
-
-    async void OnPickImageClicked(object sender, EventArgs e)
-    {
+        var vm = BindingContext as AddPlantPopupViewModel;
         try
         {
-            var result = await MediaPicker.PickPhotoAsync();
-
-            if (result == null)
-                return;
-
-            var path = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
-
-            using var stream = await result.OpenReadAsync();
-            using var fileStream = File.OpenWrite(path);
-
-            await stream.CopyToAsync(fileStream);
-
-            // пока просто сообщение, позже привяжем к модели
-            await Application.Current.MainPage.DisplayAlert(
-                "фото добавлено",
-                "изображение успешно выбрано",
-                "ok");
+            await vm.SavePlant();
+            _result.TrySetResult(true);
         }
         catch
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "ошибка",
-                "не удалось выбрать фото",
-                "ok");
+            await Application.Current.MainPage.DisplayAlert("ошибка", "не удалось сохранить", "ok");
+            _result.TrySetResult(false);
         }
+        await CloseAsync();
     }
+     
+    // Кнопка "Добавить фото" уже привязана к команде в VM, поэтому здесь нет кода.
 }

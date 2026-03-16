@@ -17,8 +17,8 @@
             <Picker
                 Title="Выберите растение"
                 ItemsSource="{Binding Plants}"
-                ItemDisplayBinding="{Binding Name}"
-                SelectedItem="{Binding SelectedPlant}"/>
+                ItemDisplayBinding="{Binding NamePlant}"
+                SelectedItem="{Binding SelectedPlant}" />
 
             <!-- имя -->
             <Entry
@@ -38,15 +38,18 @@
 
             <Button
                 Text="Добавить фото"
-                Clicked="OnPickImageClicked"/>
+                Command="{Binding PickImageCommand}" 
+                BackgroundColor="#367900"/>
 
             <Button
                 Text="Сохранить"
-                Clicked="OnSaveClicked"/>
+                Clicked="OnSaveClicked"
+                BackgroundColor="#367900"/>
 
             <Button
                 Text="Отмена"
-                Clicked="OnCancelClicked" />
+                Clicked="OnCancelClicked"
+                BackgroundColor="#367900"/>
 
         </StackLayout>
 

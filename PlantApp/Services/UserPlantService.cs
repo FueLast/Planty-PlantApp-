@@ -8,23 +8,27 @@ public class UserPlantService
     public UserPlantService(AppDbContext context)
     {
         _context = context;
-    } 
-    public async Task<List<UserPlant>> GetUserPlants(int userId)
-    { 
+    }
 
+    // растения пользователя
+    public async Task<List<UserPlant>> GetUserPlants(int userId)
+    {
         return await _context.UserPlants
             .Where(p => p.UserId == userId)
             .Include(p => p.Plant)
             .ToListAsync();
     }
 
-    public async Task AddPlant(UserPlant plant)
-    { 
-
-        _context.UserPlants.Add(plant);
-
-        await _context.SaveChangesAsync();
+    // растения из энциклопедии
+    public async Task<List<Plant>> GetPlants()
+    {
+        return await _context.Plants.ToListAsync();
     }
 
-     
+    // добавление растения
+    public async Task AddPlant(UserPlant plant)
+    {
+        _context.UserPlants.Add(plant);
+        await _context.SaveChangesAsync();
+    }
 }

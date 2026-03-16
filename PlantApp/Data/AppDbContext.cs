@@ -33,10 +33,14 @@ namespace PlantApp.Data
                 .HasIndex(u => u.Login)
                 .IsUnique();
 
+            modelBuilder.Entity<UserProfile>()
+                .HasIndex(p => p.UserId)
+                .IsUnique();
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Profile)
                 .WithOne(p => p.User)
-                .HasForeignKey<UserProfile>(p => p.Id)
+                .HasForeignKey<UserProfile>(p => p.UserId) 
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FavoritePlant>()

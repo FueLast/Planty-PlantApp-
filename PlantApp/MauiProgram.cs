@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Maui;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
@@ -8,8 +10,7 @@ using PlantApp.Services;
 using PlantApp.ViewModels;
 using PlantApp.Views;
 using PlantApp.Views.AdditionalViews;
-using Microsoft.EntityFrameworkCore;
-using CommunityToolkit.Maui;
+using PlantApp.Views.Popups;
 
 namespace PlantApp
 {
@@ -59,10 +60,12 @@ namespace PlantApp
 
 
 
+
             // Pages
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<PlantDetailsPage>(); 
+            builder.Services.AddTransient<AddPlantPopup>();
 
             //BottomBar
             builder.Services.AddTransient<MainPage>();
@@ -75,6 +78,7 @@ namespace PlantApp
             builder.Services.AddTransient<RemindersPage>();
             builder.Services.AddTransient<FavoritesPage>(); 
             //ViewModels 
+            builder.Services.AddTransient<AddPlantPopupViewModel>();
             builder.Services.AddTransient<LoginPageViewModel>(); 
             builder.Services.AddTransient<RegisterPageViewModel>();
             builder.Services.AddTransient<MainViewModel>();
