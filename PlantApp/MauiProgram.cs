@@ -86,6 +86,7 @@ namespace PlantApp
             builder.Services.AddTransient<EncyclopediaViewModel>();
             builder.Services.AddTransient<FavoritesPageViewModel>();
             builder.Services.AddTransient<ProfilePageViewModel>();
+            builder.Services.AddTransient<PlantDetailsViewModel>();
 
             //Data & Service
             builder.Services.AddSingleton<SecurityService>();

@@ -50,9 +50,9 @@
                            Margin="10"/>
                 </Border>
                 <Button
-                    Text="⭐"
-                    BackgroundColor="White"
-                    Command="{Binding ToggleFavoriteCommand}" />
+                    Text="{Binding IsFavorite, Converter={StaticResource BoolToStarConverter}}" 
+                    Command="{Binding ToggleFavoriteCommand}" 
+                    BackgroundColor="White"/>
             </VerticalStackLayout>
 
             

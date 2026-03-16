@@ -11,6 +11,8 @@ namespace PlantApp.Data
         public string PlantCare { get; set; }
         public string PlantImage { get; set; }
         public double EstimatedHeight { get; set; }
+
+        public string SearchNames { get; set; } //используется для поиска в MainPage 
     }
 
 }

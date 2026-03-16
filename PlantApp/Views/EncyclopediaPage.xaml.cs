@@ -22,18 +22,21 @@ public partial class EncyclopediaPage : ContentPage
     private readonly EncyclopediaViewModel _viewModel;
     private readonly IDbContextFactory<AppDbContext> _factory;
     private readonly AuthService _authService;
+    private readonly INavigationService _navigationService;
     // Конструктор страницы
     // ViewModel приходит из DI-контейнера
     public EncyclopediaPage(
         EncyclopediaViewModel viewModel,
         IDbContextFactory<AppDbContext> factory,
-        AuthService authService)
+        AuthService authService,
+        INavigationService navigationService)
     {
         InitializeComponent();
 
         _viewModel = viewModel;
         _factory = factory;
         _authService = authService;
+        _navigationService = navigationService;
 
         BindingContext = _viewModel;
     }
@@ -80,12 +83,11 @@ public partial class EncyclopediaPage : ContentPage
             };
 
 
-            var tapGesture = new TapGestureRecognizer();
+            var tapGesture = new TapGestureRecognizer(); 
             tapGesture.Tapped += async (s, e) =>
             {
-                await Navigation.PushAsync(new PlantDetailsPage(plant, _factory, _authService));
+                await _navigationService.NavigateToAsync<PlantDetailsPage, Plant>(plant);
             };
-
             // Оборачиваем изображение в Border
             // (удобно для скруглений, теней и т.д.)
             var border = new Border

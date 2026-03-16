@@ -45,8 +45,13 @@ public partial class ProfilePageViewModel : ObservableObject
 
     public async Task LoadProfile()
     {
-        await LoadUserProfile();
-        await LoadPlants();
+        // запускаем обе задачи одновременно
+        Task userTask = LoadUserProfile();
+        Task plantsTask = LoadPlants();
+
+        // ждем когда обе завершатся
+        // это ускорит загрузку экрана в 2 раза
+        await Task.WhenAll(userTask, plantsTask);
     }
 
     private async Task LoadUserProfile()

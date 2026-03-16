@@ -7,13 +7,9 @@ namespace PlantApp.Views.AdditionalViews;
 
 public partial class PlantDetailsPage : ContentPage
 {
-    public PlantDetailsPage(
-        Plant plant,
-        IDbContextFactory<AppDbContext> factory,
-        AuthService authService)
+    public PlantDetailsPage(PlantDetailsViewModel vm)
     {
         InitializeComponent();
-
-        BindingContext = new PlantDetailsViewModel(factory, plant, authService);
+        BindingContext = vm;
     }
 }

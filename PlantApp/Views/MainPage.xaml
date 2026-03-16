@@ -26,11 +26,23 @@
         <ScrollView Grid.Row="0">
 
             <VerticalStackLayout Padding="30" Spacing="20">
-
-                <Label Text="Planty — помощник по домашним растениям!"
-                       FontSize="24"
-                       HorizontalOptions="Center"
-                       TextColor="Black"/>
+                
+                <Grid ColumnDefinitions="*, *"
+                      RowDefinitions="Auto">
+                    
+                    <Label Text="PLANT"
+                           Grid.Column="0"
+                            FontSize="24" 
+                            TextColor="Black"
+                           HorizontalTextAlignment="End"
+                            VerticalTextAlignment="Center"/>
+                    
+                    <Image Source="planty_logo.png"
+                           Grid.Column="1"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           HeightRequest="50"/>
+                </Grid>
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -150,21 +162,76 @@
                         StrokeShape="RoundRectangle 20"
                         Stroke="Transparent">
 
-                    <Grid ColumnDefinitions="Auto,*">
+                    <VerticalStackLayout>
 
-                        <Image Grid.Column="0"
-                               Margin="10,10,0,10"
-                               Source="search.png"
-                               HeightRequest="32"
-                               VerticalOptions="Center"/>
+                        <Grid ColumnDefinitions="Auto,*">
 
-                        <Entry Grid.Column="1"
-                               Placeholder="Поиск растений"
-                               Text="{Binding SearchPlant}"
-                               VerticalOptions="Center"
-                               BackgroundColor="Transparent"
-                               TextColor="Black"/>
-                    </Grid>
+                            <Image Grid.Column="0"
+                                   Margin="10,10,0,10"
+                                   Source="search.png"
+                                   HeightRequest="32"
+                                   VerticalOptions="Center"/>
+
+                            <Entry Grid.Column="1"
+                                   Placeholder="Поиск растений"
+                                   Text="{Binding SearchPlant}"
+                                   VerticalOptions="Center"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"/>
+
+                        </Grid>
+
+                        <CollectionView ItemsSource="{Binding SearchResults}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Border 
+                                        Padding="10"
+                                        Margin="5"
+                                        BackgroundColor="White">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource 
+                                                AncestorType={x:Type ContentPage}}, 
+                                                Path=BindingContext.OpenPlantDetailsCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Grid ColumnDefinitions="Auto,*">
+
+                                            <Border 
+                                                StrokeThickness="0" 
+                                                Grid.Column="0">
+                                                
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="15"/>
+                                                </Border.StrokeShape>
+
+                                                <Image
+                                                    Source="{Binding PlantImage}"
+                                                    HeightRequest="60"
+                                                    WidthRequest="60"
+                                                    Aspect="AspectFill"/>
+                                            </Border>
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Text="{Binding NamePlant}"
+                                                FontSize="24"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                Margin="15,0,0,0"/>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
 
                 </Border>
 
@@ -174,9 +241,10 @@
                        Margin="5"
                        TextColor="Black"/>
 
-                <HorizontalStackLayout x:Name="PopularPlantsLayout"
-                                       Padding="10"
-                                       Spacing="12"/>
+                <HorizontalStackLayout 
+                    x:Name="PopularPlantsLayout"
+                    Padding="10"
+                    Spacing="12"/>
 
             </VerticalStackLayout>
 
