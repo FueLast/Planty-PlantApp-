@@ -3,24 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantApp.Views.AdditionalViews.PlantDetailsPage"
              xmlns:model="clr-namespace:PlantApp.Data" 
+             xmlns:conv="clr-namespace:PlantApp.Converters"
              Background="#F0EEE9"
              Title ="PlantDetails"> 
-
-    <ScrollView> 
+            
+    <ContentPage.Resources>
+        <conv:BoolToStarConverter x:Key="BoolToStarConverter"/>
+    </ContentPage.Resources>
+    
+    <ScrollView>
         <Grid>
 
+
             <VerticalStackLayout>
+                <Grid RowDefinitions="*">
+                    
 
-                <Border StrokeThickness="0" 
+                    <Border  
+                        StrokeThickness="0" 
                         HorizontalOptions="Center"
-                        VerticalOptions="Center"> 
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20"/>
-                    </Border.StrokeShape>
-                    <Image Source="{Binding Plant.PlantImage}" 
-                        Aspect="AspectFill" />
-                </Border>
-
+                        VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20"/>
+                        </Border.StrokeShape>
+                        <Image Source="{Binding Plant.PlantImage}" 
+                        Aspect="AspectFill" />                        
+                    </Border>
+                    
+                    <ImageButton 
+                        Source="{Binding FavoriteIcon}"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Background="Transparent"
+                        Margin="0, 10, 10, 0" 
+                        Command="{Binding ToggleFavoriteCommand}" />
+                </Grid> 
                 <Border Stroke="Transparent">
                     <Label Text="{Binding Plant.NamePlant}"
                            FontSize="25"
@@ -49,10 +68,7 @@
                            VerticalOptions="Center" 
                            Margin="10"/>
                 </Border>
-                <Button
-                    Text="{Binding IsFavorite, Converter={StaticResource BoolToStarConverter}}" 
-                    Command="{Binding ToggleFavoriteCommand}" 
-                    BackgroundColor="White"/>
+ 
             </VerticalStackLayout>
 
             

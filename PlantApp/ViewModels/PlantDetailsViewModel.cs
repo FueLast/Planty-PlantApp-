@@ -8,20 +8,29 @@ using System.Globalization;
 public partial class PlantDetailsViewModel : ObservableObject, IInitialize<Plant>
 {
     [ObservableProperty] private Plant plant;
+    [ObservableProperty] private bool isFavorite;
+
     private int _plantId;
     private readonly IDbContextFactory<AppDbContext> _factory;
     private readonly AuthService _authService;
 
+    public string FavoriteIcon => IsFavorite ? "star_filled.png" : "star_outline.png";
     public PlantDetailsViewModel(IDbContextFactory<AppDbContext> factory, AuthService authService)
     {
         _factory = factory;
         _authService = authService;
     }
 
-    public void Initialize(Plant plant)
+    public async void Initialize(Plant plant)
     {
         Plant = plant;
         _plantId = plant.Id;
+
+        using var db = _factory.CreateDbContext();
+        int userId = _authService.GetUserId();
+
+        IsFavorite = await db.FavoritePlants
+            .AnyAsync(f => f.PlantId == _plantId && f.UserId == userId);
     }
 
     [RelayCommand]
@@ -33,10 +42,27 @@ public partial class PlantDetailsViewModel : ObservableObject, IInitialize<Plant
         var favorite = await db.FavoritePlants
             .FirstOrDefaultAsync(f => f.PlantId == _plantId && f.UserId == userId);
 
-        if (favorite != null) db.FavoritePlants.Remove(favorite);
-        else db.FavoritePlants.Add(new FavoritePlant { PlantId = _plantId, UserId = userId });
+        if (favorite != null)
+        {
+            db.FavoritePlants.Remove(favorite);
+            IsFavorite = false;
+        }
+        else
+        {
+            db.FavoritePlants.Add(new FavoritePlant
+            {
+                PlantId = _plantId,
+                UserId = userId
+            });
+            IsFavorite = true;
+        }
 
         await db.SaveChangesAsync();
+    }
+
+    partial void OnIsFavoriteChanged(bool value)
+    {
+        OnPropertyChanged(nameof(FavoriteIcon));
     }
 
     public class BoolToStarConverter : IValueConverter
