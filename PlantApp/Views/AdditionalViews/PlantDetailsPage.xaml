@@ -5,77 +5,293 @@
              xmlns:model="clr-namespace:PlantApp.Data" 
              xmlns:conv="clr-namespace:PlantApp.Converters"
              Background="#F0EEE9"
-             Title ="PlantDetails"> 
-            
+             Title="PlantDetails">
+
     <ContentPage.Resources>
         <conv:BoolToStarConverter x:Key="BoolToStarConverter"/>
     </ContentPage.Resources>
-    
+
     <ScrollView>
-        <Grid>
+        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+
+            <!-- Фото + overlay + элементы -->
+            <Grid Grid.Row="0" HeightRequest="300">
+
+                <Border 
+                    StrokeThickness="0"
+                    Margin="5">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+
+                    <Image 
+                        Source="{Binding Plant.PlantImage}" 
+                        Aspect="AspectFill"/>
 
 
-            <VerticalStackLayout>
-                <Grid RowDefinitions="*">
-                    
-
-                    <Border  
-                        StrokeThickness="0" 
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="20"/>
-                        </Border.StrokeShape>
-                        <Image Source="{Binding Plant.PlantImage}" 
-                        Aspect="AspectFill" />                        
-                    </Border>
-                    
-                    <ImageButton 
-                        Source="{Binding FavoriteIcon}"
-                        WidthRequest="40"
-                        HeightRequest="40"
-                        HorizontalOptions="End"
-                        VerticalOptions="Start"
-                        Background="Transparent"
-                        Margin="0, 10, 10, 0" 
-                        Command="{Binding ToggleFavoriteCommand}" />
-                </Grid> 
-                <Border Stroke="Transparent">
-                    <Label Text="{Binding Plant.NamePlant}"
-                           FontSize="25"
-                           TextColor="Black"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center" 
-                           />
                 </Border>
 
-                <Border Stroke="Transparent" >
-                    <Label Text="{Binding Plant.DescriptionPlant}" 
-                           FontSize="18"
-                           TextColor="Black"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center" />
-                </Border> 
- 
-                <Border StrokeShape="RoundRectangle 30"
-                        Stroke="Transparent"
-                        BackgroundColor="#BBFFBB">
-
-                    <Label Text="{Binding Plant.PlantCare}" 
-                           FontSize="18"
-                           TextColor="Black"  
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center" 
-                           Margin="10"/>
+                <!-- Затемение фотографии -->
+                <Border 
+                    StrokeThickness="0"
+                    BackgroundColor="Black" 
+                    Opacity="0.25"
+                    Margin="5">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
                 </Border>
- 
-            </VerticalStackLayout>
 
-            
+                <!-- Кнопка избранного -->
+                <ImageButton 
+                    Source="{Binding FavoriteIcon}"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    BackgroundColor="Transparent"
+                    Margin="0,10,10,0"
+                    Command="{Binding ToggleFavoriteCommand}"
+                    ZIndex="2"/>
+
+                <!-- Название -->
+                <Label 
+                    Text="{Binding Plant.NamePlant}"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    Margin="20"
+                    VerticalOptions="End"
+                    HorizontalOptions="Start"
+                    MaxLines="2"/>
+
+            </Grid>
+
+            <!-- Уход заголовок -->
+            <Label 
+                Grid.Row="1" 
+                Text="Уход"
+                FontAttributes="Bold"
+                FontSize="24"
+                Margin="20,20,20,10"/>
+
+            <!-- Уход карточки -->
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="*,*,*,*"
+                  ColumnSpacing="10"
+                  Margin="20,0,20,20">
+
+                <Border 
+                    BackgroundColor="White" 
+                    Padding="10" 
+                    Grid.Column="0"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                                     
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="Свет&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="18" />
+
+                                <!-- Данные из БД обычным шрифтом -->
+                                <Span Text="{Binding Plant.Care_Light}" 
+                                    FontSize="16" /> 
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>                    
+                    
+                </Border>
+                
+                <Border 
+                    BackgroundColor="White" 
+                    Padding="10" 
+                    Grid.Column="1"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="Полив&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="18" />
+
+                                <!-- Данные из БД обычным шрифтом -->
+                                <Span Text="{Binding Plant.Care_Watering}" 
+                                    FontSize="16" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                </Border>
+
+                <Border 
+                    BackgroundColor="White" 
+                    Padding="10" 
+                    Grid.Column="2"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="Температура&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="18" />
+
+                                <!-- Данные из БД обычным шрифтом -->
+                                <Span Text="{Binding Plant.Care_Temperature}" 
+                                    FontSize="16" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                </Border>
+
+                <Border 
+                    BackgroundColor="White" 
+                    Padding="10" 
+                    Grid.Column="3"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="Сложность&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="18" />
+
+                                <!-- Данные из БД обычным шрифтом -->
+                                <Span Text="{Binding Plant.Care_Complexity}" 
+                                    FontSize="16" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Border>                 
+                
+            </Grid>
+
+            <!-- Особенности заголовок -->
+            <Label 
+                Grid.Row="3" 
+                Text="Особенности"
+                FontAttributes="Bold"
+                FontSize="24"
+                Margin="20,0,20,10"/>
+
+            <!-- Особенности -->
+            <Grid 
+                Grid.Row="4"
+                ColumnDefinitions="Auto, Auto, Auto, Auto"
+                ColumnSpacing="10"
+                Margin="20,0,20,20">
+
+                <Border 
+                    BackgroundColor="#D9E4D1" 
+                    Padding="10,5" 
+                    Grid.Column="0"
+                    StrokeThickness="0">  
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50"/>
+                    </Border.StrokeShape>
+                    <Label 
+                        TextColor="DarkGreen"
+                        Text="{Binding Plant.Feature_One}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+                </Border>
+
+                <Border 
+                    BackgroundColor="#D9E4D1" 
+                    Padding="10,5" 
+                    Grid.Column="1"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50"/>
+                    </Border.StrokeShape>
+                    <Label 
+                        TextColor="DarkGreen"
+                        Text="{Binding Plant.Feature_Two}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+                </Border>
+
+                <Border 
+                    BackgroundColor="#D9E4D1" 
+                    Padding="10,5" 
+                    Grid.Column="2"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50"/>
+                    </Border.StrokeShape>
+                    <Label 
+                        TextColor="DarkGreen"
+                        Text="{Binding Plant.Feature_Three}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+                </Border>
+
+                <Border 
+                    BackgroundColor="#D9E4D1" 
+                    Padding="10,5" 
+                    Grid.Column="3"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50"/>
+                    </Border.StrokeShape>
+                    <Label 
+                        TextColor="DarkGreen"
+                        Text="{Binding Plant.Feature_Four}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+                </Border>
+
+            </Grid>
+
+            <Grid
+                Grid.Row="5" >
+                <Border
+                    BackgroundColor="White"
+                    StrokeThickness="0"
+                    Margin="5">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <Label 
+                        Text="{Binding Plant.DescriptionPlant}"
+                        FontSize="18"
+                        Margin="10"/>
+                </Border>
+            </Grid>
+
+            <Button 
+                Grid.Row="6"
+                Margin="12"
+                TextColor="White"
+                Text="Спросить об этом растении">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                        <GradientStop Color="#369940" Offset="0.1"/>
+                        <GradientStop Color="#367900" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
 
         </Grid>
     </ScrollView>
-
-
 
 </ContentPage>

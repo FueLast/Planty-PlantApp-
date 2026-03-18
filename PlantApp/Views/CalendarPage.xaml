@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:calendar="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
+             xmlns:viewModels="clr-namespace:PlantApp.ViewModels"
              x:Class="PlantApp.Views.CalendarPage"
-             Title="CalendarPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="Календарь"
+             Background="#F0EEE9">
+
+    <ContentPage.BindingContext>
+        <viewModels:CalendarViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="10">
+
+        <!-- сам календарь -->
+        <calendar:SfCalendar
+            View="Month"
+            SelectedDate="{Binding SelectedDate}"
+            DisplayDate="{Binding CurrentMonth}" 
+            BackgroundColor="White"
+            EndRangeSelectionBackground="Wheat"
+            SelectionBackground="#D9E4D1"
+            StartRangeSelectionBackground="Black"
+            TodayHighlightBrush="#367900"/>
+
+        <Button
+            Margin="10"
+            BackgroundColor="#D9E4D1"
+            BorderColor="#367900"
+            BorderWidth="1"
+            Text="Добавить новое напоминание"
+            TextColor="Black"
+            FontSize="18"
+            />
+
+
+
+        <!-- список событий на выбранный день -->
+        <CollectionView ItemsSource="{Binding SelectedDayEvents}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Border 
+                        Padding="10" 
+                        Margin="5" 
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 20"
+                        Stroke="Transparent">
+                        <Label Text="{Binding Title}" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
+
 </ContentPage>

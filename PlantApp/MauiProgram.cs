@@ -11,6 +11,7 @@ using PlantApp.ViewModels;
 using PlantApp.Views;
 using PlantApp.Views.AdditionalViews;
 using PlantApp.Views.Popups;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace PlantApp
 {
@@ -28,7 +29,9 @@ namespace PlantApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .ConfigureSyncfusionCore(); // подключаем syncfusion
+
 
 
 
