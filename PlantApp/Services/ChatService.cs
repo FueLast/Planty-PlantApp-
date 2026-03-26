@@ -30,15 +30,13 @@ namespace PlantApp.Services
                 {
                     new ChatMessage
                     {
-                        TextMessage = "Привет! Я тест сообщение 🌱",
-                        Date = DateTime.Now,
-                        UserProfileId = 1
+                        Content = "Привет! Я тест сообщение 🌱",
+                        CreatedAt = DateTime.Now 
                     },
                     new ChatMessage
                     {
-                        TextMessage = "Чем могу помочь?",
-                        Date = DateTime.Now.AddMinutes(1),
-                        UserProfileId = 1
+                        Content = "Чем могу помочь?",
+                        CreatedAt = DateTime.Now.AddMinutes(1)
                     }
                 };
 

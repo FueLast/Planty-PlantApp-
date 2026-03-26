@@ -37,8 +37,15 @@
                                     HeightRequest="90"
                                     WidthRequest="90"
                                     Aspect="AspectFill"/>
-                            </Border> 
-
+                            </Border>
+                            
+                            <Image 
+                                Source="external_link_outline.png" 
+                                HeightRequest="40"
+                                VerticalOptions="Start"
+                                HorizontalOptions="End"
+                                Margin="5"/>
+                            
                             <VerticalStackLayout
                                 Grid.Column="1"
                                 Spacing="5">

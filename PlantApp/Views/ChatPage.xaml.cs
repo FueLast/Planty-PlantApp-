@@ -25,6 +25,12 @@ public partial class ChatPage : ContentPage
         }
     }
 
-
+    private void OnEnterPressed(object sender, EventArgs e)
+    {
+        if (BindingContext is ChatPageViewModel vm)
+        {
+            vm.SendCommand.Execute(null);
+        }
+    }
 
 }

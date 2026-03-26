@@ -2,8 +2,86 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantApp.Views.GPTPage"
              Title="GPT"
-             Background="#F0EEE9">
+             BackgroundColor="#F0EEE9">
 
-    
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- чат -->
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding Messages}"
+                        Margin="10"
+                        ItemsUpdatingScrollMode="KeepLastItemInView">
+
+            <CollectionView.ItemTemplate>
+                
+                <DataTemplate> 
+                    <Grid>
+                        
+                        <Border Padding="12"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 20"
+                                Margin="5">
+
+                            <Label Text="{Binding Content}"
+                                   TextColor="Black"
+                                   LineBreakMode="WordWrap"/>
+
+                            <Border.Triggers>
+
+                                <!-- пользователь -->
+                                <DataTrigger TargetType="Border"
+                                             Binding="{Binding Role}"
+                                             Value="user">
+                                    <Setter Property="BackgroundColor" Value="#D9E4D1"/>
+                                    <Setter Property="HorizontalOptions" Value="End"/>
+                                </DataTrigger>
+
+                                <!-- бот -->
+                                <DataTrigger TargetType="Border"
+                                             Binding="{Binding Role}"
+                                             Value="assistant">
+                                    <Setter Property="BackgroundColor" Value="White"/>
+                                    <Setter Property="HorizontalOptions" Value="Start"/>
+                                </DataTrigger>
+
+                            </Border.Triggers>
+
+                        </Border>
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <!-- нижняя панель -->
+        <Grid Grid.Row="1"
+              Padding="10"
+              ColumnDefinitions="*,Auto"
+              BackgroundColor="White">
+
+            <!-- ввод -->
+            <Entry Grid.Column="0"
+                   Text="{Binding MessageText}"
+                   Placeholder="Напиши сообщение..."
+                   ReturnType="Send"
+                   Completed="OnEnterPressed"
+                   BackgroundColor="#F5F5F5"
+                   Margin="0,0,10,0"
+                   HeightRequest="45"/>
+
+            <!-- кнопка -->
+            <Button Grid.Column="1"
+                    Text="➤"
+                    Command="{Binding SendCommand}"
+                    BackgroundColor="#367900"
+                    TextColor="White"
+                    WidthRequest="50"
+                    HeightRequest="45"
+                    CornerRadius="12"/>
+
+        </Grid>
+
+    </Grid>
 
 </ContentPage>

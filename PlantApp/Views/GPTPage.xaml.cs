@@ -9,15 +9,33 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PlantApp.Services;
 using PlantApp.Data;
-using SQLite; 
+using SQLite;
 
 namespace PlantApp.Views;
-
 public partial class GPTPage : ContentPage
 {
-    public GPTPage()
+    private readonly ChatPageViewModel _vm;
+
+    public GPTPage(ChatPageViewModel vm)
     {
-        InitializeComponent(); 
+        InitializeComponent();
+        BindingContext = vm; 
+        _vm = vm;
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _vm.LoadMessagesAsync();
+    }
+
+    private void OnEnterPressed(object sender, EventArgs e)
+    {
+        if (BindingContext is ChatPageViewModel vm && vm.SendCommand.CanExecute(null))
+        {
+            vm.SendCommand.Execute(null);
+        }
+    }
+
 }
 

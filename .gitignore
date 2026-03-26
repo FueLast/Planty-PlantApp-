@@ -2,3 +2,7 @@
 [Bb]in/
 [Oo]bj/
 *.user
+
+# conf with keys
+**/appsettings.json
+**/appsettings.Development.json

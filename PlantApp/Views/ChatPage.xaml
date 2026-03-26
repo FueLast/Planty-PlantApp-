@@ -1,47 +1,106 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantApp.Views.ChatPage"
              xmlns:model="clr-namespace:PlantApp.Data"
+             x:Class="PlantApp.Views.ChatPage"
              Title="Chat"
              Background="#F0EEE9">
 
-    <Grid RowDefinitions="*">
+    <Grid RowDefinitions="*,Auto">
 
-        <!-- Список сообщений -->
-        <CollectionView ItemsSource="{Binding Messages}">
+        <!-- список сообщений -->
+        <CollectionView ItemsSource="{Binding Messages}"
+                        ItemsUpdatingScrollMode="KeepLastItemInView"
+                        Margin="10">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ChatMessage">
-                    <Frame Margin="50"
-                           Padding="15"
-                           CornerRadius="15"
-                           BackgroundColor="White"
-                           BorderColor="White">
 
-                        <VerticalStackLayout Spacing="4">
+                    <!-- используем border вместо frame (легче) -->
+                    <Grid>
 
-                            <!-- Никнейм -->
-                            <Label Text="{Binding UserProfile.UserName, TargetNullValue=''}"
-                                   FontAttributes="Bold"
-                                   FontSize="Medium"
-                                   TextColor="#367900"/>
+                        <Border Padding="12"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 20"
+                                Margin="5">
 
-                            <!-- Текст сообщения -->
-                            <Label Text="{Binding TextMessage}"
-                                   FontSize="Small"
-                                   TextColor="Black"/>
+                            <VerticalStackLayout Spacing="4">
 
-                            <!-- Время -->
-                            <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
-                                   FontSize="Micro"
-                                   TextColor="Gray"
-                                   HorizontalOptions="End"/>
+                                <!-- текст -->
+                                <Label Text="{Binding Content}"
+                                       TextColor="Black"/>
 
-                        </VerticalStackLayout>
-                    </Frame>
+                                <!-- время -->
+                                <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}"
+                                       FontSize="10"
+                                       TextColor="Gray"
+                                       HorizontalOptions="End"/>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                        <!-- стили сообщений -->
+                        <Grid.Triggers>
+
+                            <!-- пользователь -->
+                            <DataTrigger TargetType="Grid"
+                                         Binding="{Binding Role}"
+                                         Value="user">
+                                <Setter TargetName="Border"
+                                        Property="BackgroundColor"
+                                        Value="#367900"/>
+                                <Setter Property="HorizontalOptions"
+                                        Value="End"/>
+                            </DataTrigger>
+
+                            <!-- бот -->
+                            <DataTrigger TargetType="Grid"
+                                         Binding="{Binding Role}"
+                                         Value="assistant">
+                                <Setter TargetName="Border"
+                                        Property="BackgroundColor"
+                                        Value="White"/>
+                                <Setter Property="HorizontalOptions"
+                                        Value="Start"/>
+                            </DataTrigger>
+
+                        </Grid.Triggers>
+
+                    </Grid>
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
+
+        <!-- нижняя панель -->
+        <Grid Grid.Row="1"
+              Padding="10"
+              ColumnDefinitions="*,Auto"
+              BackgroundColor="#F0EEE9">
+
+            <!-- поле ввода -->
+            <Entry Grid.Column="0"
+                   Text="{Binding MessageText}"
+                   Placeholder="Напиши сообщение..."
+                   ReturnType="Send"
+                   Completed="OnEnterPressed"/>
+
+            <!-- кнопка -->
+            <Button Grid.Column="1"
+                    Text="➤"
+                    Command="{Binding SendCommand}"
+                    BackgroundColor="#367900"
+                    TextColor="White"
+                    CornerRadius="20"
+                    WidthRequest="50"/>
+
+        </Grid>
 
     </Grid>
 </ContentPage>

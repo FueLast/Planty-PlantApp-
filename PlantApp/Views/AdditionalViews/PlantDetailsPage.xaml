@@ -15,7 +15,7 @@
         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
 
             <!-- Фото + overlay + элементы -->
-            <Grid Grid.Row="0" HeightRequest="300">
+            <Grid Grid.Row="0" HeightRequest="300"> 
 
                 <Border 
                     StrokeThickness="0"
