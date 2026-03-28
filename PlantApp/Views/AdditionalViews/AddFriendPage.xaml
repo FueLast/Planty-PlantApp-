@@ -1,0 +1,97 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PlantApp.Views.AdditionalViews.AddFriendPage"
+    Title="Добавить друга"
+    Background="#F0EEE9">
+
+    <VerticalStackLayout Padding="15" Spacing="10">
+
+        <SearchBar
+            Placeholder="Введите логин"
+            Text="{Binding SearchText}"
+            SearchCommand="{Binding SearchCommand}"/> 
+
+        <CollectionView ItemsSource="{Binding Users}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Border
+                        Padding="10"
+                        Margin="0,5"
+                        StrokeThickness="0">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                  Path=BindingContext.OpenProfileCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="10">
+
+                            <!-- аватар -->
+                            <Border
+                                WidthRequest="50"
+                                HeightRequest="50"
+                                Stroke="#367900"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 50"
+                                Background="White">
+
+                                <Image
+                                    Source="main_profile_image.png"
+                                    Aspect="AspectFit"/>
+                            </Border>
+
+                            <!-- инфа -->
+                            <StackLayout Grid.Column="1" VerticalOptions="Center">
+
+                                <Label
+                                    Text="{Binding Login}"
+                                    TextColor="Black"
+                                    FontAttributes="Bold"
+                                    FontSize="16"/>
+
+                                <Label
+                                    Text="{Binding Profile.City}"
+                                    FontSize="12"
+                                    TextColor="Gray"/>
+
+                            </StackLayout>
+
+                            <!-- кнопка -->
+                            <Button
+                                Grid.Column="2"
+                                WidthRequest="35"
+                                HeightRequest="35"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                  Path=BindingContext.AddFriendCommand}"
+                                CommandParameter="{Binding .}"
+                                BackgroundColor="#367900">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsRequestSent}"
+                                         Value="True">
+                                        <Setter Property="Text" Value="✔"/> 
+                                        <Setter Property="BackgroundColor" Value="White"/>
+                                    </DataTrigger>
+                                </Button.Triggers>
+
+                                <Button.Text>+</Button.Text>
+
+                            </Button> 
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </VerticalStackLayout>
+
+</ContentPage>

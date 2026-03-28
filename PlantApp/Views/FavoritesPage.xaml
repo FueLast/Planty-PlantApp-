@@ -41,7 +41,7 @@
                             
                             <Image 
                                 Source="external_link_outline.png" 
-                                HeightRequest="40"
+                                HeightRequest="20"
                                 VerticalOptions="Start"
                                 HorizontalOptions="End"
                                 Margin="5"/>

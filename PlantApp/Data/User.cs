@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,9 @@ namespace PlantApp.Data
 
         // Навигационное свойство: ссылка на профиль
         public UserProfile Profile { get; set; } = null!;
+
+        [NotMapped]
+        public bool IsRequestSent { get; set; }
     }
 }
 

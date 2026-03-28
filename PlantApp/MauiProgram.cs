@@ -53,6 +53,8 @@ namespace PlantApp
             builder.Services.AddScoped<FavoriteService>();
             builder.Services.AddScoped<ProfileService>();
             builder.Services.AddScoped<UserPlantService>();
+            builder.Services.AddScoped<FriendService>();
+            builder.Services.AddScoped<UserService>();
 
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<SecurityService>();
@@ -72,6 +74,8 @@ namespace PlantApp
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<PlantDetailsPage>();
             builder.Services.AddTransient<AddPlantPopup>();
+            builder.Services.AddTransient<AddFriendPage>();
+            builder.Services.AddTransient<FriendProfilePage>();
 
             // BottomBar
             builder.Services.AddTransient<MainPage>();
@@ -86,7 +90,9 @@ namespace PlantApp
             builder.Services.AddTransient<FavoritesPage>();
 
             // ViewModels
+            builder.Services.AddTransient<FriendProfileViewModel>();
             builder.Services.AddTransient<AddPlantPopupViewModel>();
+            builder.Services.AddTransient<AddFriendViewModel>();
             builder.Services.AddTransient<LoginPageViewModel>();
             builder.Services.AddTransient<RegisterPageViewModel>();
             builder.Services.AddTransient<MainViewModel>();

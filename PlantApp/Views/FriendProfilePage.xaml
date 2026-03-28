@@ -1,0 +1,39 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PlantApp.Views.FriendProfilePage"
+    Background="#F0EEE9"
+    Title="Профиль">
+
+    <ScrollView>
+
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+
+                <Image
+                    Source="main_profile_image.png"
+                    HeightRequest="100"
+                    WidthRequest="100"/>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+
+                    <Label
+                        Text="{Binding Profile.UserName}"
+                        FontSize="22"/>
+
+                    <Label
+                        Text="{Binding Profile.City, StringFormat='Город: {0}'}"/>
+
+                    <Label
+                        Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"/>
+
+                </VerticalStackLayout>
+
+            </Grid>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

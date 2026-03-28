@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using PlantApp.Data;
 using PlantApp.Services;
 using PlantApp.Views;
+using PlantApp.Views.AdditionalViews;
 using PlantApp.Views.Popups;
-using System.Collections.ObjectModel; 
+using System.Collections.ObjectModel;
 
 namespace PlantApp.ViewModels;
 
@@ -14,58 +15,57 @@ public partial class ProfilePageViewModel : ObservableObject
 {
     private readonly UserPlantService _plantService;
     private readonly INavigationService _navigationService;
-    private readonly AppDbContext _context;
+    private readonly IDbContextFactory<AppDbContext> _factory;
     private readonly AuthService _authService;
+    private readonly FriendService _friendService;
+    private readonly IServiceProvider _serviceProvider;
 
     public ObservableCollection<UserPlant> UserPlants { get; set; } = new();
+    public ObservableCollection<User> Friends { get; set; } = new();
 
-    //подгружаем для отображения ника, города, возраста и тд
     [ObservableProperty]
     private UserProfile profile;
-
-    private string _imagePath;
-
-    public string ImagePath
-    {
-        get => _imagePath;
-        set => SetProperty(ref _imagePath, value);
-    }
 
     public ProfilePageViewModel(
         UserPlantService plantService,
         INavigationService navigationService,
-        AppDbContext context,
-        AuthService authService)
+        IDbContextFactory<AppDbContext> factory,
+        AuthService authService,
+        FriendService friendService,
+        IServiceProvider serviceProvider)
     {
         _plantService = plantService;
         _navigationService = navigationService;
-        _context = context;
+        _factory = factory;
         _authService = authService;
+        _friendService = friendService;
+        _serviceProvider = serviceProvider;
     }
 
+    // ===================== ГЛАВНАЯ ЗАГРУЗКА =====================
     public async Task LoadProfile()
-    {
-        // запускаем обе задачи одновременно
-        Task userTask = LoadUserProfile();
-        Task plantsTask = LoadPlants();
-
-        // ждем когда обе завершатся
-        // это ускорит загрузку экрана в 2 раза
-        await Task.WhenAll(userTask, plantsTask);
-    }
-
-    private async Task LoadUserProfile()
     {
         var userId = _authService.GetUserId();
 
-        Profile = await _context.UserProfiles
+        var userTask = LoadUserProfile(userId);
+        var plantsTask = LoadPlants(userId);
+        var friendsTask = LoadFriends(userId);
+
+        await Task.WhenAll(userTask, plantsTask, friendsTask);
+    }
+
+    // ===================== ПРОФИЛЬ =====================
+    private async Task LoadUserProfile(int userId)
+    {
+        using var db = await _factory.CreateDbContextAsync();
+
+        Profile = await db.UserProfiles
             .FirstOrDefaultAsync(p => p.UserId == userId);
     }
 
-    private async Task LoadPlants()
+    // ===================== РАСТЕНИЯ =====================
+    private async Task LoadPlants(int userId)
     {
-        var userId = _authService.GetUserId();
-
         var plants = await _plantService.GetUserPlants(userId);
 
         UserPlants.Clear();
@@ -74,6 +74,48 @@ public partial class ProfilePageViewModel : ObservableObject
             UserPlants.Add(plant);
     }
 
+    // ===================== ДРУЗЬЯ =====================
+    private async Task LoadFriends(int userId)
+    {
+        var list = await _friendService.GetFriendsAsync(userId);
+
+        Friends.Clear();
+
+        foreach (var f in list)
+            Friends.Add(f);
+    }
+
+    // Открыть прфоиль друга
+    [RelayCommand]
+    private async Task OpenProfile(User user)
+    {
+        if (user == null)
+            return;
+
+        var page = _serviceProvider.GetRequiredService<FriendProfilePage>();
+
+        if (page.BindingContext is FriendProfileViewModel vm)
+            await vm.Load(user.Id);
+
+        await Application.Current.MainPage.Navigation.PushAsync(page);
+    }
+
+    // ===================== ОТКРЫТЬ ДОБАВЛЕНИЕ =====================
+    [RelayCommand]
+    private async Task OpenAddFriend()
+    {
+        var page = _serviceProvider.GetRequiredService<AddFriendPage>();
+
+        if (page.BindingContext is AddFriendViewModel vm)
+            vm.Init(_authService.GetUserId());
+
+        await Application.Current.MainPage.Navigation.PushAsync(page);
+
+        //ВАЖНО после возврата обновляем список
+        await LoadFriends(_authService.GetUserId());
+    }
+
+    // ===================== ДОБАВИТЬ РАСТЕНИЕ =====================
     [RelayCommand]
     async Task AddPlant()
     {
@@ -87,9 +129,10 @@ public partial class ProfilePageViewModel : ObservableObject
         var added = await popup.Result;
 
         if (added)
-            await LoadPlants();
+            await LoadPlants(_authService.GetUserId());
     }
 
+    // ===================== ВЫХОД =====================
     [RelayCommand]
     async Task Logout()
     {

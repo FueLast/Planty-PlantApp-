@@ -196,7 +196,7 @@
             <!-- Особенности -->
             <Grid 
                 Grid.Row="4"
-                ColumnDefinitions="Auto, Auto, Auto, Auto"
+                ColumnDefinitions="*, *, *, *"
                 ColumnSpacing="10"
                 Margin="20,0,20,20">
 

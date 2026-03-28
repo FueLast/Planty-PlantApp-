@@ -20,6 +20,7 @@ namespace PlantApp.Data
         public DbSet<Chat> Chats { get; set; } 
         public DbSet<FavoritePlant> FavoritePlants { get; set; }
         public DbSet<UserPlant> UserPlants { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantApp.Data
+namespace PlantApp.Services
 {
-    public class UserService
+    internal class RealtimeChatService
     {
-
-
-
     }
 }
