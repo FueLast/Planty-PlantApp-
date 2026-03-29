@@ -23,7 +23,7 @@ public partial class BottomBarView : ContentView
         => await _navigation.NavigateToAsync<MainPage>();
 
     async void ChatClicked(object sender, EventArgs e)
-        => await _navigation.NavigateToAsync<ChatPage>();
+        => await _navigation.NavigateToAsync<ChatListPage>();
 
     async void CalendarClicked(object sender, EventArgs e)
         => await _navigation.NavigateToAsync<CalendarPage>();

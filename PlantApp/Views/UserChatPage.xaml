@@ -1,39 +1,36 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:PlantApp.Data"
-             x:Class="PlantApp.Views.ChatPage"
-             Title="Chat"
-             Background="#F0EEE9">
+             x:Name="ThisPage"
+             x:Class="PlantApp.Views.UserChatPage"
+             Title="Чат"
+             BackgroundColor="#F0EEE9">
 
     <Grid RowDefinitions="*,Auto">
 
-        <!-- список сообщений -->
         <CollectionView ItemsSource="{Binding Messages}"
-                        ItemsUpdatingScrollMode="KeepLastItemInView"
-                        Margin="10">
+                        Margin="10"
+                        ItemsUpdatingScrollMode="KeepLastItemInView">
 
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:ChatMessage">
- 
+                <DataTemplate>
+
                     <Grid>
 
-                        <Border Padding="12"
+                        <Border x:Name="MessageBorder"
+                                Padding="12"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 20"
                                 Margin="5">
 
                             <VerticalStackLayout Spacing="4">
 
-                                <!-- текст -->
                                 <Label Text="{Binding Content}"
                                        TextColor="Black"/>
 
-                                <!-- время -->
                                 <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}"
                                        FontSize="10"
                                        TextColor="Gray"
@@ -43,25 +40,23 @@
 
                         </Border>
 
-                        <!-- стили сообщений -->
+                        <!-- ВОТ ТУТ ПРАВИЛЬНО -->
                         <Grid.Triggers>
-
-                            <!-- пользователь -->
-                            <DataTrigger TargetType="Grid"
-                                         Binding="{Binding Role}"
-                                         Value="user">
-                                <Setter TargetName="Border"
-                                        Property="BackgroundColor"
-                                        Value="#367900"/>
+                            
+                            <!-- МОИ -->
+                            <DataTrigger TargetType="Grid" Binding="{Binding IsMine}" Value="True">
+                                <Setter TargetName="MessageBorder"
+                                    Property="BackgroundColor"
+                                    Value="#367900"/>
                                 <Setter Property="HorizontalOptions"
-                                        Value="End"/>
+                                    Value="End"/>
                             </DataTrigger>
 
-                            <!-- бот -->
+                            <!-- ЧУЖИЕ -->
                             <DataTrigger TargetType="Grid"
-                                         Binding="{Binding Role}"
-                                         Value="assistant">
-                                <Setter TargetName="Border"
+                                         Binding="{Binding SenderId}"
+                                         Value="-1">
+                                <Setter TargetName="MessageBorder"
                                         Property="BackgroundColor"
                                         Value="White"/>
                                 <Setter Property="HorizontalOptions"
@@ -77,20 +72,17 @@
 
         </CollectionView>
 
-        <!-- нижняя панель -->
         <Grid Grid.Row="1"
               Padding="10"
               ColumnDefinitions="*,Auto"
               BackgroundColor="#F0EEE9">
 
-            <!-- поле ввода -->
             <Entry Grid.Column="0"
                    Text="{Binding MessageText}"
-                   Placeholder="Напиши сообщение..."
+                   Placeholder="Сообщение..."
                    ReturnType="Send"
                    Completed="OnEnterPressed"/>
 
-            <!-- кнопка -->
             <Button Grid.Column="1"
                     Text="➤"
                     Command="{Binding SendCommand}"
@@ -102,4 +94,5 @@
         </Grid>
 
     </Grid>
+
 </ContentPage>

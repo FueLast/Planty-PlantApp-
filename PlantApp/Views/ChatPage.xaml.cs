@@ -33,4 +33,14 @@ public partial class ChatPage : ContentPage
         }
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        if (BindingContext is UserChatViewModel vm)
+        {
+            vm.StopListening();
+        }
+    }
+
 }

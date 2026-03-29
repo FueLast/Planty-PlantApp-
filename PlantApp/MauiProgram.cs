@@ -54,7 +54,7 @@ namespace PlantApp
             builder.Services.AddScoped<ProfileService>();
             builder.Services.AddScoped<UserPlantService>();
             builder.Services.AddScoped<FriendService>();
-            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<UserService>(); 
 
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<SecurityService>();
@@ -69,6 +69,12 @@ namespace PlantApp
                     "Api-Key " + builder.Configuration["YandexApiKey"]);
             });
 
+            // подключаем HttpClient для чата
+            builder.Services.AddHttpClient<RealtimeChatService>();
+            builder.Services.AddSingleton<RealtimeChatService>();
+
+
+
             // страницы
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegisterPage>();
@@ -76,10 +82,13 @@ namespace PlantApp
             builder.Services.AddTransient<AddPlantPopup>();
             builder.Services.AddTransient<AddFriendPage>();
             builder.Services.AddTransient<FriendProfilePage>();
+            //чаты
+            builder.Services.AddTransient<UserChatPage>();
+            builder.Services.AddTransient<ChatPage>();
 
             // BottomBar
             builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<ChatPage>();
+            builder.Services.AddTransient<ChatListPage>();
             builder.Services.AddTransient<CalendarPage>();
             builder.Services.AddTransient<ProfilePage>();
 
@@ -95,12 +104,15 @@ namespace PlantApp
             builder.Services.AddTransient<AddFriendViewModel>();
             builder.Services.AddTransient<LoginPageViewModel>();
             builder.Services.AddTransient<RegisterPageViewModel>();
-            builder.Services.AddTransient<MainViewModel>();
-            builder.Services.AddSingleton<ChatPageViewModel>();
+            builder.Services.AddTransient<MainViewModel>();  
             builder.Services.AddTransient<EncyclopediaViewModel>();
             builder.Services.AddTransient<FavoritesPageViewModel>();
             builder.Services.AddTransient<ProfilePageViewModel>();
             builder.Services.AddTransient<PlantDetailsViewModel>();
+            //чаты ViewModels
+            builder.Services.AddTransient<ChatPageViewModel>();
+            builder.Services.AddTransient<UserChatViewModel>();
+            builder.Services.AddTransient<ChatListViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -1,0 +1,59 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantApp.Views.ChatListPage"
+             Title="Чаты"
+             Background="#F0EEE9">
+
+    <CollectionView ItemsSource="{Binding Chats}"
+                    SelectionMode="Single"
+                    SelectionChanged="OnChatSelected">
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+
+                <Grid Padding="10" ColumnDefinitions="Auto,*,Auto">
+
+                    <!-- аватар -->
+                    <Border WidthRequest="50"
+                            HeightRequest="50"
+                            BackgroundColor="White"
+                            Stroke="Transparent"
+                            VerticalOptions="Center">
+                        
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                        
+                        <Label Text="👤"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <!-- текст -->
+                    <VerticalStackLayout Grid.Column="1"
+                                         Margin="10,0">
+
+                        <Label Text="{Binding Title}"
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+
+                        <Label Text="{Binding LastMessage}"
+                               FontSize="13"
+                               TextColor="Gray"
+                               LineBreakMode="TailTruncation"/>
+                    </VerticalStackLayout>
+
+                    <!-- время -->
+                    <Label Grid.Column="2"
+                           Text="{Binding LastMessageTime, StringFormat='{0:HH:mm}'}"
+                           FontSize="12"
+                           TextColor="Gray"
+                           VerticalOptions="Start"/>
+
+                </Grid>
+
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>
+</ContentPage>
