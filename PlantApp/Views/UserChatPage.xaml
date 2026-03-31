@@ -40,7 +40,6 @@
 
                         </Border>
 
-                        <!-- ВОТ ТУТ ПРАВИЛЬНО -->
                         <Grid.Triggers>
                             
                             <!-- МОИ -->
@@ -53,14 +52,12 @@
                             </DataTrigger>
 
                             <!-- ЧУЖИЕ -->
-                            <DataTrigger TargetType="Grid"
-                                         Binding="{Binding SenderId}"
-                                         Value="-1">
+                            <DataTrigger TargetType="Grid" Binding="{Binding IsMine}" Value="False">
                                 <Setter TargetName="MessageBorder"
-                                        Property="BackgroundColor"
-                                        Value="White"/>
+                                    Property="BackgroundColor"
+                                    Value="White"/>
                                 <Setter Property="HorizontalOptions"
-                                        Value="Start"/>
+                                    Value="Start"/>
                             </DataTrigger>
 
                         </Grid.Triggers>

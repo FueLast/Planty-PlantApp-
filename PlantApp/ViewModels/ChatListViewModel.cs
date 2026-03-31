@@ -62,11 +62,11 @@ namespace PlantApp.ViewModels
         {
             if (item.IsAI)
             {
-                await _navigation.NavigateToAsync<ChatPage>(); // AI
+                await _navigation.NavigateToAsync<GPTPage>(); // YandexAI
             }
             else
             {
-                await _navigation.NavigateToAsync<UserChatPage, int>(item.UserId.Value); // ВАЖНО
+                await _navigation.NavigateToAsync<UserChatPage, int>(item.UserId.Value); // это важно
             }
         }
 

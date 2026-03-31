@@ -2,12 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using PlantApp.Services;
 using PlantApp.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace PlantApp.ViewModels
 {
@@ -15,15 +11,12 @@ namespace PlantApp.ViewModels
     {
         private readonly RealtimeChatService _chatService;
         private readonly AuthService _authService;
-        private CancellationTokenSource _cts;
 
-        private int _friendId;
+        private CancellationTokenSource _cts;
         private string _chatId;
 
         [ObservableProperty]
         private ObservableCollection<RealtimeMessage> messages = new();
-
-        public int MyUserId => _authService.GetUserId();
 
         [ObservableProperty]
         private string messageText;
@@ -42,22 +35,21 @@ namespace PlantApp.ViewModels
 
         public async Task Init(int friendId)
         {
-            _friendId = friendId;
-
             var myId = _authService.GetUserId();
             _chatId = ChatHelper.GetChatId(myId, friendId);
 
             await LoadMessages();
-            StartListening(); 
+            StartListening();
         }
 
         private async Task LoadMessages()
         {
+            if (string.IsNullOrEmpty(_chatId))
+                return;
+
             var msgs = await _chatService.GetMessagesAsync(_chatId);
 
             Messages.Clear();
-            foreach (var m in msgs)
-                Messages.Add(m);
 
             var myId = _authService.GetUserId();
 
@@ -66,30 +58,44 @@ namespace PlantApp.ViewModels
                 m.IsMine = m.SenderId == myId;
                 Messages.Add(m);
             }
-
         }
 
         private async Task SendAsync()
         {
+            Debug.WriteLine("SEND CALLED");
+
             if (string.IsNullOrWhiteSpace(MessageText))
                 return;
+
+            if (string.IsNullOrEmpty(_chatId))
+            {
+                Debug.WriteLine("❌ CHAT_ID NULL");
+                return;
+            }
+
+            var myId = _authService.GetUserId();
 
             var msg = new RealtimeMessage
             {
                 ChatId = _chatId,
-                SenderId = _authService.GetUserId(),
+                SenderId = myId,
                 Content = MessageText,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                IsMine = true
             };
 
             Messages.Add(msg);
 
-            await _chatService.SendMessageAsync(msg);
+            await _chatService.SendMessageAsync(
+                _chatId,
+                MessageText,
+                myId
+            );
 
             MessageText = string.Empty;
         }
 
-        public void StartListening()
+        private void StartListening()
         {
             _cts = new CancellationTokenSource();
 
@@ -98,8 +104,7 @@ namespace PlantApp.ViewModels
                 while (!_cts.IsCancellationRequested)
                 {
                     await LoadMessages();
-
-                    await Task.Delay(2000); // каждые 2 сек
+                    await Task.Delay(2000);
                 }
             });
         }
@@ -108,6 +113,5 @@ namespace PlantApp.ViewModels
         {
             _cts?.Cancel();
         }
-
     }
 }

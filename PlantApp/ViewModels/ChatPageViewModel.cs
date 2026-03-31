@@ -8,7 +8,7 @@ namespace PlantApp.ViewModels
 {
     public partial class ChatPageViewModel : ObservableObject
     {
-        private readonly AIChatService _chatService;
+        private readonly RealtimeChatService _realtimeChatService;
         private readonly AIService _aiService;
         private readonly AuthService _authService;
 
@@ -23,11 +23,11 @@ namespace PlantApp.ViewModels
         public IAsyncRelayCommand SendCommand { get; }
 
         public ChatPageViewModel(
-            AIChatService chatService,
+            RealtimeChatService realtimeChatService,
             AuthService authService,
             AIService aiService)
         {
-            _chatService = chatService;
+            _realtimeChatService = realtimeChatService;
             _authService = authService;
             _aiService = aiService;
 
@@ -39,29 +39,22 @@ namespace PlantApp.ViewModels
             var user = _authService.CurrentUser;
             if (user == null) return;
 
-            _chat = await _chatService.GetOrCreateChatAsync(user.Id);
+            _chat = await GetOrCreateChatAsync(user.Id);
 
-            var messagesFromDb = await _chatService.GetMessagesAsync(_chat.Id);
+            var msgs = await _realtimeChatService.GetMessagesAsync(_chat.Id.ToString());
 
-            if (!messagesFromDb.Any())
-            {
-                var welcome = new ChatMessage
-                {
-                    ChatId = _chat.Id,
-                    Role = "assistant",
-                    Content = "Привет! Я твой помощник 🌿",
-                    CreatedAt = DateTime.Now
-                };
-
-                await _chatService.AddMessageAsync(welcome);
-                messagesFromDb.Add(welcome);
-            }
-
-            // не пересоздаём коллекцию!
             Messages.Clear();
 
-            foreach (var msg in messagesFromDb)
-                Messages.Add(msg);
+            foreach (var m in msgs)
+            {
+                Messages.Add(new ChatMessage
+                {
+                    ChatId = int.Parse(m.ChatId),
+                    Role = m.SenderId == user.Id ? "user" : "assistant",
+                    Content = m.Content,
+                    CreatedAt = m.CreatedAt
+                });
+            }
         }
 
         private async Task SendAsync()
@@ -75,6 +68,7 @@ namespace PlantApp.ViewModels
             if (_chat == null)
                 await LoadMessagesAsync();
 
+            // USER MESSAGE
             var userMsg = new ChatMessage
             {
                 ChatId = _chat.Id,
@@ -84,8 +78,15 @@ namespace PlantApp.ViewModels
             };
 
             Messages.Add(userMsg);
-            await _chatService.AddMessageAsync(userMsg);
 
+            //отправка в Supabase
+            await _realtimeChatService.SendMessageAsync(
+                _chat.Id.ToString(),
+                MessageText,
+                user.Id
+            );
+
+            // AI RESPONSE
             var aiResponse = await _aiService.SendAsync(MessageText, user);
 
             var botMsg = new ChatMessage
@@ -97,9 +98,22 @@ namespace PlantApp.ViewModels
             };
 
             Messages.Add(botMsg);
-            await _chatService.AddMessageAsync(botMsg);
+
+            await _realtimeChatService.SendMessageAsync(
+                _chat.Id.ToString(),
+                aiResponse,
+                senderId: 0
+            );
 
             MessageText = string.Empty;
+        }
+
+        private async Task<Chat> GetOrCreateChatAsync(int userId)
+        {
+            return new Chat
+            {
+                Id = userId
+            };
         }
     }
 }

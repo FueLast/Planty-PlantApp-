@@ -10,10 +10,10 @@ namespace PlantApp.Helpers
     {
         public static string GetChatId(int user1, int user2)
         {
-            var ids = new[] { user1, user2 };
-            Array.Sort(ids);
+            var min = Math.Min(user1, user2);
+            var max = Math.Max(user1, user2);
 
-            return $"{ids[0]}_{ids[1]}";
+            return $"{min}_{max}";
         }
     }
 }
