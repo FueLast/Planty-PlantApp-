@@ -97,13 +97,7 @@ namespace PlantApp.ViewModels
                 CreatedAt = DateTime.Now
             };
 
-            Messages.Add(botMsg);
-
-            await _realtimeChatService.SendMessageAsync(
-                _chat.Id.ToString(),
-                aiResponse,
-                senderId: 0
-            );
+            Messages.Add(botMsg); 
 
             MessageText = string.Empty;
         }

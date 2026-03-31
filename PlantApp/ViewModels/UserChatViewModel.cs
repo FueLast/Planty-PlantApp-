@@ -62,29 +62,10 @@ namespace PlantApp.ViewModels
 
         private async Task SendAsync()
         {
-            Debug.WriteLine("SEND CALLED");
-
             if (string.IsNullOrWhiteSpace(MessageText))
                 return;
 
-            if (string.IsNullOrEmpty(_chatId))
-            {
-                Debug.WriteLine("❌ CHAT_ID NULL");
-                return;
-            }
-
             var myId = _authService.GetUserId();
-
-            var msg = new RealtimeMessage
-            {
-                ChatId = _chatId,
-                SenderId = myId,
-                Content = MessageText,
-                CreatedAt = DateTime.Now,
-                IsMine = true
-            };
-
-            Messages.Add(msg);
 
             await _chatService.SendMessageAsync(
                 _chatId,
