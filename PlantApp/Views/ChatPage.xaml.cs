@@ -39,7 +39,6 @@ public partial class ChatPage : ContentPage
 
         if (BindingContext is UserChatViewModel vm)
         {
-            vm.StopListening();
         }
     }
 

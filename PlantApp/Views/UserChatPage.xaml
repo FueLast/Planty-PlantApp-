@@ -1,39 +1,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Name="ThisPage"
              x:Class="PlantApp.Views.UserChatPage"
-             Title="Чат"
-             BackgroundColor="#F0EEE9">
+             BackgroundColor="#E5DDD5"
+             Title="Чат">
 
     <Grid RowDefinitions="*,Auto">
 
+        <!-- сообщения -->
         <CollectionView ItemsSource="{Binding Messages}"
                         Margin="10"
                         ItemsUpdatingScrollMode="KeepLastItemInView">
 
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical"/>
-            </CollectionView.ItemsLayout>
-
             <CollectionView.ItemTemplate>
                 <DataTemplate>
 
-                    <Grid>
+                    <Grid Padding="2">
 
-                        <Border x:Name="MessageBorder"
-                                Padding="12"
+                        <Border x:Name="Bubble"
+                                Padding="10"
                                 StrokeThickness="0"
-                                StrokeShape="RoundRectangle 20"
-                                Margin="5">
+                                StrokeShape="RoundRectangle 16"
+                                MaximumWidthRequest="280">
 
-                            <VerticalStackLayout Spacing="4">
+                            <VerticalStackLayout Spacing="2">
 
                                 <Label Text="{Binding Content}"
+                                       FontSize="14"
                                        TextColor="Black"/>
 
                                 <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}"
                                        FontSize="10"
-                                       TextColor="Gray"
+                                       Opacity="0.6"
                                        HorizontalOptions="End"/>
 
                             </VerticalStackLayout>
@@ -41,23 +38,33 @@
                         </Border>
 
                         <Grid.Triggers>
-                            
+
                             <!-- МОИ -->
-                            <DataTrigger TargetType="Grid" Binding="{Binding IsMine}" Value="True">
-                                <Setter TargetName="MessageBorder"
-                                    Property="BackgroundColor"
-                                    Value="#367900"/>
+                            <DataTrigger TargetType="Grid"
+                                         Binding="{Binding IsMine}"
+                                         Value="True">
+
+                                <Setter TargetName="Bubble"
+                                        Property="BackgroundColor"
+                                        Value="#DCF8C6"/>
+
                                 <Setter Property="HorizontalOptions"
-                                    Value="End"/>
+                                        Value="End"/>
+
                             </DataTrigger>
 
                             <!-- ЧУЖИЕ -->
-                            <DataTrigger TargetType="Grid" Binding="{Binding IsMine}" Value="False">
-                                <Setter TargetName="MessageBorder"
-                                    Property="BackgroundColor"
-                                    Value="White"/>
+                            <DataTrigger TargetType="Grid"
+                                         Binding="{Binding IsMine}"
+                                         Value="False">
+
+                                <Setter TargetName="Bubble"
+                                        Property="BackgroundColor"
+                                        Value="White"/>
+
                                 <Setter Property="HorizontalOptions"
-                                    Value="Start"/>
+                                        Value="Start"/>
+
                             </DataTrigger>
 
                         </Grid.Triggers>
@@ -69,24 +76,32 @@
 
         </CollectionView>
 
+        <!-- нижняя панель -->
         <Grid Grid.Row="1"
-              Padding="10"
+              Padding="8"
               ColumnDefinitions="*,Auto"
-              BackgroundColor="#F0EEE9">
+              BackgroundColor="#F0F0F0">
 
-            <Entry Grid.Column="0"
-                   Text="{Binding MessageText}"
-                   Placeholder="Сообщение..."
-                   ReturnType="Send"
-                   Completed="OnEnterPressed"/>
+            <Border StrokeThickness="0"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="8">
+
+                <Entry Text="{Binding MessageText}"
+                       Placeholder="Сообщение..."
+                       ReturnType="Send"
+                       Completed="OnEnterPressed"/>
+            </Border>
 
             <Button Grid.Column="1"
                     Text="➤"
                     Command="{Binding SendCommand}"
-                    BackgroundColor="#367900"
+                    BackgroundColor="#0088CC"
                     TextColor="White"
-                    CornerRadius="20"
-                    WidthRequest="50"/>
+                    CornerRadius="25"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    Margin="5"/>
 
         </Grid>
 

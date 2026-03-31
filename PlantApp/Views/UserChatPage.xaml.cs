@@ -28,7 +28,6 @@ public partial class UserChatPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _vm.StopListening();
     }
 
     private void OnEnterPressed(object sender, EventArgs e)

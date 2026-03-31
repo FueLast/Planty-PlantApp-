@@ -38,8 +38,7 @@ namespace PlantApp.ViewModels
             var myId = _authService.GetUserId();
             _chatId = ChatHelper.GetChatId(myId, friendId);
 
-            await LoadMessages();
-            StartListening();
+            await LoadMessages(); 
         }
 
         private async Task LoadMessages()
@@ -74,25 +73,10 @@ namespace PlantApp.ViewModels
             );
 
             MessageText = string.Empty;
+
+            await LoadMessages(); // обновили сразу
         }
 
-        private void StartListening()
-        {
-            _cts = new CancellationTokenSource();
 
-            Task.Run(async () =>
-            {
-                while (!_cts.IsCancellationRequested)
-                {
-                    await LoadMessages();
-                    await Task.Delay(2000);
-                }
-            });
-        }
-
-        public void StopListening()
-        {
-            _cts?.Cancel();
-        }
     }
 }
