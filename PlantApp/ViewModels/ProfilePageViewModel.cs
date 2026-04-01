@@ -132,12 +132,24 @@ public partial class ProfilePageViewModel : ObservableObject
             await LoadPlants(_authService.GetUserId());
     }
 
-    // ===================== ВЫХОД =====================
+    // ===================== НАСТРОЙКИ ПРОФИЛЯ =====================
     [RelayCommand]
-    async Task Logout()
+    private async Task OpenEditProfile()
     {
-        _authService.Logout();
+        var page = _serviceProvider.GetRequiredService<EditProfilePopup>();
 
-        await _navigationService.NavigateToAsync<LoginPage>();
+        if (page.BindingContext is EditProfilePopupViewModel vm)
+            vm.Init(Profile);
+
+        await Application.Current.MainPage.ShowPopupAsync(page);
     }
+
+    private void OnProfileUpdated(UserProfile updatedProfile)
+    {
+        Profile.UserName = updatedProfile.UserName;
+        Profile.AvatarId = updatedProfile.AvatarId;
+
+        OnPropertyChanged(nameof(Profile));
+    }
+
 }

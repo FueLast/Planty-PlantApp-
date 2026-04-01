@@ -85,6 +85,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiImage Include="Resources\Avatars\avatar_1.png" />
+    <MauiImage Include="Resources\Avatars\avatar_10.png" />
+    <MauiImage Include="Resources\Avatars\avatar_11.png" />
+    <MauiImage Include="Resources\Avatars\avatar_12.png" />
+    <MauiImage Include="Resources\Avatars\avatar_2.png" />
+    <MauiImage Include="Resources\Avatars\avatar_3.png" />
+    <MauiImage Include="Resources\Avatars\avatar_4.png" />
+    <MauiImage Include="Resources\Avatars\avatar_5.png" />
+    <MauiImage Include="Resources\Avatars\avatar_6.png" />
+    <MauiImage Include="Resources\Avatars\avatar_7.png" />
+    <MauiImage Include="Resources\Avatars\avatar_8.png" />
+    <MauiImage Include="Resources\Avatars\avatar_9.png" />
     <MauiImage Include="Resources\Images_of_Plants\alocasia.png" />
     <MauiImage Include="Resources\Images_of_Plants\aloe_centaurium.png" />
     <MauiImage Include="Resources\Images_of_Plants\chlorophytum.png" />
@@ -120,6 +132,9 @@
 	  <Compile Update="Views\FriendProfilePage.xaml.cs">
 	    <DependentUpon>FriendProfilePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Popups\EditProfilePopup.xaml.cs">
+	    <DependentUpon>EditProfilePopup.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -154,6 +169,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\AddPlantPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\EditProfilePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfilePage.xaml">

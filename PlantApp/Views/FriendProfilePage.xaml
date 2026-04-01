@@ -11,10 +11,12 @@
 
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
 
-                <Image
-                    Source="main_profile_image.png"
-                    HeightRequest="100"
-                    WidthRequest="100"/>
+                <Border 
+                    StrokeShape="150" 
+                    Stroke="Transparent" 
+                    HeightRequest="150">
+                    <Image Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"/>
+                </Border>
 
                 <VerticalStackLayout Grid.Column="1" Spacing="5">
 

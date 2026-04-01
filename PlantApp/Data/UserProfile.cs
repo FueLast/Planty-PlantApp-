@@ -17,6 +17,10 @@ namespace PlantApp.Data
         // Внешний ключ для связи с User
         public int UserId { get; set; }
         public User User { get; set; } = null!;
+
+        public string? AvatarUrl { get; set; } // подгрузка аватара с супабейс
+
+        public int AvatarId { get; set; } = 1; // fallback (готовые авы)
     }
 }
 

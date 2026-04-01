@@ -30,7 +30,7 @@
 
                     <Grid
                         Padding="20"
-                        ColumnDefinitions="Auto, Auto"
+                        ColumnDefinitions="Auto, *"
                         ColumnSpacing="20">
 
                         <!-- Аватар -->
@@ -44,11 +44,19 @@
                             StrokeShape="RoundRectangle 150"
                             Background="White">
 
-                            <Image
-                                Source="main_profile_image.png"
-                                Aspect="AspectFit"/>
-                        </Border> 
-                            <!-- Правая часть -->
+                            <Image Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"/>
+                        </Border>
+                        
+                        <ImageButton
+                            Grid.Column="1"
+                            Background="Transparent"
+                            Source="settings.png"
+                            WidthRequest="28"
+                            HeightRequest="28"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Command="{Binding OpenEditProfileCommand}"/>
+                        <!-- Правая часть -->
                         <StackLayout 
                             Grid.Column="1"
                             Spacing="10"
@@ -230,11 +238,16 @@
 
                                         <Grid ColumnDefinitions="40,*">
 
-                                            <Image
-                                                Source="main_profile_image.png"
-                                                HeightRequest="40"
-                                                WidthRequest="40"/>
-
+                                            <Border
+                                                StrokeShape="150" 
+                                                Stroke="Transparent">
+                                                <Image
+                                                    Source="{Binding Profile, 
+                                                    Converter={StaticResource AvatarHelper}}"
+                                                    HeightRequest="40"
+                                                    WidthRequest="40"/>
+                                            </Border>
+                                            
                                             <StackLayout Grid.Column="1">
 
                                                 <Label
@@ -260,17 +273,7 @@
                     </Grid>
 
                 </Border>
-            </Grid>
-
-            <!-- ================== КНОПКА ================== -->
-            <Button
-                Grid.Row="2"
-                Text="Выход"
-                Command="{Binding LogoutCommand}"
-                HeightRequest="50"
-                BackgroundColor="Red"
-                TextColor="White"
-                CornerRadius="25"/>
+            </Grid> 
 
         </Grid>
 

@@ -79,9 +79,11 @@ namespace PlantApp
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<PlantDetailsPage>();
-            builder.Services.AddTransient<AddPlantPopup>();
             builder.Services.AddTransient<AddFriendPage>();
             builder.Services.AddTransient<FriendProfilePage>();
+
+            builder.Services.AddTransient<AddPlantPopup>();
+            builder.Services.AddTransient<EditProfilePopup>();
             //чаты
             builder.Services.AddTransient<UserChatPage>();
             builder.Services.AddTransient<ChatPage>();
@@ -100,7 +102,6 @@ namespace PlantApp
 
             // ViewModels
             builder.Services.AddTransient<FriendProfileViewModel>();
-            builder.Services.AddTransient<AddPlantPopupViewModel>();
             builder.Services.AddTransient<AddFriendViewModel>();
             builder.Services.AddTransient<LoginPageViewModel>();
             builder.Services.AddTransient<RegisterPageViewModel>();
@@ -109,6 +110,9 @@ namespace PlantApp
             builder.Services.AddTransient<FavoritesPageViewModel>();
             builder.Services.AddTransient<ProfilePageViewModel>();
             builder.Services.AddTransient<PlantDetailsViewModel>();
+
+            builder.Services.AddTransient<AddPlantPopupViewModel>();
+            builder.Services.AddTransient<EditProfilePopupViewModel>();
             //чаты ViewModels
             builder.Services.AddTransient<ChatPageViewModel>();
             builder.Services.AddTransient<UserChatViewModel>();
