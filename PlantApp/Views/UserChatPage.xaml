@@ -13,26 +13,53 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
+                    <Grid Padding="2"
+          ColumnDefinitions="Auto,*,Auto">
 
-                    <Grid Padding="2">
-
-                        <Border x:Name="Bubble"
-                                Padding="10"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 16"
-                                MaximumWidthRequest="280">
+                        <!-- ЧУЖИЕ (слева) -->
+                        <Border x:Name="LeftBubble"
+                Grid.Column="0"
+                Padding="10"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 16"
+                MaximumWidthRequest="280"
+                BackgroundColor="White"
+                HorizontalOptions="Start"
+                IsVisible="False">
 
                             <VerticalStackLayout Spacing="2">
-
                                 <Label Text="{Binding Content}"
-                                       FontSize="14"
-                                       TextColor="Black"/>
+                       FontSize="14"
+                       TextColor="Black"/>
 
                                 <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}"
-                                       FontSize="10"
-                                       Opacity="0.6"
-                                       HorizontalOptions="End"/>
+                       FontSize="10"
+                       Opacity="0.6"
+                       HorizontalOptions="End"/>
+                            </VerticalStackLayout>
 
+                        </Border>
+
+                        <!-- МОИ (справа) -->
+                        <Border x:Name="RightBubble"
+                Grid.Column="2"
+                Padding="10"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 16"
+                MaximumWidthRequest="280"
+                BackgroundColor="#DCF8C6"
+                HorizontalOptions="End"
+                IsVisible="False">
+
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="{Binding Content}"
+                       FontSize="14"
+                       TextColor="Black"/>
+
+                                <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}"
+                       FontSize="10"
+                       Opacity="0.6"
+                       HorizontalOptions="End"/>
                             </VerticalStackLayout>
 
                         </Border>
@@ -41,36 +68,35 @@
 
                             <!-- МОИ -->
                             <DataTrigger TargetType="Grid"
-                                         Binding="{Binding IsMine}"
-                                         Value="True">
+                         Binding="{Binding IsMine}"
+                         Value="True">
 
-                                <Setter TargetName="Bubble"
-                                        Property="BackgroundColor"
-                                        Value="#DCF8C6"/>
+                                <Setter TargetName="RightBubble"
+                        Property="IsVisible"
+                        Value="True"/>
 
-                                <Setter Property="HorizontalOptions"
-                                        Value="End"/>
-
+                                <Setter TargetName="LeftBubble"
+                        Property="IsVisible"
+                        Value="False"/>
                             </DataTrigger>
 
                             <!-- ЧУЖИЕ -->
                             <DataTrigger TargetType="Grid"
-                                         Binding="{Binding IsMine}"
-                                         Value="False">
+                         Binding="{Binding IsMine}"
+                         Value="False">
 
-                                <Setter TargetName="Bubble"
-                                        Property="BackgroundColor"
-                                        Value="White"/>
+                                <Setter TargetName="RightBubble"
+                        Property="IsVisible"
+                        Value="False"/>
 
-                                <Setter Property="HorizontalOptions"
-                                        Value="Start"/>
-
+                                <Setter TargetName="LeftBubble"
+                        Property="IsVisible"
+                        Value="True"/>
                             </DataTrigger>
 
                         </Grid.Triggers>
 
                     </Grid>
-
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
@@ -95,13 +121,19 @@
 
             <Button Grid.Column="1"
                     Text="➤"
-                    Command="{Binding SendCommand}"
-                    BackgroundColor="#0088CC"
+                    Command="{Binding SendCommand}" 
                     TextColor="White"
                     CornerRadius="25"
                     WidthRequest="50"
                     HeightRequest="50"
-                    Margin="5"/>
+                    Margin="5">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                        <GradientStop Color="#369940" Offset="0.001"/>
+                        <GradientStop Color="#367900" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
 
         </Grid>
 

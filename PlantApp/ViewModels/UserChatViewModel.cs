@@ -64,7 +64,21 @@ namespace PlantApp.ViewModels
             if (string.IsNullOrWhiteSpace(MessageText))
                 return;
 
+            if (string.IsNullOrEmpty(_chatId))
+                return;
+
             var myId = _authService.GetUserId();
+
+            var msg = new RealtimeMessage
+            {
+                ChatId = _chatId,
+                SenderId = myId,
+                Content = MessageText,
+                CreatedAt = DateTime.Now,
+                IsMine = true // ОБЯЗАТЕЛЬНО
+            };
+
+            Messages.Add(msg);
 
             await _chatService.SendMessageAsync(
                 _chatId,
@@ -73,8 +87,6 @@ namespace PlantApp.ViewModels
             );
 
             MessageText = string.Empty;
-
-            await LoadMessages(); // обновили сразу
         }
 
 
