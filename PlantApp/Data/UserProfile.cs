@@ -21,6 +21,8 @@ namespace PlantApp.Data
         public string? AvatarUrl { get; set; } // подгрузка аватара с супабейс
 
         public int AvatarId { get; set; } = 1; // fallback (готовые авы)
+
+        public string? Bio {  get; set; }
     }
 }
 

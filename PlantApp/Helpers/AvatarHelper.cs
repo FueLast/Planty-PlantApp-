@@ -7,13 +7,14 @@ public class AvatarHelper : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var profile = value as UserProfile;
-
-        if (profile == null)
+        if (value is not UserProfile profile)
             return "avatar_1.png";
 
         if (!string.IsNullOrWhiteSpace(profile.AvatarUrl))
             return profile.AvatarUrl;
+
+        if (profile.AvatarId <= 0)
+            return "avatar_1.png";
 
         return $"avatar_{profile.AvatarId}.png";
     }

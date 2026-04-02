@@ -84,6 +84,7 @@
                                 Background="#F0EEE9">
 
                                 <Editor
+                                    Text="{Binding Profile.Bio}"
                                     Placeholder="Опишите чем вам нравится заниматься"
                                     TextColor="Black"
                                     PlaceholderColor="Gray"

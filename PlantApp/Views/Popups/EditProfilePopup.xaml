@@ -14,6 +14,14 @@
             Text="{Binding UserName}"
             Placeholder="Имя"/>
 
+        <Entry
+            Text="{Binding Bio}"
+            Placeholder="О себе"/>
+        
+        <Button
+            Text="Выбрать фото"
+            Command="{Binding PickPhotoCommand}" />
+        
         <!-- АВАТАРЫ -->
         <CollectionView
             ItemsSource="{Binding Avatars}"
@@ -34,7 +42,8 @@
                         <Image
                             Source="{Binding StringFormat='avatar_{0}.png'}"
                             HeightRequest="40"
-                            WidthRequest="40"/>
+                            WidthRequest="40"/> 
+
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

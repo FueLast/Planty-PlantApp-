@@ -40,6 +40,8 @@ public partial class ProfilePageViewModel : ObservableObject
         _authService = authService;
         _friendService = friendService;
         _serviceProvider = serviceProvider;
+
+        EditProfilePopupViewModel.ProfileUpdated += OnProfileUpdated;
     }
 
     // ===================== ГЛАВНАЯ ЗАГРУЗКА =====================
@@ -144,10 +146,12 @@ public partial class ProfilePageViewModel : ObservableObject
         await Application.Current.MainPage.ShowPopupAsync(page);
     }
 
-    private void OnProfileUpdated(UserProfile updatedProfile)
+    private void OnProfileUpdated(UserProfile updated)
     {
-        Profile.UserName = updatedProfile.UserName;
-        Profile.AvatarId = updatedProfile.AvatarId;
+        Profile.UserName = updated.UserName;
+        Profile.AvatarId = updated.AvatarId;
+        Profile.AvatarUrl = updated.AvatarUrl;
+        Profile.Bio = updated.Bio;
 
         OnPropertyChanged(nameof(Profile));
     }
