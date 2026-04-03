@@ -40,7 +40,7 @@ public partial class ProfilePageViewModel : ObservableObject
         _authService = authService;
         _friendService = friendService;
         _serviceProvider = serviceProvider;
-
+         
         EditProfilePopupViewModel.ProfileUpdated += OnProfileUpdated;
     }
 

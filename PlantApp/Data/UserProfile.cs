@@ -23,6 +23,9 @@ namespace PlantApp.Data
         public int AvatarId { get; set; } = 1; // fallback (готовые авы)
 
         public string? Bio {  get; set; }
+
+        public DateTime? LastSeen { get; set; }
+        public bool IsOnline { get; set; }
     }
 }
 

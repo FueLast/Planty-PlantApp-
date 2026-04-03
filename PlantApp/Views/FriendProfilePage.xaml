@@ -30,6 +30,9 @@
                     <Label
                         Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"/>
 
+                    <Label
+                        Text="{Binding Profile.IsOnline, StringFormat='В сети: {0}'}"/>
+
                 </VerticalStackLayout>
 
             </Grid>

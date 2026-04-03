@@ -78,6 +78,11 @@
                                 FontSize="16"
                                 TextColor="Gray"/>
 
+                            <Label
+                                Text="{Binding Profile.IsOnline, StringFormat='В сети: {0}'}"
+                                FontSize="16"
+                                TextColor="Gray"/>
+
                             <Border
                                 Stroke="#367900"
                                 StrokeShape="RoundRectangle 20"
@@ -88,7 +93,8 @@
                                     Placeholder="Опишите чем вам нравится заниматься"
                                     TextColor="Black"
                                     PlaceholderColor="Gray"
-                                    AutoSize="TextChanges"/>
+                                    AutoSize="TextChanges"
+                                    IsReadOnly="True"/>
 
                             </Border>
 
