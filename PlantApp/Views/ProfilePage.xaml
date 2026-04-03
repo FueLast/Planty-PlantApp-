@@ -97,7 +97,31 @@
                                     IsReadOnly="True"/>
 
                             </Border>
+                            
+                            <!-- счетчик друзей и растений пользователя -->
+                            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
 
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding PlantsCount}"
+                                        FontSize="18"
+                                        HorizontalOptions="Center"/>
+                                    <Label Text="растений"
+                                        FontSize="12"
+                                        HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding FriendsCount}"
+                                        FontSize="18"
+                                        HorizontalOptions="Center"/>
+                                    <Label Text="друзей"
+                                        FontSize="12"
+                                        HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+
+                            </HorizontalStackLayout>
+                            
+                            
                         </StackLayout>
                     </Grid>
 

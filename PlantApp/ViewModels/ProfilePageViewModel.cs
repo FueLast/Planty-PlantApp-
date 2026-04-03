@@ -26,6 +26,12 @@ public partial class ProfilePageViewModel : ObservableObject
     [ObservableProperty]
     private UserProfile profile;
 
+    [ObservableProperty]
+    private int plantsCount;
+
+    [ObservableProperty]
+    private int friendsCount;
+
     public ProfilePageViewModel(
         UserPlantService plantService,
         INavigationService navigationService,
@@ -75,6 +81,8 @@ public partial class ProfilePageViewModel : ObservableObject
 
         foreach (var plant in plants)
             UserPlants.Add(plant);
+
+        PlantsCount = UserPlants.Count; 
     }
 
     // ===================== ДРУЗЬЯ =====================
@@ -86,6 +94,8 @@ public partial class ProfilePageViewModel : ObservableObject
 
         foreach (var f in list)
             Friends.Add(f);
+
+        FriendsCount = Friends.Count; 
     }
 
     // Открыть прфоиль друга
