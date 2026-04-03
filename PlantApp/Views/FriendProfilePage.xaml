@@ -30,8 +30,9 @@
                     <Label
                         Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"/>
 
-                    <Label
-                        Text="{Binding Profile.IsOnline, StringFormat='В сети: {0}'}"/>
+                    <Label Margin="0, 10"
+                        Text="{Binding Profile, Converter={StaticResource LastSeenHelper}, 
+                            StringFormat='В сети: {0}'}"/>
 
                 </VerticalStackLayout>
 

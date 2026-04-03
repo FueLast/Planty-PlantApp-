@@ -36,8 +36,8 @@ namespace PlantApp.Services
 
             if (profile == null) return;
 
-            profile.IsOnline = true;
             profile.LastSeen = DateTime.UtcNow;
+            profile.IsOnline = true;
 
             await db.SaveChangesAsync();
         }

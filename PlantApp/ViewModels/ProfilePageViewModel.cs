@@ -53,6 +53,7 @@ public partial class ProfilePageViewModel : ObservableObject
         var plantsTask = LoadPlants(userId);
         var friendsTask = LoadFriends(userId);
 
+        await _authService.SetOnline(userId);
         await Task.WhenAll(userTask, plantsTask, friendsTask);
     }
 

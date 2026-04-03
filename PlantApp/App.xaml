@@ -9,6 +9,8 @@
 
             <helpers:AvatarHelper x:Key="AvatarHelper"/>
 
+            <helpers:LastSeenHelper x:Key="LastSeenHelper"/>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
