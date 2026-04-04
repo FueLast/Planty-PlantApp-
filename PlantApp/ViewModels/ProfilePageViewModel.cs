@@ -20,14 +20,11 @@ public partial class ProfilePageViewModel : ObservableObject
     private readonly FriendService _friendService;
     private readonly IServiceProvider _serviceProvider;
 
-    public ObservableCollection<UserPlant> PreviewPlants { get; } = new();
-    public ObservableCollection<UserPlant> ExpandedPlants { get; } = new();
-
-    public ObservableCollection<User> PreviewFriends { get; } = new();
-    public ObservableCollection<User> ExpandedFriends { get; } = new();
-
     public ObservableCollection<UserPlant> UserPlants { get; } = new();
     public ObservableCollection<User> Friends { get; } = new();
+
+    public ObservableCollection<UserPlant> VisiblePlants { get; } = new();
+    public ObservableCollection<User> VisibleFriends { get; } = new();
 
     [ObservableProperty]
     private UserProfile profile;
@@ -38,20 +35,27 @@ public partial class ProfilePageViewModel : ObservableObject
     [ObservableProperty]
     private int friendsCount;
 
-    //шторки друзей и растений
-private bool _isPlantsExpanded;
-public bool IsPlantsExpanded
-{
-    get => _isPlantsExpanded;
-    set => SetProperty(ref _isPlantsExpanded, value);
-}
+    private bool _isPlantsExpanded;
+    public bool IsPlantsExpanded
+    {
+        get => _isPlantsExpanded;
+        set
+        {
+            if (SetProperty(ref _isPlantsExpanded, value))
+                UpdatePlantsView();
+        }
+    }
 
-private bool _isFriendsExpanded;
-public bool IsFriendsExpanded
-{
-    get => _isFriendsExpanded;
-    set => SetProperty(ref _isFriendsExpanded, value);
-}
+    private bool _isFriendsExpanded;
+    public bool IsFriendsExpanded
+    {
+        get => _isFriendsExpanded;
+        set
+        {
+            if (SetProperty(ref _isFriendsExpanded, value))
+                UpdateFriendsView();
+        }
+    }
 
     public ProfilePageViewModel(
         UserPlantService plantService,
@@ -67,11 +71,11 @@ public bool IsFriendsExpanded
         _authService = authService;
         _friendService = friendService;
         _serviceProvider = serviceProvider;
-         
+
         EditProfilePopupViewModel.ProfileUpdated += OnProfileUpdated;
     }
 
-    // ===================== ГЛАВНАЯ ЗАГРУЗКА =====================
+    // ===================== прогрузка =====================
     public async Task LoadProfile()
     {
         var userId = _authService.GetUserId();
@@ -84,7 +88,6 @@ public bool IsFriendsExpanded
         await Task.WhenAll(userTask, plantsTask, friendsTask);
     }
 
-    // ===================== ПРОФИЛЬ =====================
     private async Task LoadUserProfile(int userId)
     {
         using var db = await _factory.CreateDbContextAsync();
@@ -93,7 +96,6 @@ public bool IsFriendsExpanded
             .FirstOrDefaultAsync(p => p.UserId == userId);
     }
 
-    // ===================== РАСТЕНИЯ =====================
     private async Task LoadPlants(int userId)
     {
         var plants = await _plantService.GetUserPlants(userId);
@@ -102,19 +104,11 @@ public bool IsFriendsExpanded
         foreach (var p in plants)
             UserPlants.Add(p);
 
-        PreviewPlants.Clear();
-        ExpandedPlants.Clear();
-
-        foreach (var p in UserPlants.Take(5))
-            PreviewPlants.Add(p);
-
-        foreach (var p in UserPlants.Take(20))
-            ExpandedPlants.Add(p);
-
         PlantsCount = UserPlants.Count;
+
+        UpdatePlantsView();
     }
 
-    // ===================== ДРУЗЬЯ =====================
     private async Task LoadFriends(int userId)
     {
         var list = await _friendService.GetFriendsAsync(userId);
@@ -123,19 +117,33 @@ public bool IsFriendsExpanded
         foreach (var f in list)
             Friends.Add(f);
 
-        PreviewFriends.Clear();
-        ExpandedFriends.Clear();
-
-        foreach (var f in Friends.Take(5))
-            PreviewFriends.Add(f);
-
-        foreach (var f in Friends.Take(20))
-            ExpandedFriends.Add(f);
-
         FriendsCount = Friends.Count;
+
+        UpdateFriendsView();
     }
 
-    // ===================== ШТОРКИ ДРУЗЕЙ И РАСТЕНИЙ =====================
+    // ===================== view логика =====================
+    private void UpdatePlantsView()
+    {
+        VisiblePlants.Clear();
+
+        var count = IsPlantsExpanded ? 20 : 5;
+
+        foreach (var p in UserPlants.Take(count))
+            VisiblePlants.Add(p);
+    }
+
+    private void UpdateFriendsView()
+    {
+        VisibleFriends.Clear();
+
+        var count = IsFriendsExpanded ? 20 : 5;
+
+        foreach (var f in Friends.Take(count))
+            VisibleFriends.Add(f);
+    }
+
+    // ===================== комманды =====================
     [RelayCommand]
     private void TogglePlants()
     {
@@ -148,7 +156,6 @@ public bool IsFriendsExpanded
         IsFriendsExpanded = !IsFriendsExpanded;
     }
 
-    // Открыть прфоиль друга
     [RelayCommand]
     private async Task OpenProfile(User user)
     {
@@ -163,7 +170,6 @@ public bool IsFriendsExpanded
         await Application.Current.MainPage.Navigation.PushAsync(page);
     }
 
-    // ===================== ОТКРЫТЬ ДОБАВЛЕНИЕ =====================
     [RelayCommand]
     private async Task OpenAddFriend()
     {
@@ -174,11 +180,9 @@ public bool IsFriendsExpanded
 
         await Application.Current.MainPage.Navigation.PushAsync(page);
 
-        //ВАЖНО после возврата обновляем список
         await LoadFriends(_authService.GetUserId());
     }
 
-    // ===================== ДОБАВИТЬ РАСТЕНИЕ =====================
     [RelayCommand]
     async Task AddPlant()
     {
@@ -195,7 +199,6 @@ public bool IsFriendsExpanded
             await LoadPlants(_authService.GetUserId());
     }
 
-    // ===================== НАСТРОЙКИ ПРОФИЛЯ =====================
     [RelayCommand]
     private async Task OpenEditProfile()
     {
@@ -216,5 +219,4 @@ public bool IsFriendsExpanded
 
         OnPropertyChanged(nameof(Profile));
     }
-
 }
