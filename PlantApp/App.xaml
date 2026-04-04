@@ -11,6 +11,10 @@
 
             <helpers:LastSeenHelper x:Key="LastSeenHelper"/>
 
+            <helpers:ExpandTextHelper x:Key="ExpandTextHelper"/>
+
+            <helpers:InverseBoolHelper x:Key="InverseBoolHelper"/>            
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

@@ -20,8 +20,14 @@ public partial class ProfilePageViewModel : ObservableObject
     private readonly FriendService _friendService;
     private readonly IServiceProvider _serviceProvider;
 
-    public ObservableCollection<UserPlant> UserPlants { get; set; } = new();
-    public ObservableCollection<User> Friends { get; set; } = new();
+    public ObservableCollection<UserPlant> PreviewPlants { get; } = new();
+    public ObservableCollection<UserPlant> ExpandedPlants { get; } = new();
+
+    public ObservableCollection<User> PreviewFriends { get; } = new();
+    public ObservableCollection<User> ExpandedFriends { get; } = new();
+
+    public ObservableCollection<UserPlant> UserPlants { get; } = new();
+    public ObservableCollection<User> Friends { get; } = new();
 
     [ObservableProperty]
     private UserProfile profile;
@@ -31,6 +37,21 @@ public partial class ProfilePageViewModel : ObservableObject
 
     [ObservableProperty]
     private int friendsCount;
+
+    //шторки друзей и растений
+    private bool _isPlantsExpanded;
+    public bool IsPlantsExpanded
+    {
+        get => _isPlantsExpanded;
+        set => SetProperty(ref _isPlantsExpanded, value);
+    }
+
+    private bool _isFriendsExpanded;
+    public bool IsFriendsExpanded
+    {
+        get => _isFriendsExpanded;
+        set => SetProperty(ref _isFriendsExpanded, value);
+    }
 
     public ProfilePageViewModel(
         UserPlantService plantService,
@@ -78,11 +99,19 @@ public partial class ProfilePageViewModel : ObservableObject
         var plants = await _plantService.GetUserPlants(userId);
 
         UserPlants.Clear();
+        foreach (var p in plants)
+            UserPlants.Add(p);
 
-        foreach (var plant in plants)
-            UserPlants.Add(plant);
+        PreviewPlants.Clear();
+        ExpandedPlants.Clear();
 
-        PlantsCount = UserPlants.Count; 
+        foreach (var p in UserPlants.Take(5))
+            PreviewPlants.Add(p);
+
+        foreach (var p in UserPlants.Take(20))
+            ExpandedPlants.Add(p);
+
+        PlantsCount = UserPlants.Count;
     }
 
     // ===================== ДРУЗЬЯ =====================
@@ -91,11 +120,32 @@ public partial class ProfilePageViewModel : ObservableObject
         var list = await _friendService.GetFriendsAsync(userId);
 
         Friends.Clear();
-
         foreach (var f in list)
             Friends.Add(f);
 
-        FriendsCount = Friends.Count; 
+        PreviewFriends.Clear();
+        ExpandedFriends.Clear();
+
+        foreach (var f in Friends.Take(5))
+            PreviewFriends.Add(f);
+
+        foreach (var f in Friends.Take(20))
+            ExpandedFriends.Add(f);
+
+        FriendsCount = Friends.Count;
+    }
+
+    // ===================== ШТОРКИ ДРУЗЕЙ И РАСТЕНИЙ =====================
+    [RelayCommand]
+    private void TogglePlants()
+    {
+        IsPlantsExpanded = !IsPlantsExpanded;
+    }
+
+    [RelayCommand]
+    private void ToggleFriends()
+    {
+        IsFriendsExpanded = !IsFriendsExpanded;
     }
 
     // Открыть прфоиль друга

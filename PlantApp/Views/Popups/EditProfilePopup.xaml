@@ -19,6 +19,7 @@
             Placeholder="О себе"/>
         
         <Button
+            BackgroundColor="LightGreen"
             Text="Выбрать фото"
             Command="{Binding PickPhotoCommand}" />
         
@@ -56,7 +57,7 @@
 
         <Button Text="Отмена"
                 Command="{Binding CancelCommand}"
-                Background="Gray"/>
+                Background="LightGray"/>
 
         <Button Text="Выйти из аккаунта"
                 Command="{Binding LogoutCommand}"

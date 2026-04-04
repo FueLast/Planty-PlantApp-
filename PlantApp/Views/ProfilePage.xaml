@@ -44,7 +44,8 @@
                             StrokeShape="RoundRectangle 150"
                             Background="White">
 
-                            <Image Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"/>
+                            <Image Source="{Binding Profile, 
+                                    Converter={StaticResource AvatarHelper}}"/>
                         </Border>
                         
                         <ImageButton
@@ -79,7 +80,9 @@
                                 TextColor="Gray"/>
 
                             <Label
-                                Text="{Binding Profile, Converter={StaticResource LastSeenHelper}}"
+                                Text="{Binding Profile, 
+                                    Converter={StaticResource LastSeenHelper}, 
+                                    StringFormat='В сети: {0}'}"
                                 FontSize="16"   
                                 TextColor="Gray"/>
 
@@ -105,7 +108,7 @@
                                     <Label Text="{Binding PlantsCount}"
                                         FontSize="18"
                                         HorizontalOptions="Center"/>
-                                    <Label Text="растений"
+                                    <Label Text="Растений"
                                         FontSize="12"
                                         HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
@@ -114,7 +117,7 @@
                                     <Label Text="{Binding FriendsCount}"
                                         FontSize="18"
                                         HorizontalOptions="Center"/>
-                                    <Label Text="друзей"
+                                    <Label Text="Друзей"
                                         FontSize="12"
                                         HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
@@ -141,7 +144,7 @@
                     Background="White"
                     Padding="15">
 
-                    <Grid RowDefinitions="Auto,*">
+                    <Grid RowDefinitions="Auto,*,Auto">
 
                         <Grid ColumnDefinitions="*,Auto">
 
@@ -161,12 +164,14 @@
                         </Grid>
 
                         <!-- список растений -->
+                        <!-- превью (5 растений) -->
                         <CollectionView
                             Grid.Row="1"
-                            ItemsSource="{Binding UserPlants}">
+                            ItemsSource="{Binding PreviewPlants}"
+                            IsVisible="{Binding IsPlantsExpanded, 
+                                Converter={StaticResource InverseBoolConverter}}">
 
                             <CollectionView.ItemTemplate>
-
                                 <DataTemplate>
 
                                     <Border 
@@ -177,18 +182,11 @@
 
                                         <Grid ColumnDefinitions="60,*">
 
-                                            <Border StrokeThickness="0" 
-                                                    HorizontalOptions="Center"
-                                                    VerticalOptions="Center">
-                                                <Border.StrokeShape>
-                                                    <RoundRectangle CornerRadius="15"/>
-                                                </Border.StrokeShape>
-                                                <Image
-                                                    Source="{Binding ImagePath}"
-                                                    HeightRequest="60"
-                                                    WidthRequest="60"
-                                                    Aspect="AspectFill"/>
-                                            </Border>
+                                            <Image
+                                                Source="{Binding ImagePath}"
+                                                HeightRequest="60"
+                                                WidthRequest="60"
+                                                Aspect="AspectFill"/>
 
                                             <StackLayout Grid.Column="1">
 
@@ -215,10 +213,68 @@
                                     </Border>
 
                                 </DataTemplate>
-
                             </CollectionView.ItemTemplate>
-
                         </CollectionView>
+
+                        <!-- расширенный (20 растений) -->
+                        <CollectionView
+                            Grid.Row="1"
+                            ItemsSource="{Binding ExpandedPlants}"
+                            IsVisible="{Binding IsPlantsExpanded}">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Border 
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 15"
+                                        Padding="10"
+                                        Margin="0,5">
+
+                                        <Grid ColumnDefinitions="60,*">
+
+                                            <Image
+                                                Source="{Binding ImagePath}"
+                                                HeightRequest="60"
+                                                WidthRequest="60"
+                                                Aspect="AspectFill"/>
+
+                                            <StackLayout Grid.Column="1">
+
+                                                <Label
+                                                    Text="{Binding CustomName}"
+                                                    FontAttributes="Bold"
+                                                    Margin="10, 0, 0, 0"/>
+
+                                                <Label
+                                                    Text="{Binding PlantName}"
+                                                    FontSize="12"
+                                                    Margin="10, 0, 0, 0"/>
+
+                                                <Label
+                                                    Text="{Binding LastWateredText}"
+                                                    FontSize="11"
+                                                    TextColor="Gray"
+                                                    Margin="10, 0, 0, 0"/>
+
+                                            </StackLayout>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- КНОПКА -->
+                        <Button
+                            BackgroundColor="LightGreen"
+                            Grid.Row="2"
+                            Text="{Binding IsPlantsExpanded, 
+                                Converter={StaticResource ExpandTextHelper}}"
+                            Command="{Binding TogglePlantsCommand}"
+                            Margin="0,10,0,0"/>
 
                     </Grid>
 
@@ -235,7 +291,7 @@
 
 
 
-                    <Grid RowDefinitions="Auto,*">
+                    <Grid RowDefinitions="Auto,*,Auto">
 
                         <Grid ColumnDefinitions="*,Auto">
 
@@ -253,42 +309,37 @@
                                  BackgroundColor="#367900"/>
                         </Grid>
 
+                        <!-- превью -->
                         <CollectionView
                             Grid.Row="1"
-                            ItemsSource="{Binding Friends}"
+                            ItemsSource="{Binding PreviewFriends}"
+                            IsVisible="{Binding IsFriendsExpanded, 
+                                Converter={StaticResource InverseBoolConverter}}"
                             SelectionMode="Single"
                             SelectionChanged="OnFriendSelected">
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Border
-                                        Padding="8"
-                                        Margin="0,5"
-                                        StrokeThickness="0">
+                                    <Border Padding="8" Margin="0,5">
 
                                         <Grid ColumnDefinitions="40,*">
 
-                                            <Border
-                                                StrokeShape="150" 
-                                                Stroke="Transparent">
-                                                <Image
-                                                    Source="{Binding Profile, 
+                                            <Image
+                                                Source="{Binding Profile, 
                                                     Converter={StaticResource AvatarHelper}}"
-                                                    HeightRequest="40"
-                                                    WidthRequest="40"/>
-                                            </Border>
-                                            
+                                                HeightRequest="40"
+                                                WidthRequest="40"/>
+
                                             <StackLayout Grid.Column="1">
 
                                                 <Label
-                                                    Margin="5, 0"
                                                     Text="{Binding Login}"
                                                     FontAttributes="Bold"/>
-                                                
+
                                                 <Label
-                                                    Margin="5, 0"
-                                                    Text="{Binding Profile, Converter={StaticResource LastSeenHelper}}"
+                                                    Text="{Binding Profile, 
+                                                        Converter={StaticResource LastSeenHelper}}"
                                                     FontSize="12"
                                                     TextColor="Gray"/>
 
@@ -300,8 +351,59 @@
 
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
-
                         </CollectionView>
+
+                        <!-- расширенный список -->
+                        <CollectionView
+                            Grid.Row="1"
+                            ItemsSource="{Binding ExpandedFriends}"
+                            IsVisible="{Binding IsFriendsExpanded}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnFriendSelected">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Border Padding="8" Margin="0,5">
+
+                                        <Grid ColumnDefinitions="40,*">
+
+                                            <Image
+                                                Source="{Binding Profile, 
+                                                    Converter={StaticResource AvatarHelper}}"
+                                                HeightRequest="40"
+                                                WidthRequest="40"/>
+
+                                            <StackLayout Grid.Column="1">
+
+                                                <Label
+                                                    Text="{Binding Login}"
+                                                    FontAttributes="Bold"/>
+
+                                                <Label
+                                                    Text="{Binding Profile, 
+                                                        Converter={StaticResource LastSeenHelper}}"
+                                                    FontSize="12"
+                                                    TextColor="Gray"/>
+
+                                            </StackLayout>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- КНОПКА -->
+                        <Button
+                            BackgroundColor="LightGreen"
+                            Grid.Row="2"
+                            Text="{Binding IsFriendsExpanded, 
+                                Converter={StaticResource ExpandTextHelper}}"
+                            Command="{Binding ToggleFriendsCommand}"
+                            Margin="0,10,0,0"/>
 
                     </Grid>
 
