@@ -39,19 +39,19 @@ public partial class ProfilePageViewModel : ObservableObject
     private int friendsCount;
 
     //шторки друзей и растений
-    private bool _isPlantsExpanded;
-    public bool IsPlantsExpanded
-    {
-        get => _isPlantsExpanded;
-        set => SetProperty(ref _isPlantsExpanded, value);
-    }
+private bool _isPlantsExpanded;
+public bool IsPlantsExpanded
+{
+    get => _isPlantsExpanded;
+    set => SetProperty(ref _isPlantsExpanded, value);
+}
 
-    private bool _isFriendsExpanded;
-    public bool IsFriendsExpanded
-    {
-        get => _isFriendsExpanded;
-        set => SetProperty(ref _isFriendsExpanded, value);
-    }
+private bool _isFriendsExpanded;
+public bool IsFriendsExpanded
+{
+    get => _isFriendsExpanded;
+    set => SetProperty(ref _isFriendsExpanded, value);
+}
 
     public ProfilePageViewModel(
         UserPlantService plantService,

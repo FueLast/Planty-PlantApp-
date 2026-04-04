@@ -169,7 +169,7 @@
                             Grid.Row="1"
                             ItemsSource="{Binding PreviewPlants}"
                             IsVisible="{Binding IsPlantsExpanded, 
-                                Converter={StaticResource InverseBoolConverter}}">
+                                Converter={StaticResource InverseBoolHelper}}">
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -182,11 +182,17 @@
 
                                         <Grid ColumnDefinitions="60,*">
 
-                                            <Image
-                                                Source="{Binding ImagePath}"
-                                                HeightRequest="60"
-                                                WidthRequest="60"
-                                                Aspect="AspectFill"/>
+                                            <Border StrokeThickness="0">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="15"/>
+                                                </Border.StrokeShape>
+
+                                                <Image
+                                                    Source="{Binding ImagePath}"
+                                                    HeightRequest="60"
+                                                    WidthRequest="60"
+                                                    Aspect="AspectFill"/>
+                                            </Border>
 
                                             <StackLayout Grid.Column="1">
 
@@ -233,11 +239,17 @@
 
                                         <Grid ColumnDefinitions="60,*">
 
-                                            <Image
-                                                Source="{Binding ImagePath}"
-                                                HeightRequest="60"
-                                                WidthRequest="60"
-                                                Aspect="AspectFill"/>
+                                            <Border StrokeThickness="0">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="15"/>
+                                                </Border.StrokeShape>
+
+                                                <Image
+                                                    Source="{Binding ImagePath}"
+                                                    HeightRequest="60"
+                                                    WidthRequest="60"
+                                                    Aspect="AspectFill"/>
+                                            </Border>
 
                                             <StackLayout Grid.Column="1">
 
@@ -269,7 +281,9 @@
 
                         <!-- КНОПКА -->
                         <Button
-                            BackgroundColor="LightGreen"
+                            HeightRequest="40"
+                            CornerRadius="15"
+                            BackgroundColor="#8CD98C"
                             Grid.Row="2"
                             Text="{Binding IsPlantsExpanded, 
                                 Converter={StaticResource ExpandTextHelper}}"
@@ -314,14 +328,14 @@
                             Grid.Row="1"
                             ItemsSource="{Binding PreviewFriends}"
                             IsVisible="{Binding IsFriendsExpanded, 
-                                Converter={StaticResource InverseBoolConverter}}"
+                                Converter={StaticResource InverseBoolHelper}}"
                             SelectionMode="Single"
                             SelectionChanged="OnFriendSelected">
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Border Padding="8" Margin="0,5">
+                                    <Border Padding="8" Margin="0,5" Stroke="Transparent">
 
                                         <Grid ColumnDefinitions="40,*">
 
@@ -364,7 +378,7 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Border Padding="8" Margin="0,5">
+                                    <Border Padding="8" Margin="0,5" Stroke="Transparent">
 
                                         <Grid ColumnDefinitions="40,*">
 
@@ -398,7 +412,9 @@
 
                         <!-- КНОПКА -->
                         <Button
-                            BackgroundColor="LightGreen"
+                            HeightRequest="40"
+                            CornerRadius="15"
+                            BackgroundColor="#8CD98C"
                             Grid.Row="2"
                             Text="{Binding IsFriendsExpanded, 
                                 Converter={StaticResource ExpandTextHelper}}"
