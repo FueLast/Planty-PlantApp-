@@ -1,0 +1,70 @@
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="PlantApp.Views.Popups.EditProfilePopup">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Редактировать профиль"
+               FontSize="20"
+               HorizontalOptions="Center"/>
+
+        <Entry
+            Text="{Binding UserName}"
+            Placeholder="Имя"/>
+
+        <Entry
+            Text="{Binding Bio}"
+            Placeholder="О себе"/>
+        
+        <Button
+            BackgroundColor="LightGreen"
+            Text="Выбрать фото"
+            Command="{Binding PickPhotoCommand}" />
+        
+        <!-- АВАТАРЫ -->
+        <CollectionView
+            ItemsSource="{Binding Avatars}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedAvatarId}">
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="4" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="5"
+                            StrokeThickness="3"
+                            Stroke="{Binding ., Converter={StaticResource SelectedAvatarBorderConverter}}"
+                            StrokeShape="RoundRectangle 15">
+
+                        <Image
+                            Source="{Binding StringFormat='avatar_{0}.png'}"
+                            HeightRequest="40"
+                            WidthRequest="40"/> 
+
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <Button Text="Сохранить"
+                Command="{Binding SaveCommand}"
+                BackgroundColor="LightGreen"/>
+
+        <Button Text="Отмена"
+                Command="{Binding CancelCommand}"
+                Background="LightGray"/>
+
+        <Button Text="Выйти из аккаунта"
+                Command="{Binding LogoutCommand}"
+                BackgroundColor="Red"
+                TextColor="White"
+                VerticalOptions="End"/>
+
+    </VerticalStackLayout>
+
+</toolkit:Popup>

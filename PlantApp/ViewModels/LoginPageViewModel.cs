@@ -91,6 +91,8 @@ namespace PlantApp.ViewModels
             // сохраняем пользователя в AuthService
             _authService.SetUser(user);
 
+            await _authService.SetOnline(user.Id);
+
             await Application.Current.MainPage.DisplayAlert(
                 "Успех",
                 "Вход выполнен",

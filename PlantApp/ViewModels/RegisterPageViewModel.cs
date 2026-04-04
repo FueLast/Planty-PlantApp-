@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantApp.Data;
 using PlantApp.Services;
 using PlantApp.Views;
-using System.Windows.Input;
+using System.Windows.Input; 
 
 public partial class RegisterPageViewModel : ObservableObject
 {
@@ -104,9 +104,12 @@ public partial class RegisterPageViewModel : ObservableObject
         {
             parsedAge = ageValue;
         }
+          
 
-        // создаем нового пользователя
-        var user = new User
+        //для рандом аватарки
+        var random = new Random();
+
+        var user = new User        // создаем нового пользователя
         {
             Login = Login,
             PasswordHash = hash,
@@ -116,13 +119,14 @@ public partial class RegisterPageViewModel : ObservableObject
             {
                 UserName = Username, // Теперь эти данные попадают по адресу
                 City = City,
-                Age = parsedAge
+                Age = parsedAge,
+                AvatarId = random.Next(1, 13) // <-- сюда
             }
         };
 
-        // сохраняем пользователя в бд
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
+         
 
         await Application.Current.MainPage.DisplayAlert(
             "успех",

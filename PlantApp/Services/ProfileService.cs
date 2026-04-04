@@ -30,4 +30,12 @@ public class ProfileService
 
         await db.SaveChangesAsync();
     }
+
+    public async Task<UserProfile> GetProfileById(int id)
+    {
+        using var db = _factory.CreateDbContext();
+
+        return await db.UserProfiles.FirstAsync(x => x.Id == id);
+    }
+
 }

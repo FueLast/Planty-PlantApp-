@@ -32,7 +32,7 @@ public partial class ProfilePage : ContentPage
         if (BindingContext is ProfilePageViewModel vm)
             await vm.OpenProfileCommand.ExecuteAsync(user);
 
-        ((CollectionView)sender).SelectedItem = null; // сброс выбора (ВАЖНО)
+        ((CollectionView)sender).SelectedItem = null; // сброс выбора
     }
 
 }

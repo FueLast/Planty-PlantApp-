@@ -40,9 +40,7 @@
                                 StrokeShape="RoundRectangle 50"
                                 Background="White">
 
-                                <Image
-                                    Source="main_profile_image.png"
-                                    Aspect="AspectFit"/>
+                                <Image Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"/>
                             </Border>
 
                             <!-- инфа -->

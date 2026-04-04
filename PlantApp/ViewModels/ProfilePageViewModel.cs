@@ -20,11 +20,42 @@ public partial class ProfilePageViewModel : ObservableObject
     private readonly FriendService _friendService;
     private readonly IServiceProvider _serviceProvider;
 
-    public ObservableCollection<UserPlant> UserPlants { get; set; } = new();
-    public ObservableCollection<User> Friends { get; set; } = new();
+    public ObservableCollection<UserPlant> UserPlants { get; } = new();
+    public ObservableCollection<User> Friends { get; } = new();
+
+    public ObservableCollection<UserPlant> VisiblePlants { get; } = new();
+    public ObservableCollection<User> VisibleFriends { get; } = new();
 
     [ObservableProperty]
     private UserProfile profile;
+
+    [ObservableProperty]
+    private int plantsCount;
+
+    [ObservableProperty]
+    private int friendsCount;
+
+    private bool _isPlantsExpanded;
+    public bool IsPlantsExpanded
+    {
+        get => _isPlantsExpanded;
+        set
+        {
+            if (SetProperty(ref _isPlantsExpanded, value))
+                UpdatePlantsView();
+        }
+    }
+
+    private bool _isFriendsExpanded;
+    public bool IsFriendsExpanded
+    {
+        get => _isFriendsExpanded;
+        set
+        {
+            if (SetProperty(ref _isFriendsExpanded, value))
+                UpdateFriendsView();
+        }
+    }
 
     public ProfilePageViewModel(
         UserPlantService plantService,
@@ -40,9 +71,11 @@ public partial class ProfilePageViewModel : ObservableObject
         _authService = authService;
         _friendService = friendService;
         _serviceProvider = serviceProvider;
+
+        EditProfilePopupViewModel.ProfileUpdated += OnProfileUpdated;
     }
 
-    // ===================== ГЛАВНАЯ ЗАГРУЗКА =====================
+    // ===================== прогрузка =====================
     public async Task LoadProfile()
     {
         var userId = _authService.GetUserId();
@@ -51,10 +84,10 @@ public partial class ProfilePageViewModel : ObservableObject
         var plantsTask = LoadPlants(userId);
         var friendsTask = LoadFriends(userId);
 
+        await _authService.SetOnline(userId);
         await Task.WhenAll(userTask, plantsTask, friendsTask);
     }
 
-    // ===================== ПРОФИЛЬ =====================
     private async Task LoadUserProfile(int userId)
     {
         using var db = await _factory.CreateDbContextAsync();
@@ -63,29 +96,66 @@ public partial class ProfilePageViewModel : ObservableObject
             .FirstOrDefaultAsync(p => p.UserId == userId);
     }
 
-    // ===================== РАСТЕНИЯ =====================
     private async Task LoadPlants(int userId)
     {
         var plants = await _plantService.GetUserPlants(userId);
 
         UserPlants.Clear();
+        foreach (var p in plants)
+            UserPlants.Add(p);
 
-        foreach (var plant in plants)
-            UserPlants.Add(plant);
+        PlantsCount = UserPlants.Count;
+
+        UpdatePlantsView();
     }
 
-    // ===================== ДРУЗЬЯ =====================
     private async Task LoadFriends(int userId)
     {
         var list = await _friendService.GetFriendsAsync(userId);
 
         Friends.Clear();
-
         foreach (var f in list)
             Friends.Add(f);
+
+        FriendsCount = Friends.Count;
+
+        UpdateFriendsView();
     }
 
-    // Открыть прфоиль друга
+    // ===================== view логика =====================
+    private void UpdatePlantsView()
+    {
+        VisiblePlants.Clear();
+
+        var count = IsPlantsExpanded ? 20 : 5;
+
+        foreach (var p in UserPlants.Take(count))
+            VisiblePlants.Add(p);
+    }
+
+    private void UpdateFriendsView()
+    {
+        VisibleFriends.Clear();
+
+        var count = IsFriendsExpanded ? 20 : 5;
+
+        foreach (var f in Friends.Take(count))
+            VisibleFriends.Add(f);
+    }
+
+    // ===================== комманды =====================
+    [RelayCommand]
+    private void TogglePlants()
+    {
+        IsPlantsExpanded = !IsPlantsExpanded;
+    }
+
+    [RelayCommand]
+    private void ToggleFriends()
+    {
+        IsFriendsExpanded = !IsFriendsExpanded;
+    }
+
     [RelayCommand]
     private async Task OpenProfile(User user)
     {
@@ -100,7 +170,6 @@ public partial class ProfilePageViewModel : ObservableObject
         await Application.Current.MainPage.Navigation.PushAsync(page);
     }
 
-    // ===================== ОТКРЫТЬ ДОБАВЛЕНИЕ =====================
     [RelayCommand]
     private async Task OpenAddFriend()
     {
@@ -111,11 +180,9 @@ public partial class ProfilePageViewModel : ObservableObject
 
         await Application.Current.MainPage.Navigation.PushAsync(page);
 
-        //ВАЖНО после возврата обновляем список
         await LoadFriends(_authService.GetUserId());
     }
 
-    // ===================== ДОБАВИТЬ РАСТЕНИЕ =====================
     [RelayCommand]
     async Task AddPlant()
     {
@@ -132,12 +199,24 @@ public partial class ProfilePageViewModel : ObservableObject
             await LoadPlants(_authService.GetUserId());
     }
 
-    // ===================== ВЫХОД =====================
     [RelayCommand]
-    async Task Logout()
+    private async Task OpenEditProfile()
     {
-        _authService.Logout();
+        var page = _serviceProvider.GetRequiredService<EditProfilePopup>();
 
-        await _navigationService.NavigateToAsync<LoginPage>();
+        if (page.BindingContext is EditProfilePopupViewModel vm)
+            vm.Init(Profile);
+
+        await Application.Current.MainPage.ShowPopupAsync(page);
+    }
+
+    private void OnProfileUpdated(UserProfile updated)
+    {
+        Profile.UserName = updated.UserName;
+        Profile.AvatarId = updated.AvatarId;
+        Profile.AvatarUrl = updated.AvatarUrl;
+        Profile.Bio = updated.Bio;
+
+        OnPropertyChanged(nameof(Profile));
     }
 }

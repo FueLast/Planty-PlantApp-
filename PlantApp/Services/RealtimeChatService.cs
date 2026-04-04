@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace PlantApp.Services
 {
     public class RealtimeChatService
-    {
+    { 
         private readonly HttpClient _http;
         private readonly string _baseUrl;
         private readonly string _apiKey;
