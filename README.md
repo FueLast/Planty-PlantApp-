@@ -62,25 +62,13 @@ With modern AI tools, this barrier can be removed completely.
 
 ## 📸 Screenshots
 
-### 🏠 Main Page
+| 🏠 Main Page | 👤 Profile |
+|------|--------|
+| <img src="https://github.com/user-attachments/assets/7295d78a-68d3-4d2f-9a48-3a5a5682929f" width="350"/> | <img src="https://github.com/user-attachments/assets/550bc017-7f8e-4837-88b0-a64565521fd6" width="350"/>|
 
-<img width="240" height="378" alt="main page" src="https://github.com/user-attachments/assets/7295d78a-68d3-4d2f-9a48-3a5a5682929f" />
-
-
-### 👤 Profile
-
-<img width="214" height="482" alt="profile" src="https://github.com/user-attachments/assets/550bc017-7f8e-4837-88b0-a64565521fd6" />
-
-
-### 📚 Plant Encyclopedia
-
-<img width="214" height="388" alt="encyclopedia" src="https://github.com/user-attachments/assets/b4f08777-fae6-4271-a74a-c60f0fc49f93" />
-
-
-### 🌿 Plant Details
-
-<img width="214" height="386" alt="plant details" src="https://github.com/user-attachments/assets/4fd3d9bf-1a03-42a6-b618-5f7e74015a5d" />
-
+| 📚 Plant Encyclopedia | 🌿 Plant Details |
+|------|--------|
+| <img src="https://github.com/user-attachments/assets/b4f08777-fae6-4271-a74a-c60f0fc49f93" width="350"/> | <img src="https://github.com/user-attachments/assets/4fd3d9bf-1a03-42a6-b618-5f7e74015a5d" width="350"/> |
 
 ---
 
