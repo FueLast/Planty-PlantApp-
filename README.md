@@ -160,6 +160,8 @@ Telegram: [*Treinta0cho*](https://t.me/treinta0cho)
 This project is not just about plant care —
 it’s about making **learning simple, social, and accessible** using modern technologies.
 
+If you find this project helpful, please give it a ⭐ to support the development!
+
 ---
 
 ## 🗺 Roadmap
