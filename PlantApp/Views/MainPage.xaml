@@ -27,21 +27,14 @@
 
             <VerticalStackLayout Padding="30" Spacing="20">
                 
-                <Grid ColumnDefinitions="*, *"
-                      RowDefinitions="Auto">
+                <Grid ColumnDefinitions="*"
+                      RowDefinitions="Auto"> 
                     
-                    <Label Text="PLANT"
-                           Grid.Column="0"
-                            FontSize="24" 
-                            TextColor="Black"
-                           HorizontalTextAlignment="End"
-                            VerticalTextAlignment="Center"/>
-                    
-                    <Image Source="planty_logo.png"
+                    <Image Source="planty_logo_final.png"
                            Grid.Column="1"
                            VerticalOptions="Center"
-                           HorizontalOptions="Start"
-                           HeightRequest="50"/>
+                           HorizontalOptions="Center" 
+                           HeightRequest="80"/>
                 </Grid>
 
                 <Grid>
@@ -56,128 +49,138 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- GPT -->
-                    <Border Margin="5"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            BackgroundColor="White"
-                            Padding="10"
-                            StrokeShape="RoundRectangle 15">
+                    <Border Margin="8"
+                        BackgroundColor="White"
+                        Padding="15"
+                        StrokeShape="RoundRectangle 20"
+                        Shadow="10,0,0,0.1">
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnGPTCommand}"/>
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="5"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Center">
+                        <VerticalStackLayout Spacing="8"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center">
 
-                            <Image Source="question.png" HeightRequest="32"/>
+                            <Image Source="question.png"    
+                                HeightRequest="40"/>
 
                             <Label Text="Yandex GPT"
-                                   FontSize="12"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"/>
-                        </StackLayout>
+                                    FontSize="14" 
+                                    FontFamily="Montserrat"
+                                    TextColor="#2E7D32"
+                                    HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
                     </Border>
 
                     <!-- Encyclopedia -->
-                    <Border Margin="5"
+                    <Border Margin="8"
                             Grid.Row="0"
-                            Grid.Column="1"
+                            Grid.Column="1" 
                             BackgroundColor="White"
-                            Padding="10"
-                            StrokeShape="RoundRectangle 15">
+                            Padding="15"
+                            StrokeShape="RoundRectangle 20"
+                            Shadow="10,0,0,0.1">
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnEncyclopediaCommand}"/>
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="5"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Center">
+                        <VerticalStackLayout Spacing="8"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
 
-                            <Image Source="encyclopedia5.png" HeightRequest="32"/>
+                            <Image Source="encyclopedia5.png" 
+                                   HeightRequest="40"/>
 
                             <Label Text="Энциклопедия"
-                                   FontSize="12"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"/>
-                        </StackLayout>
+                                    FontSize="14" 
+                                    FontFamily="Montserrat"
+                                    TextColor="#2E7D32"
+                                    HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
                     </Border>
 
                     <!-- Reminders -->
-                    <Border Margin="5"
+                    <Border Margin="8"
                             Grid.Row="1"
-                            Grid.Column="0"
+                            Grid.Column="0" 
                             BackgroundColor="White"
-                            Padding="10"
-                            StrokeShape="RoundRectangle 15">
+                            Padding="15"
+                            StrokeShape="RoundRectangle 20"
+                            Shadow="10,0,0,0.1">
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnRemindersCommand}"/>
                         </Border.GestureRecognizers>
 
-                        <StackLayout Spacing="5"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Center">
 
-                            <Image Source="calendar.png" HeightRequest="32"/>
+                        <VerticalStackLayout Spacing="8"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+
+                            <Image Source="calendar.png" 
+                                   HeightRequest="40"/>
 
                             <Label Text="Напоминания"
-                                   FontSize="12"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"/>
-                        </StackLayout>
+                                    FontSize="14" 
+                                    FontFamily="Montserrat"
+                                    TextColor="#2E7D32"
+                                    HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
                     </Border>
 
                     <!-- Favorites -->
-                    <Border Margin="5"
+                    <Border Margin="8"
                             Grid.Row="1"
                             Grid.Column="1"
                             BackgroundColor="White"
-                            Padding="10"
-                            StrokeShape="RoundRectangle 15">
+                            Padding="15"
+                            StrokeShape="RoundRectangle 20"
+                            Shadow="10,0,0,0.1">
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnFavoritesCommand}"/>
                         </Border.GestureRecognizers>
+                        
+                        <VerticalStackLayout Spacing="8"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
 
-                        <StackLayout Spacing="5"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Center">
-
-                            <Image Source="favorite.png" HeightRequest="32"/>
+                            <Image Source="favorite.png" 
+                                   HeightRequest="40"/>
 
                             <Label Text="Избранное"
-                                   FontSize="12"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"/>
-                        </StackLayout>
+                                    FontSize="14" 
+                                    FontFamily="Montserrat"
+                                    TextColor="#2E7D32"
+                                    HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
                     </Border>
 
                 </Grid>
 
                 <!-- Search -->
                 <Border BackgroundColor="White"
-                        StrokeShape="RoundRectangle 20"
-                        Stroke="Transparent">
-
+                    StrokeShape="RoundRectangle 25"
+                    Padding="10"
+                    Margin="0,10">
                     <VerticalStackLayout>
 
                         <Grid ColumnDefinitions="Auto,*">
 
-                            <Image Grid.Column="0"
-                                   Margin="10,10,0,10"
-                                   Source="search.png"
-                                   HeightRequest="32"
-                                   VerticalOptions="Center"/>
+                            <Image Source="search.png"
+                                HeightRequest="20"
+                                Margin="5"/>
 
                             <Entry Grid.Column="1"
-                                   Placeholder="Поиск растений"
-                                   Text="{Binding SearchPlant}"
-                                   VerticalOptions="Center"
-                                   BackgroundColor="Transparent"
-                                   TextColor="Black"/>
+                                    Placeholder="Поиск растений"
+                                    Text="{Binding SearchPlant}"
+                                    FontSize="14"
+                                    TextColor="Black"
+                                    PlaceholderColor="Gray"
+                                    BackgroundColor="Transparent"/>
 
                         </Grid>
 
