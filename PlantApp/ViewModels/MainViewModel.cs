@@ -18,8 +18,13 @@ namespace PlantApp.ViewModels
         [ObservableProperty]
         private ObservableCollection<Plant> popularPlants;
 
+        public ObservableCollection<object> PopularPreview { get; set; } = new();
+
         public ObservableCollection<Plant> SearchResults { get; set; } = new();
-        public IAsyncRelayCommand<Plant> OpenPlantDetailsCommand { get; } //command для search
+        public IAsyncRelayCommand<object> OpenPlantDetailsCommand { get; } //command для search
+        public IAsyncRelayCommand OpenAllPlantsCommand => //command для популярный растений
+            new AsyncRelayCommand(async () =>
+                await _navigationService.NavigateToAsync<EncyclopediaPage>());
 
         public MainViewModel(
             PlantService plantService,
@@ -33,16 +38,25 @@ namespace PlantApp.ViewModels
             OnRemindersCommand = new AsyncRelayCommand(OpenReminders);
             OnFavoritesCommand = new AsyncRelayCommand(OpenFavorites);
 
-            OpenPlantDetailsCommand = new AsyncRelayCommand<Plant>(OpenPlantDetails);
+            OpenPlantDetailsCommand = new AsyncRelayCommand<object>(OpenPlantDetails);
         }
 
         public async Task LoadPopularPlantsAsync()
         {
             var plants = await _plantService.GetPlantsAsync();
 
-            PopularPlants = new ObservableCollection<Plant>(
-                plants.OrderBy(_ => Guid.NewGuid()).Take(7)
-            );
+            var randomPlants = plants
+                .OrderBy(_ => Guid.NewGuid())
+                .Take(5)
+                .ToList();
+
+            PopularPreview.Clear();
+
+            foreach (var plant in randomPlants)
+                PopularPreview.Add(plant);
+
+            // кнопка смотреть все растения
+            PopularPreview.Add("SEE_ALL");
         }
 
         public ICommand OnEncyclopediaCommand { get; }
@@ -52,7 +66,7 @@ namespace PlantApp.ViewModels
         public ICommand OnHomePageCommand { get; }
         public ICommand OnChatPageCommand { get; }
         public ICommand OnCalendarPageCommand { get; }
-        public ICommand OnProfilePageCommand { get; }
+        public ICommand OnProfilePageCommand { get; } 
 
         private async Task OpenEncyclopedia()
         {
@@ -121,9 +135,15 @@ namespace PlantApp.ViewModels
             }
         }
 
-        private async Task OpenPlantDetails(Plant plant)
+        private async Task OpenPlantDetails(object item)
         {
-            if (plant == null)
+            if (item is string)
+            {
+                await _navigationService.NavigateToAsync<EncyclopediaPage>();
+                return;
+            }
+
+            if (item is not Plant plant)
                 return;
 
             SearchPlant = "";

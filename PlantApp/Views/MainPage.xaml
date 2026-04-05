@@ -1,5 +1,6 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:selectors="clr-namespace:PlantApp.Selectors"
              xmlns:views="clr-namespace:PlantApp.Views"
              x:Class="PlantApp.Views.MainPage"
              Title="Planty">
@@ -11,6 +12,71 @@
                 <Setter Property="StrokeShape" Value="RoundRectangle 20" />
                 <Setter Property="Margin" Value="0,0,0,0" />
             </Style>
+
+            <!-- TEMPLATE: РАСТЕНИЕ -->
+            <DataTemplate x:Key="PlantTemplate">
+                <Border Padding="5"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 20">
+
+                    <VerticalStackLayout>
+
+                        <Image Source="{Binding PlantImage}"
+                                HeightRequest="120"
+                                WidthRequest="120"
+                                Aspect="AspectFill"/>
+
+                        <Label Text="{Binding NamePlant}"
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="TailTruncation"/>
+                        
+                    </VerticalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                      Path=BindingContext.OpenPlantDetailsCommand}"
+                            CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+
+                </Border>
+            </DataTemplate>
+
+            <!-- TEMPLATE: СМОТРЕТЬ ВСЕ -->
+            <DataTemplate x:Key="SeeAllTemplate">
+                <Border BackgroundColor="#E8F5E9"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="10"
+                    WidthRequest="120"
+                    HeightRequest="150">
+
+                    <VerticalStackLayout
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center">
+
+                        <Label Text="Смотреть все"
+                           TextColor="#2E7D32"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                      Path=BindingContext.OpenAllPlantsCommand}" />
+                    </Border.GestureRecognizers>
+
+                </Border>
+            </DataTemplate>
+
+
+            <!-- SELECTOR -->
+            <selectors:PopularTemplateSelector
+            x:Key="PopularTemplateSelector"
+            PlantTemplate="{StaticResource PlantTemplate}"
+            SeeAllTemplate="{StaticResource SeeAllTemplate}" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -26,10 +92,10 @@
         <ScrollView Grid.Row="0">
 
             <VerticalStackLayout Padding="30" Spacing="20">
-                
+
                 <Grid ColumnDefinitions="*"
-                      RowDefinitions="Auto"> 
-                    
+                      RowDefinitions="Auto">
+
                     <Image Source="planty_logo_final.png"
                            Grid.Column="1"
                            VerticalOptions="Center"
@@ -52,8 +118,14 @@
                     <Border Margin="8"
                         BackgroundColor="White"
                         Padding="15"
-                        StrokeShape="RoundRectangle 20"
-                        Shadow="10,0,0,0.1">
+                        StrokeShape="RoundRectangle 20">
+
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                Offset="5,5"
+                                Radius="5"
+                                Opacity="0.1" />
+                        </Border.Shadow>
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnGPTCommand}"/>
@@ -80,8 +152,14 @@
                             Grid.Column="1" 
                             BackgroundColor="White"
                             Padding="15"
-                            StrokeShape="RoundRectangle 20"
-                            Shadow="10,0,0,0.1">
+                            StrokeShape="RoundRectangle 20">
+
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                Offset="5,5"
+                                Radius="5"
+                                Opacity="0.1" />
+                        </Border.Shadow>
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnEncyclopediaCommand}"/>
@@ -108,8 +186,14 @@
                             Grid.Column="0" 
                             BackgroundColor="White"
                             Padding="15"
-                            StrokeShape="RoundRectangle 20"
-                            Shadow="10,0,0,0.1">
+                            StrokeShape="RoundRectangle 20">
+
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                Offset="5,5"
+                                Radius="5"
+                                Opacity="0.1" />
+                        </Border.Shadow>
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnRemindersCommand}"/>
@@ -137,13 +221,19 @@
                             Grid.Column="1"
                             BackgroundColor="White"
                             Padding="15"
-                            StrokeShape="RoundRectangle 20"
-                            Shadow="10,0,0,0.1">
+                            StrokeShape="RoundRectangle 20" >
+
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                Offset="5,5"
+                                Radius="5"
+                                Opacity="0.1" />
+                        </Border.Shadow>
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OnFavoritesCommand}"/>
                         </Border.GestureRecognizers>
-                        
+
                         <VerticalStackLayout Spacing="8"
                             HorizontalOptions="Center"
                             VerticalOptions="Center">
@@ -196,8 +286,8 @@
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding Source={RelativeSource 
-                                                AncestorType={x:Type ContentPage}}, 
-                                                Path=BindingContext.OpenPlantDetailsCommand}"
+                                                    AncestorType={x:Type ContentPage}}, 
+                                                    Path=BindingContext.OpenPlantDetailsCommand}"
                                                 CommandParameter="{Binding .}" />
                                         </Border.GestureRecognizers>
 
@@ -206,7 +296,7 @@
                                             <Border 
                                                 StrokeThickness="0" 
                                                 Grid.Column="0">
-                                                
+
                                                 <Border.StrokeShape>
                                                     <RoundRectangle CornerRadius="15"/>
                                                 </Border.StrokeShape>
@@ -239,15 +329,18 @@
                 </Border>
 
                 <Label Text="Популярные растения"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       Margin="5"
-                       TextColor="Black"/>
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   Margin="5"
+                   TextColor="Black"/>
 
-                <HorizontalStackLayout 
-                    x:Name="PopularPlantsLayout"
-                    Padding="10"
-                    Spacing="12"/>
+                <CollectionView ItemsSource="{Binding PopularPreview}"
+                    ItemTemplate="{StaticResource PopularTemplateSelector}"
+                    ItemsLayout="HorizontalList"
+                    HeightRequest="180"
+                    Margin="0,10"/>
+
+
 
             </VerticalStackLayout>
 
