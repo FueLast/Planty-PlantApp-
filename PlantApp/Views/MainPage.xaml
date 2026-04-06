@@ -15,23 +15,57 @@
 
             <!-- TEMPLATE: РАСТЕНИЕ -->
             <DataTemplate x:Key="PlantTemplate">
-                <Border Padding="5"
-                    BackgroundColor="White"
-                    StrokeShape="RoundRectangle 20">
+                <Border
+                    WidthRequest="140"
+                    HeightRequest="170"
+                    Margin="6,0"
+                    StrokeThickness="0"
+                    BackgroundColor="Transparent">
 
-                    <VerticalStackLayout>
 
-                        <Image Source="{Binding PlantImage}"
-                                HeightRequest="120"
-                                WidthRequest="120"
+                    <Border.Shadow>
+                        <Shadow Brush="Black"
+                                Offset="2,2"
+                                Radius="5"
+                                Opacity="0.1" />
+                    </Border.Shadow>
+
+                    <Grid>
+
+                        <!-- КАРТИНКА -->
+                        <Border StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape> 
+                            <Image
+                                Source="{Binding PlantImage}"
                                 Aspect="AspectFill"/>
+                        </Border>
 
-                        <Label Text="{Binding NamePlant}"
-                                FontSize="12"
-                                HorizontalTextAlignment="Center"
-                                LineBreakMode="TailTruncation"/>
-                        
-                    </VerticalStackLayout>
+                        <!-- ЗАТЕМНЕНИЕ -->
+                        <Border 
+                            BackgroundColor="Black"
+                            Opacity="0.1"> 
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            
+                        </Border>
+
+                        <!-- НАЗВАНИЕ -->
+                        <Label 
+                            Text="{Binding NamePlant}"
+                            FontSize="16"
+                            FontAttributes="None"
+                            FontFamily="Montserrat"
+                            TextColor="White"
+                            Margin="10"
+                            VerticalOptions="End"
+                            HorizontalOptions="Center"
+                            MaxLines="2"/>
+
+                    </Grid>
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer
@@ -45,21 +79,40 @@
 
             <!-- TEMPLATE: СМОТРЕТЬ ВСЕ -->
             <DataTemplate x:Key="SeeAllTemplate">
-                <Border BackgroundColor="#E8F5E9"
-                    StrokeShape="RoundRectangle 20"
-                    Padding="10"
-                    WidthRequest="120"
-                    HeightRequest="150">
+                <Border
+                    WidthRequest="140"
+                    HeightRequest="170"
+                    Margin="6,0"
+                    StrokeThickness="0">
+                    <Grid>
 
-                    <VerticalStackLayout
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center">
+                        <!-- ФОН -->
+                        <Border BackgroundColor="LightGreen">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                        </Border>
 
-                        <Label Text="Смотреть все"
-                           TextColor="#2E7D32"
-                           FontAttributes="Bold"
-                           HorizontalTextAlignment="Center"/>
-                    </VerticalStackLayout>
+                        <!-- ТЕКСТ -->
+                        <VerticalStackLayout
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Spacing="4">
+
+                            <Label Text="Все"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center"/>
+
+                            <Label Text="растения"
+                               FontSize="12"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center"/>
+
+                        </VerticalStackLayout>
+
+                    </Grid>
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer
@@ -70,12 +123,11 @@
                 </Border>
             </DataTemplate>
 
-
             <!-- SELECTOR -->
             <selectors:PopularTemplateSelector
-            x:Key="PopularTemplateSelector"
-            PlantTemplate="{StaticResource PlantTemplate}"
-            SeeAllTemplate="{StaticResource SeeAllTemplate}" />
+                x:Key="PopularTemplateSelector"
+                PlantTemplate="{StaticResource PlantTemplate}"
+                SeeAllTemplate="{StaticResource SeeAllTemplate}" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -132,13 +184,13 @@
                         </Border.GestureRecognizers>
 
                         <VerticalStackLayout Spacing="8"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center">
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
 
                             <Image Source="question.png"    
                                 HeightRequest="40"/>
 
-                            <Label Text="Yandex GPT"
+                            <Label Text="Yandex AI"
                                     FontSize="14" 
                                     FontFamily="Montserrat"
                                     TextColor="#2E7D32"
@@ -329,16 +381,19 @@
                 </Border>
 
                 <Label Text="Популярные растения"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   Margin="5"
-                   TextColor="Black"/>
+                       FontSize="24"
+                       FontAttributes="None"
+                       FontFamily="Montserrat"
+                       Margin="0, 5, 0, 0"
+                       TextColor="Black"/>
 
                 <CollectionView ItemsSource="{Binding PopularPreview}"
                     ItemTemplate="{StaticResource PopularTemplateSelector}"
                     ItemsLayout="HorizontalList"
                     HeightRequest="180"
-                    Margin="0,10"/>
+                    HorizontalScrollBarVisibility="Never" 
+                    ItemSizingStrategy="MeasureFirstItem">
+                </CollectionView>
 
 
 
