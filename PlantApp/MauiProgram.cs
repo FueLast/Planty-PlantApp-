@@ -36,7 +36,7 @@ namespace PlantApp
 
             // подключаем appsettings.json
             builder.Configuration
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
 
             // база данных

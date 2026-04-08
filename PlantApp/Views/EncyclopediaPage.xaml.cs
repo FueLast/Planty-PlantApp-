@@ -20,24 +20,20 @@ public partial class EncyclopediaPage : ContentPage
 {
 // ViewModel внедряется через DI (НЕ создаётся вручную)
     private readonly EncyclopediaViewModel _viewModel;
-    private readonly IDbContextFactory<AppDbContext> _factory;
-    private readonly AuthService _authService;
+    private readonly IDbContextFactory<AppDbContext> _factory; 
     private readonly INavigationService _navigationService;
     // Конструктор страницы
     // ViewModel приходит из DI-контейнера
     public EncyclopediaPage(
         EncyclopediaViewModel viewModel,
-        IDbContextFactory<AppDbContext> factory,
-        AuthService authService,
+        IDbContextFactory<AppDbContext> factory, 
         INavigationService navigationService)
     {
         InitializeComponent();
 
         _viewModel = viewModel;
-        _factory = factory;
-        _authService = authService;
+        _factory = factory; 
         _navigationService = navigationService;
-
         BindingContext = _viewModel;
     }
 

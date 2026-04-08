@@ -94,13 +94,17 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="☀️&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="14"/>
+
                                 <Span Text="Свет&#10;" 
                                     FontAttributes="Bold" 
-                                    FontSize="18" />
+                                    FontSize="14" />
 
                                 <!-- Данные из БД обычным шрифтом -->
                                 <Span Text="{Binding Plant.Care_Light}" 
-                                    FontSize="16" /> 
+                                    FontSize="12" /> 
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>                    
@@ -120,13 +124,17 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="💦&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="14" />
+
                                 <Span Text="Полив&#10;" 
                                     FontAttributes="Bold" 
-                                    FontSize="18" />
-
+                                    FontSize="14"/>
+                                
                                 <!-- Данные из БД обычным шрифтом -->
                                 <Span Text="{Binding Plant.Care_Watering}" 
-                                    FontSize="16" />
+                                    FontSize="12" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -146,13 +154,17 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="🌡️&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="14" />
+
                                 <Span Text="Температура&#10;" 
                                     FontAttributes="Bold" 
-                                    FontSize="18" />
-
+                                    FontSize="14" />
+                                
                                 <!-- Данные из БД обычным шрифтом -->
                                 <Span Text="{Binding Plant.Care_Temperature}" 
-                                    FontSize="16" />
+                                    FontSize="12" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -171,13 +183,17 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
+                                <Span Text="🧩&#10;" 
+                                    FontAttributes="Bold" 
+                                    FontSize="14" />
+
                                 <Span Text="Сложность&#10;" 
                                     FontAttributes="Bold" 
-                                    FontSize="18" />
-
+                                    FontSize="14" />      
+                                
                                 <!-- Данные из БД обычным шрифтом -->
                                 <Span Text="{Binding Plant.Care_Complexity}" 
-                                    FontSize="16" />
+                                    FontSize="12" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -206,7 +222,7 @@
                     Grid.Column="0"
                     StrokeThickness="0">  
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="50"/>
+                        <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
                         TextColor="DarkGreen"
@@ -221,7 +237,7 @@
                     Grid.Column="1"
                     StrokeThickness="0">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="50"/>
+                        <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
                         TextColor="DarkGreen"
@@ -236,7 +252,7 @@
                     Grid.Column="2"
                     StrokeThickness="0">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="50"/>
+                        <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
                         TextColor="DarkGreen"
@@ -251,7 +267,7 @@
                     Grid.Column="3"
                     StrokeThickness="0">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="50"/>
+                        <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
                         TextColor="DarkGreen"

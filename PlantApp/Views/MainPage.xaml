@@ -11,7 +11,7 @@
                 <Setter Property="StrokeThickness" Value="0" />
                 <Setter Property="StrokeShape" Value="RoundRectangle 20" />
                 <Setter Property="Margin" Value="0,0,0,0" />
-            </Style>
+            </Style>    
 
             <!-- TEMPLATE: РАСТЕНИЕ -->
             <DataTemplate x:Key="PlantTemplate">

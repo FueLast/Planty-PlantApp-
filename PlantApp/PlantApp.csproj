@@ -63,7 +63,6 @@
 	  <None Remove="appsettings.Development.json" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="Resources\Images_of_Plants\epipremnum.png" />
-	  <None Remove="Resources\Images_of_Plants\monstera.png" />
 	  <None Remove="Resources\Images_of_Plants\spathiphyllum.png" />
 	  <None Remove="Resources\Images_of_Plants\zamioculcas.png" />
 	  <None Remove="Resources\Новая папка\monstera.jpg" />
@@ -102,7 +101,6 @@
     <MauiImage Include="Resources\Images_of_Plants\chlorophytum.png" />
     <MauiImage Include="Resources\Images_of_Plants\epipremnum.png" />
     <MauiImage Include="Resources\Images_of_Plants\ficus.png" />
-    <MauiImage Include="Resources\Images_of_Plants\monstera.png" />
     <MauiImage Include="Resources\Images_of_Plants\sansevieria_pike_tail.png" />
     <MauiImage Include="Resources\Images_of_Plants\spathiphyllum.png" />
     <MauiImage Include="Resources\Images_of_Plants\zamioculcas.png" />

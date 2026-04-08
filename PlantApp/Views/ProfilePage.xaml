@@ -249,12 +249,12 @@
 
                                             <Image
                                                 Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"
-                                                HeightRequest="40"
-                                                WidthRequest="40"/>
+                                                HeightRequest="20"
+                                                WidthRequest="20"/>
 
                                             <StackLayout Grid.Column="1">
 
-                                                <Label Text="{Binding Login}" FontAttributes="Bold"/>
+                                                <Label Text="{Binding Profile.UserName}" FontAttributes="Bold"/>
                                                 <Label Text="{Binding Profile, Converter={StaticResource LastSeenHelper}}" FontSize="12" TextColor="Gray"/>
 
                                             </StackLayout>
