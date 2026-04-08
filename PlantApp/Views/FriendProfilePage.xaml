@@ -3,43 +3,226 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="PlantApp.Views.FriendProfilePage"
     Background="#F0EEE9"
-    Title="Профиль">
+    Title="FriendsPage">
 
     <ScrollView>
 
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="24">
 
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+            <!-- 🔹 HEADER -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
 
+                <!-- Avatar -->
                 <Border 
-                    StrokeShape="150" 
-                    Stroke="Transparent" 
-                    HeightRequest="150">
-                    <Image Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"/>
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    WidthRequest="110"
+                    HeightRequest="110"
+                    Stroke="#367900"
+                    StrokeThickness="3"
+                    StrokeShape="RoundRectangle 150"
+                    Background="White">
+                    <Image 
+                        Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"
+                        Aspect="AspectFill"/>
                 </Border>
 
-                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                <!-- Info -->
+                <VerticalStackLayout Grid.Column="1" Spacing="6">
 
                     <Label
                         Text="{Binding Profile.UserName}"
-                        FontSize="22"/>
+                        FontFamily="Montserrat"
+                        FontSize="22"
+                        FontAttributes="Bold"/>
 
                     <Label
-                        Text="{Binding Profile.City, StringFormat='Город: {0}'}"/>
+                        Text="{Binding Profile.City, StringFormat='Город: {0}'}"
+                        FontFamily="Montserrat"
+                        TextColor="#777"
+                        FontSize="14"/>
 
                     <Label
-                        Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"/>
+                        Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"
+                        FontFamily="Montserrat"
+                        TextColor="#777"
+                        FontSize="14"/>
 
-                    <Label Margin="0, 10"
+                    <Label
                         Text="{Binding Profile, Converter={StaticResource LastSeenHelper}, 
-                            StringFormat='В сети: {0}'}"/>
+                               StringFormat='В сети: {0}'}"
+                        FontFamily="Montserrat"
+                        FontSize="13"
+                        TextColor="#4CAF50"
+                        Margin="0,4,0,0"/>
+
+                    <!-- Actions -->
+                    <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+
+                        <Button
+                            Text="{Binding FriendButtonText}"
+                            Command="{Binding AddFriendCommand}"
+                            HeightRequest="36"
+                            CornerRadius="10"
+                            FontFamily="Montserrat"
+                            BackgroundColor="{Binding FriendButtonColor}"
+                            TextColor="{Binding FriendButtonTextColor}"/>
+
+                        <Button
+                            Text="Написать"
+                            Command="{Binding OpenChatCommand}"
+                            HeightRequest="36"
+                            CornerRadius="10"
+                            FontFamily="Montserrat"
+                            BackgroundColor="#8CD98C"
+                            TextColor="DarkGreen"/>
+
+                    </HorizontalStackLayout>
 
                 </VerticalStackLayout>
 
             </Grid>
 
+            <!-- 🔹 BIO -->
+            <Border
+                Padding="14"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 14"
+                Stroke="#E5E5E5"
+                IsVisible="{Binding HasBio}">
+
+                <Label 
+                    Text="{Binding Profile.Bio}"
+                    FontFamily="Montserrat"
+                    FontSize="14"/>
+            </Border>
+
+            <!-- 🔹 РАСТЕНИЯ -->
+            <VerticalStackLayout Spacing="12">
+
+                <Label  
+                    Text="{Binding Profile.UserName, StringFormat='Растения пользователя {0}'}" 
+                    FontFamily="Montserrat"
+                    FontSize="18"
+                    FontAttributes="Bold"/>
+
+                <CollectionView
+                    ItemsSource="{Binding VisiblePlants}"
+                    ItemsLayout="HorizontalList"> 
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border 
+                                WidthRequest="150"
+                                Margin="0,0,12,0"
+                                Padding="8"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="White"
+                                Stroke="#E5E5E5">
+
+                                <VerticalStackLayout Spacing="6">
+
+                                    <Grid RowDefinitions="Auto, *" HeightRequest="300">
+
+                                        
+                                        <!-- картинка с закруглением -->
+                                        <Border  
+                                            Grid.Row="0"
+                                            StrokeThickness="0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center">
+
+                                            
+                                            <Image
+                                                HeightRequest="200"
+                                                Grid.Row="0"   
+                                                Source="{Binding ImagePath}" 
+                                                Aspect="Fill"/>
+
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="25"/>
+                                            </Border.StrokeShape>
+
+                                        </Border>
+
+                                        <StackLayout Grid.Row="1">
+
+                                            <Label Text="{Binding CustomName}" FontFamily="Montserrat"
+                                                   FontAttributes="Bold" Margin="10, 0"/>
+
+                                            <Label Text="{Binding PlantName}" FontFamily="Montserrat"
+                                                   FontSize="12" Margin="10, 0"/>
+
+                                            <Label Text="{Binding Description}" FontFamily="Montserrat"
+                                                   FontSize="10" TextColor="Gray" Margin="10, 0"/>
+
+                                        </StackLayout>
+
+                                    </Grid>
+
+                                </VerticalStackLayout>
+
+                            </Border>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+                <Button
+                    Text="Показать ещё"
+                    Command="{Binding ShowMorePlantsCommand}"
+                    IsVisible="{Binding CanShowMorePlants}"
+                    BackgroundColor="#8CD98C"
+                    TextColor="DarkGreen"
+                    FontFamily="Montserrat"/>
+
+            </VerticalStackLayout>
+
+            <!-- 🔹 ДРУЗЬЯ --> 
+            <VerticalStackLayout Spacing="12">
+                
+                <Label Text="Друзья" 
+                       FontFamily="Montserrat" 
+                       FontSize="18" 
+                       FontAttributes="Bold"/>
+                
+                <CollectionView ItemsSource="{Binding VisibleFriends}" ItemsLayout="HorizontalList" HeightRequest="110">
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            
+                            <VerticalStackLayout WidthRequest="80" Spacing="6" Margin="0,0,12,0">
+                                
+                                <Border WidthRequest="70" HeightRequest="70" StrokeShape="RoundRectangle 35">
+                                    <Image Source="{Binding ., Converter={StaticResource AvatarHelper}}" Aspect="AspectFill"/>
+                                </Border>
+                                
+                                <Label Text="{Binding Profile.UserName}" 
+                                       FontSize="12" 
+                                       FontFamily="Montserrat" 
+                                       HorizontalTextAlignment="Center" 
+                                       LineBreakMode="TailTruncation"/>
+                            
+                            </VerticalStackLayout>
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    
+                </CollectionView>
+                
+                <Button Text="Показать ещё" 
+                        Command="{Binding ShowMoreFriendsCommand}" 
+                        IsVisible="{Binding CanShowMoreFriends}" 
+                        BackgroundColor="#8CD98C" 
+                        TextColor="DarkGreen" 
+                        FontFamily="Montserrat"/>
+            
+            </VerticalStackLayout>
+            
         </VerticalStackLayout>
-
+        
     </ScrollView>
-
+    
 </ContentPage>
