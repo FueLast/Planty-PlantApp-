@@ -72,7 +72,10 @@ public partial class AddPlantPopupViewModel : ObservableObject
         {
             if (SelectedPlant == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Ошибка", "Выберите растение", "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    "Ошибка", 
+                    "Выберите растение", 
+                    "OK");
                 return;
             }
 

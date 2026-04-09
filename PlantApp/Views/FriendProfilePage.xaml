@@ -108,58 +108,62 @@
 
                 <CollectionView
                     ItemsSource="{Binding VisiblePlants}"
-                    ItemsLayout="HorizontalList"> 
+                    ItemsLayout="HorizontalList">
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
 
                             <Border 
-                                WidthRequest="150"
-                                Margin="0,0,12,0"
-                                Padding="8"
-                                StrokeShape="RoundRectangle 15"
-                                BackgroundColor="White"
-                                Stroke="#E5E5E5">
+            WidthRequest="140"
+            Margin="0,0,12,0"
+            Padding="0"
+            StrokeShape="RoundRectangle 16"
+            BackgroundColor="White"
+            Stroke="#E5E5E5">
 
-                                <VerticalStackLayout Spacing="6">
+                                <VerticalStackLayout Spacing="0">
 
-                                    <Grid RowDefinitions="Auto, *" HeightRequest="300">
+                                    <!-- КАРТИНКА -->
+                                    <Grid HeightRequest="120">
 
-                                        
-                                        <!-- картинка с закруглением -->
-                                        <Border  
-                                            Grid.Row="0"
-                                            StrokeThickness="0"
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="Center">
+                                        <Image
+                                            Source="{Binding ImagePath}"
+                        Aspect="AspectFill"/>
 
-                                            
-                                            <Image
-                                                HeightRequest="200"
-                                                Grid.Row="0"    
-                                                Source="{Binding ImagePath}" 
-                                                Aspect="Fill"/>
-
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="25"/>
-                                            </Border.StrokeShape>
-
-                                        </Border>
-
-                                        <StackLayout Grid.Row="1">
-
-                                            <Label Text="{Binding CustomName}" FontFamily="Montserrat"
-                                                   FontAttributes="Bold" Margin="10, 0"/>
-
-                                            <Label Text="{Binding PlantName}" FontFamily="Montserrat"
-                                                   FontSize="12" Margin="10, 0"/>
-
-                                            <Label Text="{Binding Description}" FontFamily="Montserrat"
-                                                   FontSize="10" TextColor="Gray" Margin="10, 0"/>
-
-                                        </StackLayout>
+                                        <!-- fallback если нет картинки -->
+                                        <Image
+                        Source="plant_placeholder.png"
+                        Aspect="AspectFill"
+                        IsVisible="{Binding ImagePath, Converter={StaticResource NullToBoolConverter}}"/>
 
                                     </Grid>
+
+                                    <!-- ТЕКСТ -->
+                                    <VerticalStackLayout Padding="8" Spacing="2">
+
+                                        <Label 
+                        Text="{Binding CustomName}"
+                        FontFamily="Montserrat"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        LineBreakMode="TailTruncation"/>
+
+                                        <Label 
+                        Text="{Binding PlantName}"
+                        FontFamily="Montserrat"
+                        FontSize="11"
+                        TextColor="#777"
+                        LineBreakMode="TailTruncation"/>
+
+                                        <Label 
+                        Text="{Binding Description}"
+                        FontFamily="Montserrat"
+                        FontSize="10"
+                        TextColor="#999"
+                        LineBreakMode="TailTruncation"
+                        MaxLines="2"/>
+
+                                    </VerticalStackLayout>
 
                                 </VerticalStackLayout>
 
