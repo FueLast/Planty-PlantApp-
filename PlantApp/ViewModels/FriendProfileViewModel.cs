@@ -36,6 +36,9 @@ public partial class FriendProfileViewModel : ObservableObject
     [ObservableProperty]
     private UserProfile profile;
 
+    [ObservableProperty]
+    private bool isLoading;
+
     public bool HasBio => !string.IsNullOrWhiteSpace(Profile?.Bio);
 
     // ---------------- состояние дружбы ----------------
@@ -83,44 +86,45 @@ public partial class FriendProfileViewModel : ObservableObject
 
     public async Task Load(int userId)
     {
-        _currentUserId = _authService.GetUserId();
-        _friendUserId = userId;
+        IsLoading = true;
 
-        using var db = await _factory.CreateDbContextAsync();
+        try
+        {
+            _currentUserId = _authService.GetUserId();
+            _friendUserId = userId;
 
-        // профиль
-        Profile = await db.UserProfiles
-            .FirstOrDefaultAsync(x => x.UserId == userId);
+            using var db = await _factory.CreateDbContextAsync();
 
-        OnPropertyChanged(nameof(HasBio));
+            Profile = await db.UserProfiles
+                .FirstOrDefaultAsync(x => x.UserId == userId);
 
-        // состояние дружбы
-        var friendIds = await _friendService.GetFriendIdsAsync(_currentUserId);
+            OnPropertyChanged(nameof(HasBio));
 
-        IsFriend = friendIds.Contains(userId);
-        IsRequestSent = IsFriend;
+            var friendIds = await _friendService.GetFriendIdsAsync(_currentUserId);
 
-        OnPropertyChanged(nameof(FriendButtonText));
-        OnPropertyChanged(nameof(FriendButtonColor));
-        OnPropertyChanged(nameof(FriendButtonTextColor));
+            IsFriend = friendIds.Contains(userId);
+            IsRequestSent = IsFriend;
 
-        // растения
-        var plants = await _plantService.GetUserPlants(userId);
+            var plants = await _plantService.GetUserPlants(userId);
 
-        AllPlants.Clear();
-        foreach (var p in plants)
-            AllPlants.Add(p);
+            AllPlants.Clear();
+            foreach (var p in plants)
+                AllPlants.Add(p);
 
-        UpdatePlants();
+            UpdatePlants();
 
-        // друзья
-        var friends = await _friendService.GetFriendsAsync(userId);
+            var friends = await _friendService.GetFriendsAsync(userId);
 
-        AllFriends.Clear();
-        foreach (var f in friends)
-            AllFriends.Add(f);
+            AllFriends.Clear();
+            foreach (var f in friends)
+                AllFriends.Add(f);
 
-        UpdateFriends();
+            UpdateFriends();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     // ---------------- логика растений ----------------
