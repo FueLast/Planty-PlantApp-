@@ -123,8 +123,17 @@ public partial class FriendProfileViewModel : ObservableObject
         }
         finally
         {
-            IsLoading = false;
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                IsLoading = false;
+            });
         }
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            UpdatePlants();
+            UpdateFriends();
+        });
     }
 
     // ---------------- логика растений ----------------
