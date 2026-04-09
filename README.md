@@ -64,11 +64,15 @@ With modern AI tools, this barrier can be removed completely.
 
 | 🏠 Main Page | 👤 Profile |
 |------|--------|
-| <img src="https://github.com/user-attachments/assets/7295d78a-68d3-4d2f-9a48-3a5a5682929f" width="350"/> | <img src="https://github.com/user-attachments/assets/550bc017-7f8e-4837-88b0-a64565521fd6" width="350"/>|
+| <img src="https://github.com/user-attachments/assets/80bc3bc8-df7e-42ce-9e62-3a7e5c16874b" width="340"/> | <img src="https://github.com/user-attachments/assets/f3bf355a-a55a-430b-928e-d97fe9ee6b77" width="224"/>|
+
+| 🧑‍🤝‍🧑 Friens Page | 💬 Chat Page |
+|------|--------|
+| <img src="https://github.com/user-attachments/assets/46460b5c-9bf1-4228-a81e-9b52eeb02c31" width="336"/> | <img src="https://github.com/user-attachments/assets/41c12070-7d5c-4eea-b942-ceeb60bec3b5" width="349"/> | 
 
 | 📚 Plant Encyclopedia | 🌿 Plant Details |
 |------|--------|
-| <img src="https://github.com/user-attachments/assets/b4f08777-fae6-4271-a74a-c60f0fc49f93" width="350"/> | <img src="https://github.com/user-attachments/assets/4fd3d9bf-1a03-42a6-b618-5f7e74015a5d" width="350"/> |
+| <img src="https://github.com/user-attachments/assets/b28ec474-889b-4095-bbd4-dc8272bbb223" width="384"/> | <img src="https://github.com/user-attachments/assets/2f8c2347-7511-4b03-aa6c-ab70173d9871" width="348"/> |
 
 ---
 
