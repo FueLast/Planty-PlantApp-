@@ -136,7 +136,7 @@
                                             
                                             <Image
                                                 HeightRequest="200"
-                                                Grid.Row="0"   
+                                                Grid.Row="0"    
                                                 Source="{Binding ImagePath}" 
                                                 Aspect="Fill"/>
 

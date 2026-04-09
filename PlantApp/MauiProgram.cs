@@ -58,6 +58,7 @@ namespace PlantApp
 
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<SecurityService>();
+            builder.Services.AddSingleton<SupabaseStorageService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();
 
 

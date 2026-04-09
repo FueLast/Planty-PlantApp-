@@ -10,6 +10,7 @@ public partial class AddPlantPopupViewModel : ObservableObject
 {
     private readonly UserPlantService _plantService;
     private readonly AuthService _authService;
+    private readonly SupabaseStorageService _storageService;
 
     // список растений для Picker
     public ObservableCollection<Plant> Plants { get; set; } = new();
@@ -31,10 +32,12 @@ public partial class AddPlantPopupViewModel : ObservableObject
 
     public AddPlantPopupViewModel(
         UserPlantService plantService,
-        AuthService authService)
+        AuthService authService,
+        SupabaseStorageService storageService)
     {
         _plantService = plantService;
         _authService = authService;
+        _storageService = storageService;
 
         LoadPlants();
     }
@@ -65,24 +68,59 @@ public partial class AddPlantPopupViewModel : ObservableObject
     // метод сохранения UserPlant
     public async Task SavePlant()
     {
-        if (SelectedPlant == null)
+        try
         {
-            await Application.Current.MainPage.DisplayAlert("Ошибка", "Выберите растение", "OK");
-            return;
+            if (SelectedPlant == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Ошибка", "Выберите растение", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(AgeDays))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Ошибка",
+                    "Введите возраст растения",
+                    "OK");
+                return;
+            }
+
+            var userId = _authService.GetUserId();
+
+            string imageUrl = null;
+
+            if (!string.IsNullOrEmpty(ImagePath))
+            {
+                using var stream = File.OpenRead(ImagePath);
+
+                imageUrl = await _storageService.UploadPlantImage(stream, userId);
+            }
+
+            var plant = new UserPlant
+            {
+                UserId = userId,
+                PlantId = SelectedPlant.Id,
+                CustomName = CustomName,
+                Description = Description,
+                AgeDays = AgeDays,
+                ImagePath = imageUrl
+            };
+
+            await _plantService.AddPlant(plant);
         }
-
-        var userId = _authService.GetUserId();
-
-        var plant = new UserPlant
+        catch (Exception ex)
         {
-            UserId = userId,
-            PlantId = SelectedPlant.Id,
-            CustomName = CustomName,
-            AgeDays = AgeDays,
-            Description = Description,
-            ImagePath = ImagePath
-        };
+            var message =
+                $"MESSAGE: {ex.Message}\n" +
+                $"INNER: {ex.InnerException?.Message}\n" +
+                $"STACK: {ex.StackTrace}";
 
-        await _plantService.AddPlant(plant);
+            System.Diagnostics.Debug.WriteLine(message);
+
+            await Application.Current.MainPage.DisplayAlert(
+                "ERROR",
+                message,
+                "OK");
+        }
     }
 }

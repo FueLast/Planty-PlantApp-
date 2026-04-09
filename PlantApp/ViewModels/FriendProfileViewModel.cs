@@ -66,6 +66,7 @@ public partial class FriendProfileViewModel : ObservableObject
 
     private int plantsCount = 5;
 
+
     public bool CanShowMorePlants => AllPlants.Count > VisiblePlants.Count;
 
     // ---------------- FRIENDS ----------------

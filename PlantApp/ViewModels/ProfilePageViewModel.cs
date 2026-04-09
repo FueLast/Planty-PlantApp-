@@ -2,12 +2,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PlantApp.Data;
 using PlantApp.Services;
 using PlantApp.Views;
 using PlantApp.Views.AdditionalViews;
 using PlantApp.Views.Popups;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Views; 
 
 namespace PlantApp.ViewModels;
 
@@ -19,6 +21,9 @@ public partial class ProfilePageViewModel : ObservableObject
     private readonly AuthService _authService;
     private readonly FriendService _friendService;
     private readonly IServiceProvider _serviceProvider;
+
+    private readonly string _baseUrl;
+    private readonly string _apiKey;
 
     public ObservableCollection<UserPlant> UserPlants { get; } = new();
     public ObservableCollection<User> Friends { get; } = new();
@@ -63,7 +68,8 @@ public partial class ProfilePageViewModel : ObservableObject
         IDbContextFactory<AppDbContext> factory,
         AuthService authService,
         FriendService friendService,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IConfiguration config)
     {
         _plantService = plantService;
         _navigationService = navigationService;
@@ -71,6 +77,9 @@ public partial class ProfilePageViewModel : ObservableObject
         _authService = authService;
         _friendService = friendService;
         _serviceProvider = serviceProvider;
+
+        _baseUrl = config["Supabase:BaseUrl"];
+        _apiKey = config["Supabase:ApiKeyAnonPK"];
 
         EditProfilePopupViewModel.ProfileUpdated += OnProfileUpdated;
     }

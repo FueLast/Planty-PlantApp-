@@ -14,7 +14,7 @@ public class UserPlant
 
     public string AgeDays { get; set; }
 
-    public string ImagePath { get; set; }
+    public string ImagePath { get; set; } // в супабейс
 
     public DateTime? LastWatered { get; set; }
 
