@@ -102,26 +102,26 @@
             <VerticalStackLayout Spacing="12">
 
                 <Label  
-        Text="{Binding Profile.UserName, StringFormat='Растения пользователя {0}'}" 
-        FontFamily="Montserrat"
-        FontSize="18"
-        FontAttributes="Bold"/>
+                    Text="{Binding Profile.UserName, StringFormat='Растения пользователя {0}'}" 
+                    FontFamily="Montserrat"
+                    FontSize="18"
+                    FontAttributes="Bold"/>
 
                 <Grid>
 
                     <!-- skeleton -->
                     <CollectionView
-            IsVisible="{Binding IsLoading}"
-            ItemsLayout="HorizontalList">
+                        IsVisible="{Binding IsLoading}"
+                        ItemsLayout="HorizontalList">
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                        WidthRequest="140"
-                        HeightRequest="180"
-                        Margin="0,0,12,0"
-                        BackgroundColor="#E0E0E0"
-                        StrokeShape="RoundRectangle 16">
+                                    WidthRequest="140"
+                                    HeightRequest="180"
+                                    Margin="0,0,12,0"
+                                    BackgroundColor="#E0E0E0"
+                                    StrokeShape="RoundRectangle 16">
 
                                     <Grid>
                                         <BoxView Color="#E0E0E0"/>
@@ -148,27 +148,35 @@
                             <DataTemplate>
 
                                 <Border 
-                        WidthRequest="140"
-                        Margin="0,0,12,0"
-                        Padding="0"
-                        StrokeShape="RoundRectangle 16"
-                        BackgroundColor="White"
-                        Stroke="#E5E5E5">
+                                    WidthRequest="140"
+                                    Margin="0,0,12,0"
+                                    Padding="0"
+                                    StrokeShape="RoundRectangle 16"
+                                    BackgroundColor="White"
+                                    Stroke="#E5E5E5">
 
                                     <VerticalStackLayout Spacing="0">
 
                                         <!-- картинка -->
-                                        <Grid HeightRequest="120">
+                                    <Grid HeightRequest="120">
+
+                                        <Border StrokeThickness="0">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="16"/>
+                                            </Border.StrokeShape>
 
                                             <Image
-                                     Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"
-                                    Aspect="AspectFill"/>
+                                                Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"
+                                                Aspect="AspectFill"/>
+                                        </Border>
 
-                                            <!-- заглушка -->
+
+                                    <!-- заглушка -->
                                             <Image
-                                    Source="plant_placeholder.png"
-                                    Aspect="AspectFill"
-                                    IsVisible="{Binding ImagePath, Converter={StaticResource IsNullOrEmptyConverter}}"/>
+                                                Source="background_listik_profile.png"
+                                                HeightRequest="80"
+                                                Aspect="AspectFit" 
+                                                IsVisible="{Binding ImagePath, Converter={StaticResource IsNullOrEmptyConverter}}"/>
 
                                         </Grid>
 
@@ -176,26 +184,26 @@
                                         <VerticalStackLayout Padding="8" Spacing="2">
 
                                             <Label 
-                                    Text="{Binding CustomName}"
-                                    FontFamily="Montserrat"
-                                    FontAttributes="Bold"
-                                    FontSize="13"
-                                    LineBreakMode="TailTruncation"/>
+                                                Text="{Binding CustomName}"
+                                                FontFamily="Montserrat"
+                                                FontAttributes="Bold"
+                                                FontSize="13"
+                                                LineBreakMode="TailTruncation"/>
 
                                             <Label 
-                                    Text="{Binding PlantName}"
-                                    FontFamily="Montserrat"
-                                    FontSize="11"
-                                    TextColor="#777"
-                                    LineBreakMode="TailTruncation"/>
+                                                Text="{Binding PlantName}"
+                                                FontFamily="Montserrat"
+                                                FontSize="11"
+                                                TextColor="#777"
+                                                LineBreakMode="TailTruncation"/>
 
                                             <Label 
-                                    Text="{Binding Description}"
-                                    FontFamily="Montserrat"
-                                    FontSize="10"
-                                    TextColor="#999"
-                                    LineBreakMode="TailTruncation"
-                                    MaxLines="2"/>
+                                                Text="{Binding Description}"
+                                                FontFamily="Montserrat"
+                                                FontSize="10"
+                                                TextColor="#999"
+                                                LineBreakMode="TailTruncation"
+                                                MaxLines="2"/>
 
                                         </VerticalStackLayout>
 
@@ -211,12 +219,12 @@
                 </Grid>
 
                 <Button
-        Text="Показать ещё"
-        Command="{Binding ShowMorePlantsCommand}"
-        IsVisible="{Binding CanShowMorePlants}"
-        BackgroundColor="#8CD98C"
-        TextColor="DarkGreen"
-        FontFamily="Montserrat"/>
+                    Text="Показать ещё"
+                    Command="{Binding ShowMorePlantsCommand}"
+                    IsVisible="{Binding CanShowMorePlants}"
+                    BackgroundColor="#8CD98C"
+                    TextColor="DarkGreen"
+                    FontFamily="Montserrat"/>
 
             </VerticalStackLayout>
 

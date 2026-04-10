@@ -18,6 +18,8 @@
 
             <converters:ImagePathConverter x:Key="ImagePathConverter"/>
 
+            <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
