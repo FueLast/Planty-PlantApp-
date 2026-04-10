@@ -32,26 +32,26 @@
                     <Label
                         Text="{Binding Profile.UserName}"
                         FontFamily="Montserrat"
-                        FontSize="22"
+                        FontSize="24"
                         FontAttributes="Bold"/>
 
                     <Label
                         Text="{Binding Profile.City, StringFormat='Город: {0}'}"
                         FontFamily="Montserrat"
                         TextColor="#777"
-                        FontSize="14"/>
+                        FontSize="16"/>
 
                     <Label
                         Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"
                         FontFamily="Montserrat"
                         TextColor="#777"
-                        FontSize="14"/>
+                        FontSize="16"/>
 
                     <Label
                         Text="{Binding Profile, Converter={StaticResource LastSeenHelper}, 
                                StringFormat='В сети: {0}'}"
                         FontFamily="Montserrat"
-                        FontSize="13"
+                        FontSize="14"
                         TextColor="#4CAF50"
                         Margin="0,4,0,0"/>
 
@@ -145,8 +145,7 @@
                         ItemsLayout="HorizontalList">
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-
+                            <DataTemplate> 
                                 <Border 
                                     WidthRequest="140"
                                     Margin="0,0,12,0"
@@ -155,23 +154,31 @@
                                     BackgroundColor="White"
                                     Stroke="#E5E5E5">
 
-                                    <VerticalStackLayout Spacing="0">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                            Path=BindingContext.OpenPlantPopupCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+
+                                <VerticalStackLayout Spacing="0">
 
                                         <!-- картинка -->
-                                    <Grid HeightRequest="120">
+                                        <Grid RowDefinitions="Auto">
 
-                                        <Border StrokeThickness="0">
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="16"/>
-                                            </Border.StrokeShape>
+                                            <Border StrokeThickness="0">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="15"/>
+                                                </Border.StrokeShape>
 
-                                            <Image
-                                                Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"
-                                                Aspect="AspectFill"/>
-                                        </Border>
+                                                <Image
+                                                    HeightRequest="150"
+                                                    Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"
+                                                    Aspect="AspectFill"/>
+                                            </Border>
 
 
-                                    <!-- заглушка -->
+                                            <!-- заглушка -->
                                             <Image
                                                 Source="background_listik_profile.png"
                                                 HeightRequest="80"
@@ -209,8 +216,7 @@
 
                                     </VerticalStackLayout>
 
-                                </Border>
-
+                                </Border> 
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 

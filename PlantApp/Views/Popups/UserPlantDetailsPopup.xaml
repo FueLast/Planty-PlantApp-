@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:helpers="clr-namespace:PlantApp.Helpers"
+    x:Class="PlantApp.Views.Popups.UserPlantDetailsPopup">
+    <ScrollView>
+        <Grid>
+
+            <!-- основной контейнер -->
+            <Border
+                BackgroundColor="White"
+                Padding="16"
+                Margin="10"
+                StrokeThickness="0">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- владелец -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+
+                        <Border WidthRequest="50" HeightRequest="50">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="25"/>
+                            </Border.StrokeShape>
+
+                            <Image
+                            Source="{Binding Owner, Converter={StaticResource AvatarHelper}}"
+                            Aspect="AspectFill"/>
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+
+                            <Label
+                            Text="{Binding Owner.UserName}"
+                            FontFamily="Montserrat"
+                            FontSize="14"
+                            FontAttributes="Bold"/>
+
+                            <Label
+                            Text="{Binding CreatedAtText}"
+                            FontFamily="Montserrat"
+                            FontSize="12"
+                            TextColor="#777"/>
+
+                        </VerticalStackLayout>
+
+                        <!-- кнопка перехода -->
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenOwnerProfileCommand}"/>
+                        </Grid.GestureRecognizers>
+
+                    </Grid>
+
+                    <!-- фото -->
+                    <Border Stroke="Transparent">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape> 
+
+                        <Grid BackgroundColor="#F5F5F5"> 
+                            
+                            <Image
+                            Source="{Binding Plant.ImagePath, Converter={StaticResource ImagePathConverter}}"
+                            Aspect="AspectFit"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+
+                        </Grid>
+                    </Border>
+
+                    <!-- названия -->
+                    <Label
+                    Text="{Binding Plant.CustomName}"
+                    FontFamily="Montserrat"
+                    FontSize="18"
+                    FontAttributes="Bold"/>
+
+                    <Label
+                    Text="{Binding Plant.PlantName}"
+                    FontFamily="Montserrat"
+                    FontSize="14"
+                    TextColor="#777"/>
+
+                    <!-- описание -->
+                    <Border Padding="10" BackgroundColor="#F7F7F7">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+
+                        <Label
+                        Text="{Binding Plant.Description}"
+                        FontFamily="Montserrat"
+                        FontSize="13"/>
+                    </Border>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </Grid>
+    </ScrollView>
+</toolkit:Popup>

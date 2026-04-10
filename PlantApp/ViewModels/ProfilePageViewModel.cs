@@ -219,6 +219,24 @@ public partial class ProfilePageViewModel : ObservableObject
         await Application.Current.MainPage.ShowPopupAsync(page);
     }
 
+    [RelayCommand]
+    private async Task OpenPlantPopup(UserPlant plant)
+    {
+        using var db = await _factory.CreateDbContextAsync();
+
+        var owner = await db.UserProfiles
+            .FirstOrDefaultAsync(x => x.UserId == plant.UserId);
+
+        var vm = _serviceProvider.GetRequiredService<UserPlantDetailsPopupViewModel>();
+
+        var popup = new UserPlantDetailsPopup(
+            vm,
+            plant,
+            owner);
+
+        await Application.Current.MainPage.ShowPopupAsync(popup);
+    }
+
     private void OnProfileUpdated(UserProfile updated)
     {
         Profile.UserName = updated.UserName;

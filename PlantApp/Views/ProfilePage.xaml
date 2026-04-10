@@ -66,26 +66,30 @@
                             VerticalOptions="Center">
 
                             <Label
+                                FontFamily="Montserrat"
                                 Text="{Binding Profile.UserName}"
                                 FontSize="24"
                                 TextColor="Black"/>
 
                             <Label
+                                FontFamily="Montserrat"
                                 Text="{Binding Profile.City, StringFormat='Город: {0}'}"
                                 FontSize="16"
                                 TextColor="Gray"/>
 
                             <Label
+                                FontFamily="Montserrat"
                                 Text="{Binding Profile.Age, StringFormat='Возраст: {0}'}"
                                 FontSize="16"
                                 TextColor="Gray"/>
 
                             <Label
+                                FontFamily="Montserrat"
                                 Text="{Binding Profile, 
                                     Converter={StaticResource LastSeenHelper}, 
                                     StringFormat='В сети: {0}'}"
                                 FontSize="16"   
-                                TextColor="Gray"/>
+                                TextColor="#4CAF50"/>
 
                             <Border
                                 Stroke="#367900"
@@ -96,6 +100,7 @@
                                     Text="{Binding Profile.Bio}"
                                     Placeholder="Опишите чем вам нравится заниматься"
                                     TextColor="Black"
+                                    FontFamily="Montserrat"
                                     PlaceholderColor="Gray"
                                     AutoSize="TextChanges"
                                     IsReadOnly="True"/>
@@ -106,19 +111,25 @@
                             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
 
                                 <VerticalStackLayout>
-                                    <Label Text="{Binding PlantsCount}"
-                                        FontSize="18"
+                                    <Label 
+                                        Text="{Binding PlantsCount}"
+                                        FontSize="18" 
                                         HorizontalOptions="Center"/>
-                                    <Label Text="Растений"
+                                    <Label 
+                                        Text="Растений"
+                                        FontFamily="Montserrat"
                                         FontSize="12"
                                         HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout>
-                                    <Label Text="{Binding FriendsCount}"
+                                    <Label 
+                                        Text="{Binding FriendsCount}"
                                         FontSize="18"
                                         HorizontalOptions="Center"/>
-                                    <Label Text="Друзей"
+                                    <Label 
+                                        Text="Друзей"
+                                        FontFamily="Montserrat"
                                         FontSize="12"
                                         HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
@@ -145,7 +156,10 @@
 
                         <!-- заголовок -->
                         <Grid ColumnDefinitions="*,Auto">
-                            <Label Text="Мои растения" FontSize="18"/>
+                            <Label 
+                                FontFamily="Montserrat"
+                                Text="Мои растения" 
+                                FontSize="18"/>
                             <Button
                                 Grid.Column="1"
                                 Text="+"
@@ -162,9 +176,17 @@
                             ItemsSource="{Binding VisiblePlants}">
 
                             <CollectionView.ItemTemplate>
+
                                 <DataTemplate>
 
                                     <Border Padding="10" Margin="0,5" StrokeThickness="0">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                    Path=BindingContext.OpenPlantPopupCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
 
                                         <Grid ColumnDefinitions="60,*">
 
@@ -183,9 +205,9 @@
 
                                             <StackLayout Grid.Column="1">
 
-                                                <Label Text="{Binding CustomName}" FontAttributes="Bold" Margin="10, 0"/>
-                                                <Label Text="{Binding PlantName}" FontSize="12" Margin="10, 0"/>
-                                                <Label Text="{Binding LastWateredText}" FontSize="11" TextColor="Gray" Margin="10, 0"/>
+                                                <Label FontFamily="Montserrat" Text="{Binding CustomName}" FontAttributes="Bold" Margin="10, 0"/>
+                                                <Label FontFamily="Montserrat" Text="{Binding PlantName}" FontSize="12" Margin="10, 0"/>
+                                                <Label FontFamily="Montserrat" Text="{Binding LastWateredText}" FontSize="11" TextColor="Gray" Margin="10, 0"/>
 
                                             </StackLayout>
 
@@ -199,7 +221,9 @@
 
                         <!-- КНОПКА -->
                         <Button
-                            Grid.Row="2"
+                            FontFamily="Montserrat" 
+                            FontSize="12"
+                            Grid.Row="2" 
                             Text="{Binding IsPlantsExpanded, Converter={StaticResource ExpandTextHelper}}"
                             Command="{Binding TogglePlantsCommand}"
                             BackgroundColor="#8CD98C"
@@ -224,7 +248,7 @@
 
                         <!-- заголовок -->
                         <Grid ColumnDefinitions="*,Auto">
-                            <Label Text="Друзья" FontSize="18"/>
+                            <Label FontFamily="Montserrat" Text="Друзья" FontSize="18"/>
                             <Button
                                 Grid.Column="1"
                                 Text="+"
@@ -255,8 +279,8 @@
 
                                             <StackLayout Grid.Column="1">
 
-                                                <Label Text="{Binding Profile.UserName}" FontAttributes="Bold"/>
-                                                <Label Text="{Binding Profile, Converter={StaticResource LastSeenHelper}}" FontSize="12" TextColor="Gray"/>
+                                                <Label FontFamily="Montserrat" Text="{Binding Profile.UserName}" FontAttributes="Bold"/>
+                                                <Label FontFamily="Montserrat" Text="{Binding Profile, Converter={StaticResource LastSeenHelper}}" FontSize="12" TextColor="Gray"/>
 
                                             </StackLayout>
 
@@ -269,7 +293,9 @@
                         </CollectionView>
 
                         <!-- кнопка -->
-                        <Button
+                        <Button 
+                            FontFamily="Montserrat" 
+                            FontSize="12"
                             Grid.Row="2"
                             Text="{Binding IsFriendsExpanded, Converter={StaticResource ExpandTextHelper}}"
                             Command="{Binding ToggleFriendsCommand}"

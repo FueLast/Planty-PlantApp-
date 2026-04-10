@@ -15,8 +15,8 @@ public class UserPlant
     public string AgeDays { get; set; }
 
     public string ImagePath { get; set; } // в супабейс
-
     public DateTime? LastWatered { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public Plant Plant { get; set; }
 

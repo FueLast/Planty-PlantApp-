@@ -97,6 +97,7 @@ public partial class RegisterPageViewModel : ObservableObject
 
         // создаем хеш пароля
         _securityService.CreatePasswordHash(Password, out var hash, out var salt);
+         
 
         // пытаемся распарсить возраст
         int? parsedAge = null;

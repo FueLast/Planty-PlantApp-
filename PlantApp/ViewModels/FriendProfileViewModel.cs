@@ -1,9 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using PlantApp;
 using PlantApp.Data;
 using PlantApp.Services;
 using PlantApp.Views;
+using PlantApp.Views.Popups;
 using System.Collections.ObjectModel;
 
 public partial class FriendProfileViewModel : ObservableObject
@@ -13,6 +16,7 @@ public partial class FriendProfileViewModel : ObservableObject
     private readonly AuthService _authService;
     private readonly INavigationService _navigation;
     private readonly UserPlantService _plantService;
+    private readonly IServiceProvider _serviceProvider;
 
     private int _currentUserId;
     private int _friendUserId;
@@ -22,13 +26,15 @@ public partial class FriendProfileViewModel : ObservableObject
         FriendService friendService,
         AuthService authService,
         INavigationService navigation,
-        UserPlantService plantService)
+        UserPlantService plantService,
+        IServiceProvider serviceProvider) 
     {
         _factory = factory;
         _friendService = friendService;
         _authService = authService;
         _navigation = navigation;
         _plantService = plantService;
+        _serviceProvider = serviceProvider; 
     }
 
     // ---------------- профиль ----------------
@@ -194,6 +200,24 @@ public partial class FriendProfileViewModel : ObservableObject
     private async Task OpenChat()
     {
         await _navigation.NavigateToAsync<UserChatPage, int>(_friendUserId);
+    }
+
+    [RelayCommand]
+    private async Task OpenPlantPopup(UserPlant plant)
+    {
+        using var db = await _factory.CreateDbContextAsync();
+
+        var owner = await db.UserProfiles
+            .FirstOrDefaultAsync(x => x.UserId == plant.UserId);
+
+        var vm = _serviceProvider.GetRequiredService<UserPlantDetailsPopupViewModel>();
+
+        var popup = new UserPlantDetailsPopup(
+            vm,
+            plant,
+            owner);
+
+        await Application.Current.MainPage.ShowPopupAsync(popup);
     }
 
     [RelayCommand]
