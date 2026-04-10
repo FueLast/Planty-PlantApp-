@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PlantApp.Data;
-using PlantApp.Views;
 using PlantApp.Services;
+using PlantApp.Views;
+using CommunityToolkit.Maui.Views;
 
 public partial class UserPlantDetailsPopupViewModel : ObservableObject
 {
@@ -19,11 +20,15 @@ public partial class UserPlantDetailsPopupViewModel : ObservableObject
     [ObservableProperty]
     private UserProfile owner;
 
-    // текст "добавлено ..."
     public string CreatedAtText =>
         Plant?.CreatedAt == default
             ? ""
-            : $"добавлено {Plant.CreatedAt:dd.MM.yyyy}";
+            : $"Добавлено {Plant.CreatedAt:dd.MM.yyyy}";
+
+    public string AgeText =>
+        string.IsNullOrWhiteSpace(Plant?.AgeDays)
+            ? ""
+            : $"Возраст: {Plant.AgeDays} дней";
 
     [RelayCommand]
     private async Task OpenOwnerProfile()
@@ -31,7 +36,23 @@ public partial class UserPlantDetailsPopupViewModel : ObservableObject
         if (Owner == null)
             return;
 
-        // сразу навигация на профиль
         await _navigation.NavigateToAsync<FriendProfilePage, int>(Owner.UserId);
+    }
+
+    [RelayCommand]
+    private async Task Close(Popup popup)
+    {
+        // закрываю попап через toolkit
+        await popup.CloseAsync();
+    }
+
+    [RelayCommand]
+    private async Task OpenChat()
+    {
+        if (Owner == null)
+            return;
+
+        // задел под будущее — сразу норм архитектура
+        await _navigation.NavigateToAsync<UserChatPage, int>(Owner.UserId);
     }
 }

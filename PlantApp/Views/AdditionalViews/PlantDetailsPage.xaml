@@ -57,6 +57,7 @@
                 <!-- Название -->
                 <Label 
                     Text="{Binding Plant.NamePlant}"
+                    FontFamily="Montserrat"
                     FontSize="28"
                     FontAttributes="Bold"
                     TextColor="White"
@@ -70,6 +71,7 @@
             <!-- Уход заголовок -->
             <Label 
                 Grid.Row="1" 
+                FontFamily="Montserrat"
                 Text="Уход"
                 FontAttributes="Bold"
                 FontSize="24"
@@ -94,16 +96,21 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
-                                <Span Text="☀️&#10;" 
+                                <Span 
+                                    Text="☀️&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14"/>
 
-                                <Span Text="Свет&#10;" 
+                                <Span 
+                                    Text="Свет&#10;" 
+                                    FontFamily="Montserrat"
                                     FontAttributes="Bold" 
                                     FontSize="14" />
 
                                 <!-- Данные из БД обычным шрифтом -->
-                                <Span Text="{Binding Plant.Care_Light}" 
+                                <Span 
+                                    Text="{Binding Plant.Care_Light}" 
+                                    FontFamily="Montserrat"
                                     FontSize="12" /> 
                             </FormattedString>
                         </Label.FormattedText>
@@ -124,16 +131,21 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
-                                <Span Text="💦&#10;" 
+                                <Span  
+                                    Text="💦&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14" />
 
-                                <Span Text="Полив&#10;" 
+                                <Span 
+                                    FontFamily="Montserrat"
+                                    Text="Полив&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14"/>
                                 
                                 <!-- Данные из БД обычным шрифтом -->
-                                <Span Text="{Binding Plant.Care_Watering}" 
+                                <Span 
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.Care_Watering}" 
                                     FontSize="12" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -154,16 +166,21 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
-                                <Span Text="🌡️&#10;" 
+                                <Span 
+                                    Text="🌡️&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14" />
 
-                                <Span Text="Температура&#10;" 
+                                <Span 
+                                    FontFamily="Montserrat"
+                                    Text="Температура&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14" />
                                 
                                 <!-- Данные из БД обычным шрифтом -->
-                                <Span Text="{Binding Plant.Care_Temperature}" 
+                                <Span 
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.Care_Temperature}" 
                                     FontSize="12" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -183,16 +200,21 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <!-- Статичный жирный текст с переносом строки -->
-                                <Span Text="🧩&#10;" 
+                                <Span 
+                                    Text="🧩&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14" />
 
-                                <Span Text="Сложность&#10;" 
+                                <Span 
+                                    FontFamily="Montserrat"
+                                    Text="Сложность&#10;" 
                                     FontAttributes="Bold" 
                                     FontSize="14" />      
                                 
                                 <!-- Данные из БД обычным шрифтом -->
-                                <Span Text="{Binding Plant.Care_Complexity}" 
+                                <Span 
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.Care_Complexity}" 
                                     FontSize="12" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -204,6 +226,7 @@
             <!-- Особенности заголовок -->
             <Label 
                 Grid.Row="3" 
+                FontFamily="Montserrat"
                 Text="Особенности"
                 FontAttributes="Bold"
                 FontSize="24"
@@ -225,6 +248,7 @@
                         <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
+                        FontFamily="Montserrat"
                         TextColor="DarkGreen"
                         Text="{Binding Plant.Feature_One}"
                         VerticalOptions="Center"
@@ -240,6 +264,7 @@
                         <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
+                        FontFamily="Montserrat"
                         TextColor="DarkGreen"
                         Text="{Binding Plant.Feature_Two}"
                         VerticalOptions="Center"
@@ -255,6 +280,7 @@
                         <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
+                        FontFamily="Montserrat"
                         TextColor="DarkGreen"
                         Text="{Binding Plant.Feature_Three}"
                         VerticalOptions="Center"
@@ -270,6 +296,7 @@
                         <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
+                        FontFamily="Montserrat"
                         TextColor="DarkGreen"
                         Text="{Binding Plant.Feature_Four}"
                         VerticalOptions="Center"
@@ -288,6 +315,7 @@
                         <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Label 
+                        FontFamily="Montserrat"
                         Text="{Binding Plant.DescriptionPlant}"
                         FontSize="18"
                         Margin="10"/>
@@ -298,6 +326,7 @@
                 Grid.Row="6"
                 Margin="12"
                 TextColor="White"
+                FontFamily="Montserrat"
                 Text="Спросить об этом растении">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">

@@ -1,109 +1,158 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup
+
+<toolkit:Popup 
+    x:Name="RootPopup" 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:helpers="clr-namespace:PlantApp.Helpers"
-    x:Class="PlantApp.Views.Popups.UserPlantDetailsPopup">
-    <ScrollView>
-        <Grid>
+    x:Class="PlantApp.Views.Popups.UserPlantDetailsPopup"
+    Background="#F0EEE9">
 
-            <!-- основной контейнер -->
-            <Border
-                BackgroundColor="White"
-                Padding="16"
-                Margin="10"
-                StrokeThickness="0">
+    <Grid>
 
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20"/>
-                </Border.StrokeShape>
+        <!-- основной контейнер -->
+        <Border
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 25"
+            Padding="0"
+            Margin="20"
+            VerticalOptions="Center">
 
-                <VerticalStackLayout Spacing="12">
+            <Grid RowDefinitions="Auto,Auto,Auto">
 
-                    <!-- владелец -->
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <!-- ================= КАРТИНКА ================= -->
+                <Grid Grid.Row="0">
 
-                        <Border WidthRequest="50" HeightRequest="50">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="25"/>
-                            </Border.StrokeShape>
+                    <Image
+                        Source="{Binding Plant.ImagePath, Converter={StaticResource ImagePathConverter}}"
+                        HeightRequest="250"
+                        Aspect="AspectFill"/>
 
-                            <Image
-                            Source="{Binding Owner, Converter={StaticResource AvatarHelper}}"
-                            Aspect="AspectFill"/>
-                        </Border>
+                    <!-- затемнение -->
+                    <BoxView BackgroundColor="#40000000"/>
 
-                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                </Grid>
 
-                            <Label
-                            Text="{Binding Owner.UserName}"
-                            FontFamily="Montserrat"
-                            FontSize="14"
-                            FontAttributes="Bold"/>
-
-                            <Label
-                            Text="{Binding CreatedAtText}"
-                            FontFamily="Montserrat"
-                            FontSize="12"
-                            TextColor="#777"/>
-
-                        </VerticalStackLayout>
-
-                        <!-- кнопка перехода -->
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OpenOwnerProfileCommand}"/>
-                        </Grid.GestureRecognizers>
-
-                    </Grid>
-
-                    <!-- фото -->
-                    <Border Stroke="Transparent">
-
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="15"/>
-                        </Border.StrokeShape> 
-
-                        <Grid BackgroundColor="#F5F5F5"> 
-                            
-                            <Image
-                            Source="{Binding Plant.ImagePath, Converter={StaticResource ImagePathConverter}}"
-                            Aspect="AspectFit"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"/>
-
-                        </Grid>
-                    </Border>
-
-                    <!-- названия -->
-                    <Label
-                    Text="{Binding Plant.CustomName}"
-                    FontFamily="Montserrat"
-                    FontSize="18"
-                    FontAttributes="Bold"/>
+                <!-- ================= ИНФА ================= -->
+                <VerticalStackLayout Padding="15" Spacing="8" Grid.Row="1">
 
                     <Label
-                    Text="{Binding Plant.PlantName}"
-                    FontFamily="Montserrat"
-                    FontSize="14"
-                    TextColor="#777"/>
-
-                    <!-- описание -->
-                    <Border Padding="10" BackgroundColor="#F7F7F7">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="15"/>
-                        </Border.StrokeShape>
-
-                        <Label
-                        Text="{Binding Plant.Description}"
+                        Text="{Binding Plant.CustomName}"
                         FontFamily="Montserrat"
-                        FontSize="13"/>
-                    </Border>
+                        FontSize="24"
+                        FontAttributes="Bold"/>
 
+                    <Label
+                        Text="{Binding Plant.PlantName}"
+                        FontFamily="Montserrat"
+                        FontSize="16"
+                        TextColor="Gray"/>
+
+                    <Label
+                        Text="{Binding CreatedAtText}"
+                        FontFamily="Montserrat"
+                        FontSize="12"
+                        TextColor="Gray"/>
+
+                    <Label
+                        Text="{Binding AgeText}"
+                        FontFamily="Montserrat"
+                        FontSize="12"
+                        TextColor="Gray"/>
+
+                    <Label
+                        Text="{Binding Plant.LastWateredText}"
+                        FontFamily="Montserrat"
+                        FontSize="12"
+                        TextColor="#4CAF50"/>
+                    
+                    <Grid>
+                        
+                        <Image 
+                            ZIndex="1"
+                            Source="quotation_mark.png" 
+                            HeightRequest="20" 
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Margin="10, -5"/> 
+
+                        <Border
+                            ZIndex="0"
+                            BackgroundColor="#F0EEE9"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 25">
+
+                            <Label
+                                Padding="15"
+                                Text="{Binding Plant.Description}"
+                                FontFamily="Montserrat"
+                                FontSize="16"/>
+
+                        </Border>
+                        
+                    </Grid>
+                    
                 </VerticalStackLayout>
 
-            </Border>
+                <!-- ================= ВЛАДЕЛЕЦ ================= -->
+                <Grid
+                    Grid.Row="2"
+                    Padding="15"
+                    ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
 
-        </Grid>
-    </ScrollView>
+                    <!-- аватар -->
+                    <Border
+                        WidthRequest="45"
+                        HeightRequest="45"
+                        StrokeShape="RoundRectangle 50">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding OpenOwnerProfileCommand}"/>
+                        </Border.GestureRecognizers>
+
+                        <Image
+                            Source="{Binding Owner, Converter={StaticResource AvatarHelper}}"
+                            Aspect="AspectFill"/>
+                    </Border>
+
+                    <!-- ник -->
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding Owner.UserName}"
+                        VerticalOptions="Center"
+                        FontFamily="Montserrat"
+                        FontSize="14"/>
+
+                    <!-- кнопка написать -->
+                    <Button
+                        Grid.Column="2"
+                        Text="Написать"
+                        FontFamily="Montserrat"
+                        FontSize="12"
+                        CornerRadius="12"
+                        BackgroundColor="#8CD98C"
+                        TextColor="DarkGreen"
+                        Command="{Binding OpenChatCommand}"/>
+
+                </Grid>
+
+            </Grid>
+
+        </Border>
+
+        <!-- кнопка назад -->
+        <ImageButton
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Source="arrow_back.png"
+            WidthRequest="20"
+            HeightRequest="20"
+            Margin="30"
+            CornerRadius="15"
+            Command="{Binding CloseCommand}"
+            CommandParameter="{x:Reference Name=RootPopup}"/>
+    </Grid>
+
 </toolkit:Popup>
