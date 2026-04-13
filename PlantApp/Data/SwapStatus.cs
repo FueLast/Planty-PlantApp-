@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace PlantApp.Data
 {
-    class SwapStatus
+    public enum SwapStatus
     {
+        Pending,
+        Accepted,
+        Rejected
     }
 }

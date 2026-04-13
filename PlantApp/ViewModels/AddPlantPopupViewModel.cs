@@ -8,9 +8,10 @@ namespace PlantApp.ViewModels;
 
 public partial class AddPlantPopupViewModel : ObservableObject
 {
-    private readonly UserPlantService _plantService;
     private readonly AuthService _authService;
     private readonly SupabaseStorageService _storageService;
+
+    private readonly PlantService _plantService;
 
     // список растений для Picker
     public ObservableCollection<Plant> Plants { get; set; } = new();
@@ -31,13 +32,13 @@ public partial class AddPlantPopupViewModel : ObservableObject
     private string imagePath;
 
     public AddPlantPopupViewModel(
-        UserPlantService plantService,
         AuthService authService,
-        SupabaseStorageService storageService)
+        SupabaseStorageService storageService,
+        PlantService plantService)
     {
-        _plantService = plantService;
         _authService = authService;
         _storageService = storageService;
+        _plantService = plantService;
 
         LoadPlants();
     }

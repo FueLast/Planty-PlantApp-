@@ -31,6 +31,13 @@ namespace PlantApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+                    fonts.AddFont("Montserrat-Regular.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-Bold.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-ExtraBold.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-SemiBold.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-Light.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-Thin.ttf", "Montserrat");
                 })
                 .ConfigureSyncfusionCore();
 
@@ -51,15 +58,17 @@ namespace PlantApp
             builder.Services.AddScoped<AIChatService>();
             builder.Services.AddScoped<AIService>();
             builder.Services.AddScoped<FavoriteService>();
-            builder.Services.AddScoped<ProfileService>();
-            builder.Services.AddScoped<UserPlantService>();
+            builder.Services.AddScoped<ProfileService>(); 
             builder.Services.AddScoped<FriendService>();
-            builder.Services.AddScoped<UserService>(); 
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<PlantService>();
+
 
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<SecurityService>();
             builder.Services.AddSingleton<SupabaseStorageService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();
+            builder.Services.AddScoped<ISwapService, SwapService>();
 
 
             // HTTP клиент для AI
@@ -74,6 +83,8 @@ namespace PlantApp
             builder.Services.AddHttpClient<RealtimeChatService>();
             builder.Services.AddSingleton<RealtimeChatService>();
 
+            // подключаем HttpClient для swap'а
+            builder.Services.AddHttpClient<SupabaseSwapService>(); 
 
 
             // страницы
@@ -99,7 +110,8 @@ namespace PlantApp
             // внутренние страницы
             builder.Services.AddTransient<GPTPage>();
             builder.Services.AddTransient<EncyclopediaPage>();
-            builder.Services.AddTransient<RemindersPage>();
+            builder.Services.AddTransient<SwapPage>();
+            builder.Services.AddTransient<RemindersPage>(); //скоро удалится
             builder.Services.AddTransient<FavoritesPage>();
 
             // ViewModels
@@ -112,6 +124,7 @@ namespace PlantApp
             builder.Services.AddTransient<FavoritesPageViewModel>();
             builder.Services.AddTransient<ProfilePageViewModel>();
             builder.Services.AddTransient<PlantDetailsViewModel>();
+            builder.Services.AddTransient<SwapPageViewModel>();
 
             builder.Services.AddTransient<AddPlantPopupViewModel>();
             builder.Services.AddTransient<EditProfilePopupViewModel>();
@@ -128,4 +141,4 @@ namespace PlantApp
             return builder.Build();
         }
     }
-}
+} 

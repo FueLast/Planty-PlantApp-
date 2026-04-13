@@ -1,0 +1,182 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:PlantApp.ViewModels"
+    xmlns:data="clr-namespace:PlantApp.Data"
+    x:Class="PlantApp.Views.SwapPage"
+    BackgroundColor="#F0EEE9"
+    x:DataType="viewmodels:SwapPageViewModel"
+    >
+    <ScrollView>
+
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- заголовок -->
+            <Label
+                Text="Обмен растениями"
+                FontSize="22"
+                FontAttributes="Bold"
+                FontFamily="Montserrat"
+                TextColor="#1E1E1E" />
+
+            <!-- фильтры -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+
+                <!-- все офферы -->
+                <Border
+                    BackgroundColor="#2E7D32"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 25">
+
+                    <Label
+                        Text="Все предложения"
+                        TextColor="White"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Padding="12"
+                        FontFamily="Montserrat"
+                        FontAttributes="Bold"/>
+                </Border>
+
+                <!-- мои офферы -->
+                <Border
+                    Grid.Column="1"
+                    BackgroundColor="White"
+                    Stroke="#E0E0E0"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 25">
+
+                    <Label
+                        Text="Мои предложения"
+                        TextColor="#2E7D32"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Padding="12"
+                        FontFamily="Montserrat"
+                        FontAttributes="Bold"/>
+                </Border>
+
+            </Grid>
+
+            <!-- список офферов -->
+            <CollectionView
+                ItemsSource="{Binding Offers}"
+                SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="data:SwapOffer">
+
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#E5E5E5"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 15"
+                            Padding="10"
+                            Margin="0,0,0,10">
+
+                            <Grid ColumnDefinitions="120,*" ColumnSpacing="12">
+
+                                <!-- изображение -->
+                                <Border
+                                    StrokeShape="RoundRectangle 15"
+                                    HeightRequest="120"
+                                    WidthRequest="120">
+
+                                    <Image
+                                        Source="{Binding Plant.ImagePath}"
+                                        Aspect="AspectFill"/>
+                                </Border>
+
+                                <!-- контент -->
+                                <VerticalStackLayout Spacing="6">
+
+                                    <!-- название -->
+                                    <Label
+                                        Text="{Binding Plant.CustomName}"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        FontFamily="Montserrat"
+                                        TextColor="#1E1E1E"/>
+
+                                    <!-- владелец -->
+                                    <Label
+                                        Text="{Binding OwnerName}"
+                                        FontSize="12"
+                                        TextColor="#777"
+                                        FontFamily="Montserrat"/>
+
+                                    <!-- что хочет -->
+                                    <Label
+                                        Text="{Binding DesiredPlantDescription}"
+                                        FontSize="12"
+                                        TextColor="#555"
+                                        FontFamily="Montserrat"
+                                        LineBreakMode="WordWrap"/>
+
+                                    <!-- кнопка -->
+                                    <Border
+                                        BackgroundColor="#2E7D32"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 25"
+                                        Margin="0,8,0,0">
+
+                                        <Grid>
+
+                                            <Button
+                                                Text="Предложить обмен"
+                                                Command="{Binding Source={RelativeSource 
+                                                    AncestorType={x:Type viewmodels:SwapPageViewModel}}, Path=SendRequestCommand}"
+                                                CommandParameter="{Binding}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="White"
+                                                FontFamily="Montserrat"
+                                                FontAttributes="Bold"/>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <!-- кнопка добавить оффер -->
+            <Border
+                BackgroundColor="#2E7D32"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 25"
+                Margin="0,10,0,20">
+
+                <Grid ColumnDefinitions="40,*" Padding="12">
+
+                    <Label
+                        Text="+"
+                        FontSize="22"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="Выставить своё растение"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        FontFamily="Montserrat"
+                        FontAttributes="Bold"/>
+
+                </Grid>
+
+            </Border>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

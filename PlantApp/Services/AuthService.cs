@@ -19,6 +19,15 @@ namespace PlantApp.Services
             CurrentUser = user;
         }
 
+        public string GetUserUuid()
+        {
+            if (CurrentUser == null)
+                throw new Exception("Пользователь не авторизован");
+
+            // Return string representation (UUID) of the current user's Id
+            return CurrentUser.Id.ToString();
+        }
+
         public int GetUserId()
         {
             if (CurrentUser == null)

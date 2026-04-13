@@ -15,11 +15,11 @@ namespace PlantApp.ViewModels;
 
 public partial class ProfilePageViewModel : ObservableObject
 {
-    private readonly UserPlantService _plantService;
     private readonly INavigationService _navigationService;
     private readonly IDbContextFactory<AppDbContext> _factory;
     private readonly AuthService _authService;
     private readonly FriendService _friendService;
+    private readonly PlantService _plantService;
     private readonly IServiceProvider _serviceProvider;
 
     private readonly string _baseUrl;
@@ -63,20 +63,20 @@ public partial class ProfilePageViewModel : ObservableObject
     }
 
     public ProfilePageViewModel(
-        UserPlantService plantService,
         INavigationService navigationService,
         IDbContextFactory<AppDbContext> factory,
         AuthService authService,
+        PlantService plantService,
         FriendService friendService,
         IServiceProvider serviceProvider,
         IConfiguration config)
     {
-        _plantService = plantService;
         _navigationService = navigationService;
         _factory = factory;
         _authService = authService;
         _friendService = friendService;
         _serviceProvider = serviceProvider;
+        _plantService = plantService;
 
         _baseUrl = config["Supabase:BaseUrl"];
         _apiKey = config["Supabase:ApiKeyAnonPK"];

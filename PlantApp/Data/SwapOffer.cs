@@ -10,12 +10,15 @@ namespace PlantApp.Data
     {
         public int Id { get; set; }
 
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; } = string.Empty; // uuid это string
+
         public int UserPlantId { get; set; }
 
         public string? DesiredPlantDescription { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public string? OwnerName { get; set; }
 
         // навигация
         public User? Owner { get; set; }

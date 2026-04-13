@@ -248,7 +248,7 @@
                         </Border.Shadow>
 
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OnRemindersCommand}"/>
+                            <TapGestureRecognizer Command="{Binding OnSwapCommand}"/>
                         </Border.GestureRecognizers>
 
 
@@ -259,7 +259,7 @@
                             <Image Source="calendar.png" 
                                    HeightRequest="40"/>
 
-                            <Label Text="Напоминания"
+                            <Label Text="Своп-маркет"
                                     FontSize="14" 
                                     FontFamily="Montserrat"
                                     TextColor="#2E7D32"
