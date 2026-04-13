@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PlantApp.Data; 
+using PlantApp.Data;
+using PlantApp.Views.Popups;
 using PlantApp.Services;
 using System.Collections.ObjectModel;
 
@@ -54,6 +56,20 @@ namespace PlantApp.ViewModels
                 myPlantId,
                 DesiredText);
 
+            await LoadAsync();
+        }
+
+        [RelayCommand]
+        private async Task OpenCreateOfferPopup()
+        {
+            var vm = App.Current.Handler.MauiContext.Services
+                .GetRequiredService<CreateSwapOfferPopupViewModel>();
+
+            var popup = new CreateSwapOfferPopup(vm);
+
+            await Application.Current.MainPage.ShowPopupAsync(popup);
+
+            // после закрытия обновляем список
             await LoadAsync();
         }
 

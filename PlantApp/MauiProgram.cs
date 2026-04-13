@@ -97,6 +97,7 @@ namespace PlantApp
             builder.Services.AddTransient<AddPlantPopup>();
             builder.Services.AddTransient<EditProfilePopup>();
             builder.Services.AddTransient<UserPlantDetailsPopup>();
+            builder.Services.AddTransient<CreateSwapOfferPopup>();
             //чаты
             builder.Services.AddTransient<UserChatPage>();
             builder.Services.AddTransient<ChatPage>();
@@ -129,6 +130,7 @@ namespace PlantApp
             builder.Services.AddTransient<AddPlantPopupViewModel>();
             builder.Services.AddTransient<EditProfilePopupViewModel>();
             builder.Services.AddTransient<UserPlantDetailsPopupViewModel>();
+            builder.Services.AddTransient<CreateSwapOfferPopupViewModel>();
             //чаты ViewModels
             builder.Services.AddTransient<ChatPageViewModel>();
             builder.Services.AddTransient<UserChatViewModel>();

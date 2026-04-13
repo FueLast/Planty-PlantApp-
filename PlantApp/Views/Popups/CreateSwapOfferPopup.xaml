@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="PlantApp.Views.Popups.CreateSwapOfferPopup"
+    BackgroundColor="#F0EEE9">
+
+    <VerticalStackLayout
+        Padding="20"
+        BackgroundColor="White"
+        WidthRequest="320"
+        Spacing="16"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <!-- Заголовок -->
+        <Label
+            Text="Новый оффер"
+            FontSize="18"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"/>
+
+        <!-- IMAGE SKELETON -->
+        <Border
+            HeightRequest="180"
+            Stroke="#E0E0E0"
+            StrokeShape="RoundRectangle 20"
+            BackgroundColor="#F5F5F5">
+
+            <Grid>
+
+                <!-- картинка -->
+                <Image
+                    Source="{Binding ImagePreview}"
+                    Aspect="AspectFill"
+                    IsVisible="{Binding HasImage}"/>
+
+                <!-- skeleton -->
+                <VerticalStackLayout
+                    IsVisible="{Binding HasImage, Converter={StaticResource InverseBoolConverter}}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                    <Label Text="📷" FontSize="40" HorizontalOptions="Center"/>
+                    <Label Text="Добавить фото" FontSize="12"/>
+                </VerticalStackLayout>
+
+                <!-- кнопка -->
+                <Button
+                    Command="{Binding PickImageCommand}"
+                    BackgroundColor="Transparent"/>
+            </Grid>
+        </Border>
+
+        <!-- описание -->
+        <Entry
+            Placeholder="Что хотите получить?"
+            Text="{Binding DesiredText}"/>
+
+        <!-- кнопка создать -->
+        <Button
+            Text="Создать"
+            Command="{Binding CreateCommand}"
+            BackgroundColor="#2E7D32"
+            TextColor="White"/>
+
+    </VerticalStackLayout>
+</toolkit:Popup>
