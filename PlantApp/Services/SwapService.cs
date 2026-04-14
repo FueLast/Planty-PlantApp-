@@ -26,16 +26,12 @@ public class SwapService : ISwapService
         };
 
         await _supabase.CreateOfferAsync(offer);
-    }
-
-    public async Task<List<SwapOffer>> GetAllOffersAsync()
-    {
-        return await _supabase.GetOffersAsync();
-    }
+    } 
 
     public async Task SendRequestAsync(int offerId, int fromUserId, int plantId)
     {
-        using var db = await _dbFactory.CreateDbContextAsync();
+        using var db = await
+            _dbFactory.CreateDbContextAsync();
 
         var request = new SwapRequest
         {
@@ -69,4 +65,53 @@ public class SwapService : ISwapService
             .Where(x => x.SwapOffer!.OwnerId == ownerId)
             .ToListAsync();
     }
+
+    // Implement parameterless interface method and delegate to the overload with defaults
+    public Task<List<SwapOffer>> GetAllOffersAsync()
+    {
+        return GetAllOffersAsync(false, 0, 20);
+    }
+
+    public async Task<List<SwapOffer>> GetAllOffersAsync(bool onlyPreview = false, int skip = 0, int take = 20)
+    {
+        var offers = await _supabase.GetOffersAsync();
+
+        using var db = await _dbFactory.CreateDbContextAsync();
+
+        // текущий пользователь
+        var currentUser = await db.Users
+            .Include(x => x.Profile)
+            .FirstOrDefaultAsync(x => x.Id == 1); // потом заменишь
+
+        foreach (var offer in offers)
+        {
+            // подтягиваем растение
+            offer.Plant = await db.UserPlants
+                .Include(x => x.Plant)
+                .FirstOrDefaultAsync(x => x.Id == offer.UserPlantId);
+
+            // подтягиваем владельца
+            var owner = await db.Users
+                .Include(x => x.Profile)
+                .FirstOrDefaultAsync(x => x.Id == offer.OwnerId);
+
+            offer.OwnerName = owner?.Login;
+            offer.OwnerCity = owner?.Profile?.City;
+        }
+
+        // сортировка
+        var sorted = offers
+            .OrderByDescending(x => x.OwnerCity == currentUser?.Profile?.City) // сначала свой город
+            .ThenBy(x => Guid.NewGuid()) // рандом
+            .ToList();
+
+        if (onlyPreview)
+            return sorted.Take(20).ToList();
+
+        return sorted
+            .Skip(skip)
+            .Take(take)
+            .ToList();
+    }
+
 }

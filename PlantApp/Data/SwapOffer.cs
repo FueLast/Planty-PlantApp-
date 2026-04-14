@@ -19,9 +19,10 @@ namespace PlantApp.Data
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public string? OwnerName { get; set; }
+        public string? OwnerCity { get; set; }
 
         // навигация
         public User? Owner { get; set; }
-        public UserPlant? Plant { get; set; }
+        public UserPlant? Plant { get; set; } 
     }
 }

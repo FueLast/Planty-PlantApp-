@@ -11,7 +11,7 @@ namespace PlantApp.Services
     {
         Task CreateOfferAsync(int ownerId, int plantId, string? desired);
 
-        Task<List<SwapOffer>> GetAllOffersAsync();
+        Task<List<SwapOffer>> GetAllOffersAsync(bool onlyPreview = false, int skip = 0, int take = 20);
 
         Task SendRequestAsync(int offerId, int fromUserId, int plantId);
 

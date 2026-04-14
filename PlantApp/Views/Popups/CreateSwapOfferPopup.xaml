@@ -20,56 +20,48 @@
             VerticalOptions="Center"
             Shadow="0,10,25,#40000000">
 
-            <VerticalStackLayout Spacing="16">
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="18"
+                BackgroundColor="White"
+                WidthRequest="340">
 
-                <!-- HEADER -->
                 <Label
                     Text="Новый оффер"
-                    FontFamily="Montserrat"
                     FontSize="20"
                     FontAttributes="Bold"
-                    HorizontalOptions="Center"
-                    TextColor="#1E1E1E"/>
+                    HorizontalOptions="Center"/>
 
-                <!-- IMAGE BLOCK -->
+                <!-- IMAGE -->
                 <Border
                     HeightRequest="180"
-                    StrokeThickness="0"
+                    Stroke="#E0E0E0"
                     StrokeShape="RoundRectangle 20"
-                    BackgroundColor="#F3F3F3">
+                    BackgroundColor="#F7F7F7">
 
                     <Grid>
 
-                        <!-- IMAGE -->
                         <Image
                             Source="{Binding ImagePreview}"
                             Aspect="AspectFill"
                             IsVisible="{Binding HasImage}"/>
 
-                        <!-- SKELETON -->
                         <VerticalStackLayout
                             IsVisible="{Binding HasImage, Converter={StaticResource InverseBoolConverter}}"
                             HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            Spacing="4">
+                            VerticalOptions="Center">
 
-                            <Label
-                                Text="📷"
-                                FontSize="36"
-                                HorizontalOptions="Center"
-                                TextColor="#999"/>
+                            <Label Text="📷" FontSize="42"/>
+                            <Label Text="Добавить фото" FontSize="12"/>
 
-                            <Label
-                                Text="Добавить фото"
-                                FontSize="12"
-                                TextColor="#888"/>
                         </VerticalStackLayout>
 
-                        <!-- CLICK AREA -->
                         <Button
                             Command="{Binding PickImageCommand}"
                             BackgroundColor="Transparent"/>
+
                     </Grid>
+
                 </Border>
 
                 <!-- ВЫБОР РАСТЕНИЯ -->
@@ -77,8 +69,7 @@
 
                     <Label
                         Text="Ваше растение"
-                        FontFamily="Montserrat" 
-                        FontSize="13"
+                        FontSize="12"
                         TextColor="#777"/>
 
                     <Border
@@ -87,48 +78,32 @@
                         Padding="10">
 
                         <Picker
-                            Title="Выберите растение"
-                            FontFamily="Montserrat"
-                            FontSize="14"
-                            FontAttributes="Bold"
-                            ItemsSource="{Binding Plants}"
-                            ItemDisplayBinding="{Binding NamePlant}"
-                            SelectedItem="{Binding SelectedPlant}"/>
+                            ItemsSource="{Binding MyPlants}"
+                            ItemDisplayBinding="{Binding CustomName}"
+                            SelectedItem="{Binding SelectedPlant}" />
+
                     </Border>
+
                 </VerticalStackLayout>
 
                 <!-- ОПИСАНИЕ -->
                 <VerticalStackLayout Spacing="6">
 
-                    <Label
-                        Text="Что хотите получить"
-                        FontFamily="Montserrat"
-                        FontSize="13"
-                        TextColor="#777"/>
-
-                    <Border
-                        Stroke="#E0E0E0"
-                        StrokeShape="RoundRectangle 12"
-                        Padding="10">
-
-                        <Entry
-                            Placeholder="Например: монстера, фикус..."
-                            Text="{Binding DesiredText}"
-                            FontFamily="Montserrat"
-                            BackgroundColor="Transparent"/>
-                    </Border>
+                    <Entry
+                        Placeholder="Что хотите получить?"
+                        Text="{Binding DesiredText}"
+                        BackgroundColor="Transparent"/>
+ 
                 </VerticalStackLayout>
 
                 <!-- BUTTON -->
                 <Button
                     Text="Создать оффер"
-                    FontFamily="Montserrat"
                     Command="{Binding CreateCommand}"
                     BackgroundColor="#2E7D32"
                     TextColor="White"
-                    CornerRadius="16"
-                    HeightRequest="48"
-                    FontAttributes="Bold"/>
+                    CornerRadius="14"
+                    HeightRequest="50"/>
 
             </VerticalStackLayout>
         </Border>

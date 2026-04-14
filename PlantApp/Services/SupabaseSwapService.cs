@@ -48,7 +48,7 @@ public class SupabaseSwapService
                 message,
                 "OK");
 
-            return; // ❗ важно
+            return; // важно
         }
     }
 

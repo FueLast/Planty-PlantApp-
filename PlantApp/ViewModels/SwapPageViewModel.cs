@@ -5,6 +5,7 @@ using PlantApp.Data;
 using PlantApp.Views.Popups;
 using PlantApp.Services;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace PlantApp.ViewModels
 {
@@ -18,6 +19,12 @@ namespace PlantApp.ViewModels
 
         [ObservableProperty]
         private string? desiredText;
+
+        private int _page = 0;
+        private const int PageSize = 20;
+
+        [ObservableProperty]
+        private bool isFullMode;
 
         public ObservableCollection<SwapOffer> Offers { get; } = new();
 
@@ -38,25 +45,39 @@ namespace PlantApp.ViewModels
         [RelayCommand]
         public async Task LoadAsync()
         {
-            Offers.Clear();
-
-            var items = await _swapService.GetAllOffersAsync();
+            var items = await _swapService.GetAllOffersAsync(
+                onlyPreview: true,
+                skip: 0,
+                take: PageSize);
 
             foreach (var item in items)
                 Offers.Add(item);
         }
 
         [RelayCommand]
-        public async Task CreateOffer()
+        public async Task LoadMore()
         {
-            int myPlantId = 1;
+            _page++;
 
-            await _swapService.CreateOfferAsync(
-                _authService.GetUserId(),
-                myPlantId,
-                DesiredText);
+            var items = await _swapService.GetAllOffersAsync(
+                onlyPreview: false,
+                skip: _page * PageSize,
+                take: PageSize);
 
-            await LoadAsync();
+            foreach (var item in items)
+                Offers.Add(item);
+        }
+
+        [RelayCommand]
+        public async Task ShowAll()
+        { 
+            var items = await _swapService.GetAllOffersAsync(
+                onlyPreview: false,
+                skip: 0,
+                take: PageSize);
+
+            foreach (var item in items)
+                Offers.Add(item);
         }
 
         [RelayCommand]

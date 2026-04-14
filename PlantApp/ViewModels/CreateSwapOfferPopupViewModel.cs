@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using PlantApp.Data;
 using PlantApp.Services;
 using System;
@@ -22,35 +23,44 @@ public partial class CreateSwapOfferPopupViewModel : ObservableObject
     [ObservableProperty]
     private string imagePreview;
 
-    public ObservableCollection<Plant> Plants { get; } = new();
+    public ObservableCollection<UserPlant> MyPlants { get; } = new();
 
     [ObservableProperty]
-    private Plant selectedPlant;
+    private UserPlant selectedPlant;
 
+    public ObservableCollection<Plant> Plants { get; } = new();
+     
     private readonly PlantService _plantService;
 
     public bool HasImage => !string.IsNullOrEmpty(ImagePreview);
+    private readonly AppDbContext _db;
+
 
     public CreateSwapOfferPopupViewModel(
         ISwapService swapService,
         AuthService authService,
-        PlantService plantService)
+        PlantService plantService,
+        AppDbContext db)
     {
         _swapService = swapService;
         _authService = authService;
         _plantService = plantService;
+        _db = db;
 
         LoadPlants();
     }
 
-    private async void LoadPlants()
+    public async Task LoadPlants()
     {
-        var list = await _plantService.GetPlants();
+        var plants = await _db.UserPlants
+            .Include(x => x.Plant)
+            .Where(x => x.UserId == _authService.GetUserId())
+            .ToListAsync();
 
-        Plants.Clear();
+        MyPlants.Clear();
 
-        foreach (var plant in list)
-            Plants.Add(plant);
+        foreach (var p in plants)
+            MyPlants.Add(p);
     }
 
     [RelayCommand]
@@ -71,16 +81,24 @@ public partial class CreateSwapOfferPopupViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task Create()
+    public async Task Create()
     {
-        // пока захардкодим plantId (потом сделаем выбор)
-        int plantId = 1;
+        if (SelectedPlant == null)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Ошибка",
+                "Выберите растение",
+                "OK");
+            return;
+        }
 
         await _swapService.CreateOfferAsync(
             _authService.GetUserId(),
-            plantId,
-            DesiredText);
+            SelectedPlant.Id,
+            DesiredText
+        );
 
+        // закрываем popup
         CloseAction?.Invoke();
     }
 }

@@ -74,46 +74,64 @@
                             Padding="10"
                             Margin="0,0,0,10">
 
-                            <Grid ColumnDefinitions="120,*" ColumnSpacing="12">
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
 
-                                <!-- изображение -->
+                                <!-- IMAGE -->
                                 <Border
-                                    StrokeShape="RoundRectangle 15"
-                                    HeightRequest="120"
-                                    WidthRequest="120">
+                                    Stroke="Transparent"
+                                    Grid.Column="0"
+                                    StrokeShape="RoundRectangle 15">
 
                                     <Image
-                                        Source="{Binding Plant.ImagePath}"
-                                        Aspect="AspectFill"/>
+                                        Source="{Binding Plant.ImagePath, TargetNullValue='background_listik_profile.png'}"
+                                        Aspect="AspectFill"/> 
                                 </Border>
 
-                                <!-- контент -->
-                                <VerticalStackLayout Spacing="6">
+                                <!-- CONTENT -->
+                                <VerticalStackLayout Spacing="6" Grid.Column="1">
 
-                                    <!-- название -->
-                                    <Label
-                                        Text="{Binding Plant.CustomName}"
+                                    <!-- кастом имя -->
+                                    <Label 
+                                        Text="{Binding Plant.CustomName, TargetNullValue='Без названия'}"
                                         FontSize="16"
                                         FontAttributes="Bold"
-                                        FontFamily="Montserrat"
                                         TextColor="#1E1E1E"/>
+
+                                    <Border>
+                                        <Image
+                                            Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"
+                                            HeightRequest="20"
+                                            WidthRequest="20"/>
+                                    </Border>
+
+                                    <!-- реальное имя растения -->
+                                    <Label
+                                        Text="{Binding Plant.Plant.NamePlant, TargetNullValue='Неизвестное растение'}"
+                                        FontSize="12"
+                                        TextColor="#777"/>
 
                                     <!-- владелец -->
                                     <Label
                                         Text="{Binding OwnerName}"
                                         FontSize="12"
-                                        TextColor="#777"
-                                        FontFamily="Montserrat"/>
+                                        TextColor="#777"/>
 
-                                    <!-- что хочет -->
+                                    <!-- описание -->
                                     <Label
                                         Text="{Binding DesiredPlantDescription}"
                                         FontSize="12"
                                         TextColor="#555"
-                                        FontFamily="Montserrat"
                                         LineBreakMode="WordWrap"/>
 
-                                    <!-- кнопка --> 
+                                    <!-- кнопка -->
+                                    <Button 
+                                        Text="Предложить обмен"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SwapPageViewModel}}, Path=SendRequestCommand}"
+                                        CommandParameter="{Binding}"
+                                        BackgroundColor="#2E7D32"
+                                        TextColor="White"
+                                        CornerRadius="12"
+                                        HeightRequest="40"/>
 
                                 </VerticalStackLayout>
 
@@ -125,21 +143,38 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-
+             
+                <Button
+                    Text="Показать все"
+                    Command="{Binding ShowAllCommand}"
+                    IsVisible="{Binding IsFullMode, Converter={StaticResource InverseBoolConverter}}"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"
+                    CornerRadius="20"
+                    HeightRequest="50"/> 
+                <Button
+                    Text="Загрузить еще"
+                    Command="{Binding LoadMoreCommand}"
+                    IsVisible="{Binding IsFullMode}"
+                    BackgroundColor="#EEEEEE"
+                    TextColor="Black"
+                    CornerRadius="20"
+                    HeightRequest="50"/>
+ 
             <!-- кнопка добавить оффер -->
             <Border
-                                        BackgroundColor="#2E7D32"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 25"
-                                        Margin="0,10,0,20">
+                BackgroundColor="#2E7D32"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 25"
+                Margin="0,10,0,20">
 
                 <Button
-                                            Text="Выставить своё растение"
-                                            Command="{Binding OpenCreateOfferPopupCommand}"
-                                            BackgroundColor="Transparent"
-                                            TextColor="White"
-                                            FontFamily="Montserrat"
-                                            FontAttributes="Bold"/>
+                    Text="Выставить своё растение"
+                    Command="{Binding OpenCreateOfferPopupCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontFamily="Montserrat"
+                    FontAttributes="Bold"/>
 
             </Border>
 
