@@ -6,64 +6,131 @@
     x:Class="PlantApp.Views.Popups.CreateSwapOfferPopup"
     BackgroundColor="#F0EEE9">
 
-    <VerticalStackLayout
-        Padding="20"
-        BackgroundColor="White"
-        WidthRequest="320"
-        Spacing="16"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
+    <!-- затемнение фона -->
+    <Grid>
 
-        <!-- Заголовок -->
-        <Label
-            Text="Новый оффер"
-            FontSize="18"
-            FontAttributes="Bold"
-            HorizontalOptions="Center"/>
-
-        <!-- IMAGE SKELETON -->
+        <!-- CARD -->
         <Border
-            HeightRequest="180"
-            Stroke="#E0E0E0"
-            StrokeShape="RoundRectangle 20"
-            BackgroundColor="#F5F5F5">
+            BackgroundColor="White"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 25"
+            Padding="20"
+            WidthRequest="340"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Shadow="0,10,25,#40000000">
 
-            <Grid>
+            <VerticalStackLayout Spacing="16">
 
-                <!-- картинка -->
-                <Image
-                    Source="{Binding ImagePreview}"
-                    Aspect="AspectFill"
-                    IsVisible="{Binding HasImage}"/>
-
-                <!-- skeleton -->
-                <VerticalStackLayout
-                    IsVisible="{Binding HasImage, Converter={StaticResource InverseBoolConverter}}"
+                <!-- HEADER -->
+                <Label
+                    Text="Новый оффер"
+                    FontFamily="Montserrat"
+                    FontSize="20"
+                    FontAttributes="Bold"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                    TextColor="#1E1E1E"/>
 
-                    <Label Text="📷" FontSize="40" HorizontalOptions="Center"/>
-                    <Label Text="Добавить фото" FontSize="12"/>
+                <!-- IMAGE BLOCK -->
+                <Border
+                    HeightRequest="180"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="#F3F3F3">
+
+                    <Grid>
+
+                        <!-- IMAGE -->
+                        <Image
+                            Source="{Binding ImagePreview}"
+                            Aspect="AspectFill"
+                            IsVisible="{Binding HasImage}"/>
+
+                        <!-- SKELETON -->
+                        <VerticalStackLayout
+                            IsVisible="{Binding HasImage, Converter={StaticResource InverseBoolConverter}}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Spacing="4">
+
+                            <Label
+                                Text="📷"
+                                FontSize="36"
+                                HorizontalOptions="Center"
+                                TextColor="#999"/>
+
+                            <Label
+                                Text="Добавить фото"
+                                FontSize="12"
+                                TextColor="#888"/>
+                        </VerticalStackLayout>
+
+                        <!-- CLICK AREA -->
+                        <Button
+                            Command="{Binding PickImageCommand}"
+                            BackgroundColor="Transparent"/>
+                    </Grid>
+                </Border>
+
+                <!-- ВЫБОР РАСТЕНИЯ -->
+                <VerticalStackLayout Spacing="6">
+
+                    <Label
+                        Text="Ваше растение"
+                        FontFamily="Montserrat" 
+                        FontSize="13"
+                        TextColor="#777"/>
+
+                    <Border
+                        Stroke="#E0E0E0"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="10">
+
+                        <Picker
+                            Title="Выберите растение"
+                            FontFamily="Montserrat"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            ItemsSource="{Binding Plants}"
+                            ItemDisplayBinding="{Binding NamePlant}"
+                            SelectedItem="{Binding SelectedPlant}"/>
+                    </Border>
                 </VerticalStackLayout>
 
-                <!-- кнопка -->
+                <!-- ОПИСАНИЕ -->
+                <VerticalStackLayout Spacing="6">
+
+                    <Label
+                        Text="Что хотите получить"
+                        FontFamily="Montserrat"
+                        FontSize="13"
+                        TextColor="#777"/>
+
+                    <Border
+                        Stroke="#E0E0E0"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="10">
+
+                        <Entry
+                            Placeholder="Например: монстера, фикус..."
+                            Text="{Binding DesiredText}"
+                            FontFamily="Montserrat"
+                            BackgroundColor="Transparent"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- BUTTON -->
                 <Button
-                    Command="{Binding PickImageCommand}"
-                    BackgroundColor="Transparent"/>
-            </Grid>
+                    Text="Создать оффер"
+                    FontFamily="Montserrat"
+                    Command="{Binding CreateCommand}"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"
+                    CornerRadius="16"
+                    HeightRequest="48"
+                    FontAttributes="Bold"/>
+
+            </VerticalStackLayout>
         </Border>
-
-        <!-- описание -->
-        <Entry
-            Placeholder="Что хотите получить?"
-            Text="{Binding DesiredText}"/>
-
-        <!-- кнопка создать -->
-        <Button
-            Text="Создать"
-            Command="{Binding CreateCommand}"
-            BackgroundColor="#2E7D32"
-            TextColor="White"/>
-
-    </VerticalStackLayout>
+    </Grid>
 </toolkit:Popup>

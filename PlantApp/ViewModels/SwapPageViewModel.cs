@@ -52,7 +52,7 @@ namespace PlantApp.ViewModels
             int myPlantId = 1;
 
             await _swapService.CreateOfferAsync(
-                _authService.GetUserUuid(), // owner is UUID string
+                _authService.GetUserId(),
                 myPlantId,
                 DesiredText);
 

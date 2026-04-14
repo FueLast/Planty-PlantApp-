@@ -221,7 +221,7 @@
                             HorizontalOptions="Center"
                             VerticalOptions="Center">
 
-                            <Image Source="encyclopedia5.png" 
+                            <Image Source="encyclopedia.png" 
                                    HeightRequest="40"/>
 
                             <Label Text="Энциклопедия"
@@ -232,7 +232,7 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <!-- Reminders -->
+                    <!-- Swap -->
                     <Border Margin="8"
                             Grid.Row="1"
                             Grid.Column="0" 
@@ -256,7 +256,7 @@
                             HorizontalOptions="Center"
                             VerticalOptions="Center">
 
-                            <Image Source="calendar.png" 
+                            <Image Source="swap_logo.png" 
                                    HeightRequest="40"/>
 
                             <Label Text="Своп-маркет"

@@ -16,11 +16,11 @@ public class SwapService : ISwapService
         _dbFactory = dbFactory;
     }
 
-    public async Task CreateOfferAsync(string userId, int plantId, string? desired)
+    public async Task CreateOfferAsync(int ownerId, int plantId, string? desired)
     {
         var offer = new SwapOffer
         {
-            OwnerId = userId,
+            OwnerId = ownerId,
             UserPlantId = plantId,
             DesiredPlantDescription = desired
         };
@@ -60,7 +60,7 @@ public class SwapService : ISwapService
         await db.SaveChangesAsync();
     }
 
-    public async Task<List<SwapRequest>> GetIncomingRequestsAsync(string ownerId)
+    public async Task<List<SwapRequest>> GetIncomingRequestsAsync(int ownerId)
     {
         using var db = await _dbFactory.CreateDbContextAsync();
 

@@ -9,7 +9,7 @@ namespace PlantApp.Services
 {
     public interface ISwapService
     {
-        Task CreateOfferAsync(string userId, int plantId, string? desired);
+        Task CreateOfferAsync(int ownerId, int plantId, string? desired);
 
         Task<List<SwapOffer>> GetAllOffersAsync();
 
@@ -17,6 +17,6 @@ namespace PlantApp.Services
 
         Task UpdateRequestStatusAsync(int requestId, SwapStatus status);
 
-        Task<List<SwapRequest>> GetIncomingRequestsAsync(string ownerId);
+        Task<List<SwapRequest>> GetIncomingRequestsAsync(int ownerId);
     }
 }

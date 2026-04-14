@@ -14,19 +14,23 @@
 
             <Button Grid.Column="0" Clicked="HomeClicked"
                     Background="#F0EEE9" TextColor="Black"
-                    ImageSource="main_page_plant.png"/>
+                    ImageSource="main_page_plant.png"
+                    HeightRequest="50"/>
             
             <Button Grid.Column="1" Clicked="ChatClicked"
                     Background="#F0EEE9" TextColor="Black"
-                    ImageSource="chat_page.png"/>
+                    ImageSource="chat_page.png"
+                    HeightRequest="50"/>
             
             <Button Grid.Column="2" Clicked="CalendarClicked"
                     Background="#F0EEE9" TextColor="Black"
-                    ImageSource="calendar.png"/>
+                    ImageSource="calendar.png"
+                    HeightRequest="50"/>
             
             <Button Grid.Column="3" Clicked="ProfileClicked"
                     Background="#F0EEE9" TextColor="Black"
-                    ImageSource="main_profile_image.png"/>
+                    ImageSource="main_profile_image.png"
+                    HeightRequest="50"/>
 
         </Grid>
     </VerticalStackLayout>

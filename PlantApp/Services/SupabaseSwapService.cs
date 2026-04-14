@@ -39,8 +39,19 @@ public class SupabaseSwapService
         var error = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"supabase error: {error}");
+        {
+            var message = $"SUPABASE ERROR: {error}";
+            System.Diagnostics.Debug.WriteLine(message);
+
+            await Application.Current.MainPage.DisplayAlert(
+                "Ошибка",
+                message,
+                "OK");
+
+            return; // ❗ важно
+        }
     }
+
 
     public async Task<List<SwapOffer>> GetOffersAsync()
     {

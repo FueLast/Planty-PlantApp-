@@ -77,7 +77,7 @@ public partial class CreateSwapOfferPopupViewModel : ObservableObject
         int plantId = 1;
 
         await _swapService.CreateOfferAsync(
-            _authService.GetUserUuid(),
+            _authService.GetUserId(),
             plantId,
             DesiredText);
 
