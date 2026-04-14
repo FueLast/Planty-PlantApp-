@@ -26,6 +26,9 @@ namespace PlantApp.ViewModels
         [ObservableProperty]
         private bool isFullMode;
 
+        [ObservableProperty]
+        private bool isLoading;
+
         public ObservableCollection<SwapOffer> Offers { get; } = new();
 
         private int _currentUserId = 1; // временно
@@ -45,6 +48,14 @@ namespace PlantApp.ViewModels
         [RelayCommand]
         public async Task LoadAsync()
         {
+            if (IsLoading) return;
+
+            IsLoading = true;
+
+            Offers.Clear();
+            _page = 0;
+            IsFullMode = false;
+
             var items = await _swapService.GetAllOffersAsync(
                 onlyPreview: true,
                 skip: 0,
@@ -52,11 +63,17 @@ namespace PlantApp.ViewModels
 
             foreach (var item in items)
                 Offers.Add(item);
+
+            IsLoading = false;
         }
 
         [RelayCommand]
         public async Task LoadMore()
         {
+            if (IsLoading) return;
+
+            IsLoading = true;
+
             _page++;
 
             var items = await _swapService.GetAllOffersAsync(
@@ -66,6 +83,8 @@ namespace PlantApp.ViewModels
 
             foreach (var item in items)
                 Offers.Add(item);
+
+            IsLoading = false;
         }
 
         [RelayCommand]
