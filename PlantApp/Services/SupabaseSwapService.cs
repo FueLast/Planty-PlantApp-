@@ -14,7 +14,7 @@ public class SupabaseSwapService
         _http = http;
 
         var baseUrl = config["Supabase:BaseUrl"];
-        _baseUrl = $"{baseUrl}/rest/v1/swap_offers";
+        _baseUrl = $"{baseUrl}/rest/v1/swap_offers_full";
 
         var apiKey = config["Supabase:ApiKey"];
 
@@ -32,7 +32,7 @@ public class SupabaseSwapService
             user_plant_id = offer.UserPlantId,
             desired_plant_description = offer.DesiredPlantDescription,
             created_at = DateTime.UtcNow
-        };
+    };
 
         var response = await _http.PostAsJsonAsync(_baseUrl, payload);
 

@@ -8,12 +8,16 @@ public class SwapService : ISwapService
     private readonly SupabaseSwapService _supabase;
     private readonly IDbContextFactory<AppDbContext> _dbFactory;
 
+    private readonly AuthService _auth;
+
     public SwapService(
         SupabaseSwapService supabase,
-        IDbContextFactory<AppDbContext> dbFactory)
+        IDbContextFactory<AppDbContext> dbFactory,
+        AuthService auth)
     {
         _supabase = supabase;
         _dbFactory = dbFactory;
+        _auth = auth;
     }
 
     public async Task CreateOfferAsync(int ownerId, int plantId, string? desired)
@@ -85,33 +89,28 @@ public class SwapService : ISwapService
 
         foreach (var offer in offers)
         {
-            // подтягиваем растение
+            // подгружаем растение
             offer.Plant = await db.UserPlants
                 .Include(x => x.Plant)
                 .FirstOrDefaultAsync(x => x.Id == offer.UserPlantId);
 
-            // подтягиваем владельца
+            if (offer.Plant == null)
+            {
+                System.Diagnostics.Debug.WriteLine($"PLANT NULL FOR OFFER {offer.Id}");
+                continue;
+            }
+
+            // владелец
             var owner = await db.Users
                 .Include(x => x.Profile)
                 .FirstOrDefaultAsync(x => x.Id == offer.OwnerId);
 
             offer.OwnerName = owner?.Login;
             offer.OwnerCity = owner?.Profile?.City;
+            offer.OwnerProfile = owner?.Profile;
         }
 
-        // сортировка
-        var sorted = offers
-            .OrderByDescending(x => x.OwnerCity == currentUser?.Profile?.City) // сначала свой город
-            .ThenBy(x => Guid.NewGuid()) // рандом
-            .ToList();
-
-        if (onlyPreview)
-            return sorted.Take(20).ToList();
-
-        return sorted
-            .Skip(skip)
-            .Take(take)
-            .ToList();
+        return offers;
     }
 
 }

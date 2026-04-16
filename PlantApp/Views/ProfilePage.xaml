@@ -197,7 +197,7 @@
                                                 </Border.StrokeShape>
 
                                                 <Image
-                                                    Source="{Binding ImagePath}"
+                                                    Source="{Binding ImageUrl}"
                                                     HeightRequest="60"
                                                     WidthRequest="60"
                                                     Aspect="AspectFill"/>

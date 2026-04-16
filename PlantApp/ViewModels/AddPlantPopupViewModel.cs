@@ -107,7 +107,7 @@ public partial class AddPlantPopupViewModel : ObservableObject
                 CustomName = CustomName,
                 Description = Description,
                 AgeDays = AgeDays,
-                ImagePath = imageUrl
+                ImageUrl = imageUrl
             };
 
             await _plantService.AddPlant(plant);

@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using PlantApp.Data;
-using PlantApp.Views.Popups;
 using PlantApp.Services;
+using PlantApp.Views.Popups;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -26,13 +27,18 @@ namespace PlantApp.ViewModels
         [ObservableProperty]
         private bool isFullMode;
 
+
         [ObservableProperty]
         private bool isLoading;
 
+        [ObservableProperty]
+        private bool isInitialLoading;
+
+        [ObservableProperty]
+        private bool isLoadingMore;
+
         public ObservableCollection<SwapOffer> Offers { get; } = new();
-
-        private int _currentUserId = 1; // временно
-
+          
         public SwapPageViewModel(
             INavigationService navigationService,
             AppDbContext db, 
@@ -45,34 +51,103 @@ namespace PlantApp.ViewModels
             _authService = authService;
         }
 
+ 
+        public async Task LoadOffers()
+        {
+            IsLoading = true;
+
+            try
+            {
+                var offers = await _swapService.GetAllOffersAsync();
+
+                Offers.Clear();
+
+                foreach (var offer in offers)
+                {
+                    var plant = _db.UserPlants
+                        .Include(p => p.Plant)
+                        .FirstOrDefault(x => x.Id == offer.UserPlantId);
+
+                        Console.WriteLine($"PLANT NULL FOR OFFER {offer.Id}");
+                        Console.WriteLine($"Offer.UserPlantId = {offer.UserPlantId}");
+                        System.Diagnostics.Debug.WriteLine(
+    $"OFFER: {offer.Id}, UserPlantId: {offer.UserPlantId}");
+                        System.Diagnostics.Debug.WriteLine(
+    $"PLANT FOUND: {offer.Plant != null}");
+                    
+                    if (plant == null)
+                    {
+
+                        continue;
+                    }
+
+                    offer.ImageUrl = plant.ImageUrl;
+                    offer.PlantName = plant.PlantName;
+                    offer.Description = plant.Description;
+
+                    Offers.Add(offer);
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+
+        private bool _isInitialized;
+
         [RelayCommand]
         public async Task LoadAsync()
         {
-            if (IsLoading) return;
+            if (IsInitialLoading || _isInitialized) return;
 
-            IsLoading = true;
+            IsInitialLoading = true;
+            _isInitialized = true;
 
-            Offers.Clear();
-            _page = 0;
-            IsFullMode = false;
+            try
+            {
+                Offers.Clear();
+                _page = 0;
+                IsFullMode = false;
 
-            var items = await _swapService.GetAllOffersAsync(
-                onlyPreview: true,
-                skip: 0,
-                take: PageSize);
+                var items = await _swapService.GetAllOffersAsync(true, 0, PageSize);
 
-            foreach (var item in items)
-                Offers.Add(item);
 
-            IsLoading = false;
+
+                System.Diagnostics.Debug.WriteLine($"OFFERS COUNT: {items.Count}");
+
+                foreach (var item in items)
+                {
+                    var plant = _db.UserPlants
+                        .Include(p => p.Plant)
+                        .FirstOrDefault(x => x.Id == item.UserPlantId);
+
+                    if (plant == null)
+                    {
+                        Console.WriteLine($"PLANT NULL FOR OFFER {item.Id}");
+                        continue;
+                    }
+
+                    item.ImageUrl = plant.ImageUrl;
+                    item.PlantName = plant.PlantName;
+                    item.Description = plant.Description;
+
+                    Offers.Add(item);
+                }
+            }
+            finally
+            {
+                IsInitialLoading = false;
+            }
         }
 
         [RelayCommand]
         public async Task LoadMore()
         {
-            if (IsLoading) return;
+            if (IsLoadingMore) return;
 
-            IsLoading = true;
+            IsLoadingMore = true;
 
             _page++;
 
@@ -82,21 +157,53 @@ namespace PlantApp.ViewModels
                 take: PageSize);
 
             foreach (var item in items)
-                Offers.Add(item);
+            {
+                var plant = _db.UserPlants
+                    .Include(p => p.Plant)
+                    .FirstOrDefault(x => x.Id == item.UserPlantId);
 
-            IsLoading = false;
+                if (plant == null)
+                {
+                    Console.WriteLine($"PLANT NULL FOR OFFER {item.Id}");
+                    continue;
+                }
+
+                item.ImageUrl = plant.ImageUrl;
+                item.PlantName = plant.PlantName;
+                item.Description = plant.Description;
+
+                Offers.Add(item);
+            }
+
+            IsLoadingMore = false;
         }
 
         [RelayCommand]
         public async Task ShowAll()
-        { 
-            var items = await _swapService.GetAllOffersAsync(
-                onlyPreview: false,
-                skip: 0,
-                take: PageSize);
+        {
+            IsFullMode = true;
+            Offers.Clear();
+
+            var items = await _swapService.GetAllOffersAsync(false, 0, PageSize);
 
             foreach (var item in items)
+            {
+                var plant = _db.UserPlants
+                    .Include(p => p.Plant)
+                    .FirstOrDefault(x => x.Id == item.UserPlantId);
+
+                if (plant == null)
+                {
+                    Console.WriteLine($"PLANT NULL FOR OFFER {item.Id}");
+                    continue;
+                }
+
+                item.ImageUrl = plant.ImageUrl;
+                item.PlantName = plant.PlantName;
+                item.Description = plant.Description;
+
                 Offers.Add(item);
+            }
         }
 
         [RelayCommand]

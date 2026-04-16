@@ -1,7 +1,8 @@
-﻿using System.Net.Http.Json;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using PlantApp.Data;
 using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace PlantApp.Services
 {
@@ -24,7 +25,10 @@ namespace PlantApp.Services
             if (string.IsNullOrEmpty(_baseUrl))
                 throw new Exception("Supabase BaseUrl is missing");
 
-            _http.DefaultRequestHeaders.Clear();
+            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl);
+            request.Headers.Add("apikey", _apiKey);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+
             _http.DefaultRequestHeaders.Add("apikey", _apiKey);
             _http.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
             _http.DefaultRequestHeaders.Add("Prefer", "return=minimal");

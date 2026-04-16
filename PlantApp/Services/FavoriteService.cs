@@ -4,16 +4,18 @@ namespace PlantApp.Data
 {
     public class FavoriteService
     {
-        private readonly AppDbContext _context;
+        private readonly IDbContextFactory<AppDbContext> _factory;
 
-        public FavoriteService(AppDbContext context)
+        public FavoriteService(IDbContextFactory<AppDbContext> factory)
         {
-            _context = context;
+            _factory = factory;
         }
 
         public async Task AddToFavorites(int plantId, int userId)
         {
-            var exists = await _context.FavoritePlants
+            using var db = await _factory.CreateDbContextAsync();
+
+            var exists = await db.FavoritePlants
                 .FirstOrDefaultAsync(f => f.PlantId == plantId && f.UserId == userId);
 
             if (exists != null)
@@ -25,25 +27,29 @@ namespace PlantApp.Data
                 UserId = userId
             };
 
-            _context.FavoritePlants.Add(favorite);
-            await _context.SaveChangesAsync();
+            db.FavoritePlants.Add(favorite);
+            await db.SaveChangesAsync();
         }
 
         public async Task RemoveFromFavorites(int plantId, int userId)
         {
-            var favorite = await _context.FavoritePlants
+            using var db = await _factory.CreateDbContextAsync();
+
+            var favorite = await db.FavoritePlants
                 .FirstOrDefaultAsync(f => f.PlantId == plantId && f.UserId == userId);
 
             if (favorite != null)
             {
-                _context.FavoritePlants.Remove(favorite);
-                await _context.SaveChangesAsync();
+                db.FavoritePlants.Remove(favorite);
+                await db.SaveChangesAsync();
             }
         }
 
         public async Task<List<Plant>> GetFavorites(int userId)
         {
-            return await _context.FavoritePlants
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.FavoritePlants
                 .Where(f => f.UserId == userId)
                 .Include(f => f.Plant)
                 .Select(f => f.Plant)

@@ -8,13 +8,16 @@ namespace PlantApp.Data
 {
     public class SwapOfferDto
     {
-        public long id { get; set; }
-        public int owner_id { get; set; } 
-        public int user_plant_id { get; set; }
-        public string? desired_plant_description { get; set; }
+        public int id { get; set; }
+        public string desired_plant_description { get; set; }
         public DateTime created_at { get; set; }
 
-        // join позже
-        public string? owner_name { get; set; }
+        public string owner_name { get; set; }
+
+        public string custom_name { get; set; }
+        public string description { get; set; }
+        public string image_url { get; set; }
+
+        public string name_plant { get; set; }
     }
 }

@@ -1,126 +1,64 @@
 <ContentPage
+    x:Class="PlantApp.Views.SwapPage"
+    x:Name="RootPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:PlantApp.ViewModels"
-    xmlns:converter="clr-namespace:PlantApp.Converters"
-    xmlns:data="clr-namespace:PlantApp.Data"
-    x:Class="PlantApp.Views.SwapPage"
-    BackgroundColor="#F0EEE9"
-    x:DataType="viewmodels:SwapPageViewModel"
-    >
-    <ScrollView>
+    xmlns:converters="clr-namespace:PlantApp.Converters"
+    xmlns:data="clr-namespace:PlantApp.Data" 
+    x:DataType="viewmodels:SwapPageViewModel"    
+    BackgroundColor="#F0EEE9">
 
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
         <VerticalStackLayout Padding="16" Spacing="16">
 
-            <!-- заголовок -->
             <Label
                 Text="Обмен растениями"
                 FontSize="22"
                 FontAttributes="Bold"
-                FontFamily="Montserrat"
                 TextColor="#1E1E1E" />
 
-            <!-- фильтры -->
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
 
-                <!-- все офферы -->
-                <Border
-                    BackgroundColor="#2E7D32"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 25">
-
-                    <Label
-                        Text="Все предложения"
-                        TextColor="White"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Padding="12"
-                        FontFamily="Montserrat"
-                        FontAttributes="Bold"/>
+                <Border BackgroundColor="#2E7D32" StrokeShape="RoundRectangle 25">
+                    <Label Text="Все предложения"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Padding="12"/>
                 </Border>
 
-                <!-- мои офферы -->
-                <Border
-                    Grid.Column="1"
-                    BackgroundColor="White"
-                    Stroke="#E0E0E0"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 25">
+                <Border Grid.Column="1"
+                        BackgroundColor="White"
+                        Stroke="#E0E0E0"
+                        StrokeShape="RoundRectangle 25">
 
-                    <Label
-                        Text="Мои предложения"
-                        TextColor="#2E7D32"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Padding="12"
-                        FontFamily="Montserrat"
-                        FontAttributes="Bold"/>
+                    <Label Text="Мои предложения"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Padding="12"/>
                 </Border>
 
             </Grid>
 
-            <CollectionView
-                IsVisible="{Binding IsLoading}"
-                SelectionMode="None">
+        </VerticalStackLayout>
 
-                <CollectionView.ItemsSource>
-                    <x:Array Type="{x:Type x:Int32}">
-                        <x:Int32>1</x:Int32>
-                        <x:Int32>2</x:Int32>
-                        <x:Int32>3</x:Int32>
-                        <x:Int32>4</x:Int32>
-                        <x:Int32>5</x:Int32>
-                    </x:Array>
-                </CollectionView.ItemsSource>
+        <!-- CONTENT -->
+        <Grid Grid.Row="1">
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-
-                        <Border
-                            BackgroundColor="White"
-                            Stroke="#E5E5E5"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 15"
-                            Padding="10"
-                            Margin="0,0,0,10">
-
-                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-
-                                <!-- IMAGE SKELETON -->
-                                <Border
-                                    BackgroundColor="#EAEAEA"
-                                    StrokeShape="RoundRectangle 15"
-                                    HeightRequest="120"/>
-
-                                <!-- TEXT SKELETON -->
-                                <VerticalStackLayout Grid.Column="1" Spacing="8">
-
-                                    <BoxView HeightRequest="16" WidthRequest="120" BackgroundColor="#EAEAEA"/>
-                                    <BoxView HeightRequest="12" WidthRequest="80" BackgroundColor="#EAEAEA"/>
-                                    <BoxView HeightRequest="12" WidthRequest="140" BackgroundColor="#EAEAEA"/>
-                                    <BoxView HeightRequest="12" WidthRequest="100" BackgroundColor="#EAEAEA"/>
-
-                                    <BoxView
-                                        HeightRequest="40"
-                                        CornerRadius="10"
-                                        BackgroundColor="#EAEAEA"/>
-
-                                </VerticalStackLayout>
-
-                            </Grid>
-
-                        </Border>
-
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-            
-            <!-- список офферов -->
+            <!-- СПИСОК -->
             <CollectionView
                 ItemsSource="{Binding Offers}"
                 SelectionMode="None"
-                IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+                RemainingItemsThreshold="5"
+                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+                ZIndex="10">
+
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="data:SwapOffer">
@@ -131,62 +69,49 @@
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 15"
                             Padding="10"
-                            Margin="0,0,0,10">
+                            Margin="10,0,10,10">
 
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
 
                                 <!-- IMAGE -->
-                                <Border
-                                    Stroke="Transparent"
-                                    Grid.Column="0"
-                                    StrokeShape="RoundRectangle 15">
-
+                                <Border StrokeShape="RoundRectangle 15">
                                     <Image
-                                        Source="{Binding Plant.ImagePath, TargetNullValue='background_listik_profile.png'}"
-                                        Aspect="AspectFill"/> 
+                                        Source="{Binding ImageUrl, Converter={StaticResource ImagePathConverter}}"
+                                        Aspect="AspectFill"/>
                                 </Border>
 
                                 <!-- CONTENT -->
-                                <VerticalStackLayout Spacing="6" Grid.Column="1">
+                                <VerticalStackLayout Grid.Column="1" Spacing="6">
 
-                                    <!-- кастом имя -->
-                                    <Label 
+                                    <Label
                                         Text="{Binding Plant.CustomName, TargetNullValue='Без названия'}"
                                         FontSize="16"
                                         FontAttributes="Bold"
                                         TextColor="#1E1E1E"/>
 
-                                    <Border>
-                                        <Image
-                                            Source="{Binding Profile, Converter={StaticResource AvatarHelper}}"
-                                            HeightRequest="20"
-                                            WidthRequest="20"/>
-                                    </Border>
+                                    <Image
+                                        Source="{Binding OwnerProfile, Converter={StaticResource AvatarHelper}}"
+                                        HeightRequest="20"
+                                        WidthRequest="20"/>
 
-                                    <!-- реальное имя растения -->
                                     <Label
-                                        Text="{Binding Plant.Plant.NamePlant, TargetNullValue='Неизвестное растение'}"
+                                        Text="{Binding Plant.Plant.NamePlant}"
                                         FontSize="12"
                                         TextColor="#777"/>
 
-                                    <!-- владелец -->
                                     <Label
                                         Text="{Binding OwnerName}"
                                         FontSize="12"
                                         TextColor="#777"/>
 
-                                    <!-- описание -->
                                     <Label
                                         Text="{Binding DesiredPlantDescription}"
                                         FontSize="12"
-                                        TextColor="#555"
-                                        LineBreakMode="WordWrap"/>
+                                        TextColor="#555"/>
 
-                                    <!-- кнопка -->
-                                    <Button 
+                                    <Button
                                         Text="Предложить обмен"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SwapPageViewModel}}, Path=SendRequestCommand}"
-                                        CommandParameter="{Binding}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.SendRequestCommand}"
                                         BackgroundColor="#2E7D32"
                                         TextColor="White"
                                         CornerRadius="12"
@@ -202,43 +127,49 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-             
-                <Button
-                    Text="Показать все"
-                    Command="{Binding ShowAllCommand}"
-                    IsVisible="{Binding IsFullMode, Converter={StaticResource InverseBoolConverter}}"
-                    BackgroundColor="#2E7D32"
-                    TextColor="White"
-                    CornerRadius="20"
-                    HeightRequest="50"/> 
-                <Button
-                    Text="Загрузить еще"
-                    Command="{Binding LoadMoreCommand}"
-                    IsVisible="{Binding IsFullMode}"
-                    BackgroundColor="#EEEEEE"
-                    TextColor="Black"
-                    CornerRadius="20"
-                    HeightRequest="50"/>
- 
-            <!-- кнопка добавить оффер -->
-            <Border
+
+            <!-- SKELETON OVERLAY -->
+            <Grid
+                IsVisible="{Binding IsLoading}"
+                BackgroundColor="#80000000"
+                InputTransparent="False">
+
+                <ActivityIndicator
+                    IsRunning="True"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+
+            </Grid>
+        </Grid>
+
+        <!-- BUTTONS -->
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="End" Padding="16" Spacing="10">
+
+
+            <Button
+                Text="Добавить свое"
+                Command="{Binding OpenCreateOfferPopupCommand}"
                 BackgroundColor="#2E7D32"
-                StrokeThickness="0"
-                StrokeShape="RoundRectangle 25"
-                Margin="0,10,0,20">
+                TextColor="White"
+                CornerRadius="20"/>
 
-                <Button
-                    Text="Выставить своё растение"
-                    Command="{Binding OpenCreateOfferPopupCommand}"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    FontFamily="Montserrat"
-                    FontAttributes="Bold"/>
 
-            </Border>
+            <Button
+                Text="Показать все"
+                Command="{Binding ShowAllCommand}"
+                BackgroundColor="#2E7D32"
+                TextColor="White"
+                CornerRadius="20"/>
+
+            <Button
+                Text="Загрузить еще"
+                Command="{Binding LoadMoreCommand}"
+                BackgroundColor="#EEEEEE"
+                TextColor="Black"
+                CornerRadius="20"/>
 
         </VerticalStackLayout>
 
-    </ScrollView>
+    </Grid>
 
 </ContentPage>
