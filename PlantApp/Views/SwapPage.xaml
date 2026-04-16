@@ -4,39 +4,150 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:data="clr-namespace:PlantApp.Data"
     xmlns:viewmodels="clr-namespace:PlantApp.ViewModels"
+    xmlns:converters="clr-namespace:PlantApp.Converters"
     x:DataType="viewmodels:SwapPageViewModel"
-    BackgroundColor="White">
+    BackgroundColor="#F5F5F5">
 
-    <VerticalStackLayout Padding="20">
+    <Grid RowDefinitions="Auto,*">
 
-        <Label 
-            Text="TEST SWAP PAGE"
-            FontSize="24"
-            TextColor="Black" />
+        <!-- HEADER -->
+        <VerticalStackLayout Padding="20,20,20,10" Spacing="10">
 
-        <Label 
-            Text="{Binding Offers.Count}"
-            FontSize="18"
-            TextColor="Red" />
+            <Label 
+                FontFamily="Montserrat"
+                Text="Обмен растениями 🌿"
+                FontSize="24"
+                FontAttributes="Bold"
+                TextColor="#1E1E1E"/>
 
-        <CollectionView ItemsSource="{Binding Offers}">
+            <Label 
+                FontFamily="Montserrat"
+                Text="{Binding Offers.Count, StringFormat='Найдено предложений: {0}'}"
+                FontSize="13"
+                TextColor="#777"/>
+
+        </VerticalStackLayout>
+
+        <!-- LIST -->
+        <CollectionView 
+            Grid.Row="1"
+            ItemsSource="{Binding Offers}"
+            SelectionMode="None">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="data:SwapOffer">
 
-                    <VerticalStackLayout Padding="10" BackgroundColor="#EEEEEE" Margin="0,0,0,10">
+                    <Border
+                        Margin="16,0,16,12"
+                        Padding="12"
+                        BackgroundColor="White"
+                        Stroke="#EAEAEA"
+                        StrokeShape="RoundRectangle 20">
 
-                        <Label Text="{Binding Id}" FontSize="18"/>
-                        <Label Text="{Binding OwnerName}" FontSize="16"/>
-                        <Label Text="{Binding DesiredPlantDescription}" FontSize="14"/>
+                        <Grid ColumnDefinitions="100,*" ColumnSpacing="12">
 
-                    </VerticalStackLayout>
+                            <!-- AVATAR (TOP RIGHT) -->
+                            <Border
+                                Grid.ColumnSpan="2"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                StrokeShape="RoundRectangle 100"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                ZIndex="10"
+                                Margin="0, 3, 3, 0"
+                                Stroke="DarkGreen">
+
+                                <Image
+                                    Source="{Binding OwnerProfile, Converter={StaticResource AvatarHelper}}"
+                                    Aspect="AspectFill"/>
+                            </Border>
+
+                            <!-- IMAGE -->
+                            <Border StrokeShape="RoundRectangle 15"
+                                    HeightRequest="100"
+                                    WidthRequest="100"
+                                    Stroke="Transparent">
+                                
+                                <Border.Shadow>
+                                    <Shadow Brush="Black"
+                                        Offset="3,3"
+                                        Radius="5"
+                                        Opacity="0.1" />
+                                </Border.Shadow>
+                                
+                                <Image
+                                    Source="{Binding ImageUrl, Converter={StaticResource ImagePathConverter}}"
+                                    Aspect="AspectFill"/>
+                            </Border>
+
+                            <!-- CONTENT -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+
+                                <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.CustomName, TargetNullValue='Без названия'}"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    TextColor="#1E1E1E"/>
+
+                                <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.Plant.NamePlant}"
+                                    FontSize="14"
+                                    TextColor="#666"/>
+
+                                <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding OwnerName, StringFormat='Владелец: {0}'}"
+                                    FontSize="12"
+                                    TextColor="#888"/>
+
+                                <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding DesiredPlantDescription}"
+                                    FontSize="13"
+                                    TextColor="#444"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"/>
+
+                                <Button
+                                    FontFamily="Montserrat"
+                                    Text="Предложить обмен"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SendRequestCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    CornerRadius="12"
+                                    HeightRequest="36"
+                                    FontSize="18"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                    </Border>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
         </CollectionView>
 
-    </VerticalStackLayout>
+        <!-- FLOAT BUTTON -->
+        <Button
+            Grid.Row="1"
+            Text="+"
+            Command="{Binding OpenCreateOfferPopupCommand}"
+            WidthRequest="60"
+            HeightRequest="60"
+            CornerRadius="30"
+            BackgroundColor="#2E7D32"
+            TextColor="White"
+            FontSize="28"
+            VerticalOptions="End"
+            HorizontalOptions="End"
+            Margin="20"/>
+
+    </Grid>
 
 </ContentPage>
