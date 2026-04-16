@@ -14,7 +14,7 @@ public class SupabaseSwapService
         _http = http;
 
         var baseUrl = config["Supabase:BaseUrl"];
-        _baseUrl = $"{baseUrl}/rest/v1/swap_offers_full";
+        _baseUrl = $"{baseUrl}/rest/v1/swap_offers";
 
         var apiKey = config["Supabase:ApiKey"];
 
@@ -26,6 +26,12 @@ public class SupabaseSwapService
 
     public async Task CreateOfferAsync(SwapOffer offer)
     {
+        Console.WriteLine($"CHECK USER IN SUPABASE: {offer.OwnerId}");
+        Console.WriteLine("=== CREATE OFFER START ===");
+        Console.WriteLine($"OwnerId: {offer.OwnerId}");
+        Console.WriteLine($"UserPlantId: {offer.UserPlantId}");
+        Console.WriteLine($"Desired: {offer.DesiredPlantDescription}"); 
+
         var payload = new
         {
             owner_id = offer.OwnerId,
@@ -51,7 +57,7 @@ public class SupabaseSwapService
             return; // важно
         }
     }
-
+     
 
     public async Task<List<SwapOffer>> GetOffersAsync()
     {

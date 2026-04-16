@@ -15,7 +15,7 @@ namespace PlantApp.ViewModels
         private readonly ISwapService _swapService;
 
         private readonly INavigationService _navigationService;
-        private readonly AppDbContext _db; 
+        private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
         private readonly AuthService _authService;
 
         [ObservableProperty]
@@ -41,13 +41,13 @@ namespace PlantApp.ViewModels
           
         public SwapPageViewModel(
             INavigationService navigationService,
-            AppDbContext db, 
+            IDbContextFactory<AppDbContext> dbContextFactory, 
             AuthService authService,
             ISwapService swapService)
         {
             _swapService = swapService;
             _navigationService = navigationService;
-            _db = db; 
+            _dbContextFactory = dbContextFactory; 
             _authService = authService;
         }
 
@@ -56,36 +56,44 @@ namespace PlantApp.ViewModels
         {
             IsLoading = true;
 
-            try
-            {
-                var offers = await _swapService.GetAllOffersAsync();
+            System.Diagnostics.Debug.WriteLine($"UI OFFERS COUNT: {Offers.Count}");
 
+            try
+            { 
+                var items = await _swapService.GetAllOffersAsync(true, 0, PageSize);
                 Offers.Clear();
 
-                foreach (var offer in offers)
+                using var db = _dbContextFactory.CreateDbContext();
+
+                foreach (var item in items)
                 {
-                    var plant = _db.UserPlants
+                    var plant = db.UserPlants
                         .Include(p => p.Plant)
-                        .FirstOrDefault(x => x.Id == offer.UserPlantId);
+                        .FirstOrDefault(x => x.Id == item.UserPlantId);
 
-                        Console.WriteLine($"PLANT NULL FOR OFFER {offer.Id}");
-                        Console.WriteLine($"Offer.UserPlantId = {offer.UserPlantId}");
-                        System.Diagnostics.Debug.WriteLine(
-    $"OFFER: {offer.Id}, UserPlantId: {offer.UserPlantId}");
-                        System.Diagnostics.Debug.WriteLine(
-    $"PLANT FOUND: {offer.Plant != null}");
-                    
-                    if (plant == null)
+                    if (plant != null)
                     {
+                        item.ImageUrl = plant.ImageUrl;
 
-                        continue;
+                        item.Plant = plant; // ВАЖНО!!!
+                    }
+                    else
+                    {
+                        // создаем фейковый plant чтобы XAML не умер
+                        item.Plant = new UserPlant
+                        {
+                            CustomName = "Неизвестное растение",
+                            Description = item.DesiredPlantDescription,
+                            Plant = new Plant
+                            {
+                                NamePlant = "Неизвестно"
+                            }
+                        };
+
+                        item.ImageUrl = "background_listik_profile.png";
                     }
 
-                    offer.ImageUrl = plant.ImageUrl;
-                    offer.PlantName = plant.PlantName;
-                    offer.Description = plant.Description;
-
-                    Offers.Add(offer);
+                    Offers.Add(item);
                 }
             }
             finally
@@ -100,6 +108,7 @@ namespace PlantApp.ViewModels
         [RelayCommand]
         public async Task LoadAsync()
         {
+            System.Diagnostics.Debug.WriteLine("LOAD ASYNC CALLED");
             if (IsInitialLoading || _isInitialized) return;
 
             IsInitialLoading = true;
@@ -113,25 +122,37 @@ namespace PlantApp.ViewModels
 
                 var items = await _swapService.GetAllOffersAsync(true, 0, PageSize);
 
-
-
                 System.Diagnostics.Debug.WriteLine($"OFFERS COUNT: {items.Count}");
+
+                using var db = _dbContextFactory.CreateDbContext();
 
                 foreach (var item in items)
                 {
-                    var plant = _db.UserPlants
+                    var plant = db.UserPlants
                         .Include(p => p.Plant)
                         .FirstOrDefault(x => x.Id == item.UserPlantId);
 
-                    if (plant == null)
+                    if (plant != null)
                     {
-                        Console.WriteLine($"PLANT NULL FOR OFFER {item.Id}");
-                        continue;
-                    }
+                        item.ImageUrl = plant.ImageUrl;
 
-                    item.ImageUrl = plant.ImageUrl;
-                    item.PlantName = plant.PlantName;
-                    item.Description = plant.Description;
+                        item.Plant = plant; // ВАЖНО!!!
+                    }
+                    else
+                    {
+                        // создаем фейковый plant чтобы XAML не умер
+                        item.Plant = new UserPlant
+                        {
+                            CustomName = "Неизвестное растение",
+                            Description = item.DesiredPlantDescription,
+                            Plant = new Plant
+                            {
+                                NamePlant = "Неизвестно"
+                            }
+                        };
+
+                        item.ImageUrl = "background_listik_profile.png";
+                    }
 
                     Offers.Add(item);
                 }
@@ -156,21 +177,35 @@ namespace PlantApp.ViewModels
                 skip: _page * PageSize,
                 take: PageSize);
 
+            using var db = _dbContextFactory.CreateDbContext();
+
             foreach (var item in items)
             {
-                var plant = _db.UserPlants
+                var plant = db.UserPlants
                     .Include(p => p.Plant)
                     .FirstOrDefault(x => x.Id == item.UserPlantId);
 
-                if (plant == null)
+                if (plant != null)
                 {
-                    Console.WriteLine($"PLANT NULL FOR OFFER {item.Id}");
-                    continue;
-                }
+                    item.ImageUrl = plant.ImageUrl;
 
-                item.ImageUrl = plant.ImageUrl;
-                item.PlantName = plant.PlantName;
-                item.Description = plant.Description;
+                    item.Plant = plant; // ВАЖНО!!!
+                }
+                else
+                {
+                    // создаем фейковый plant чтобы XAML не умер
+                    item.Plant = new UserPlant
+                    {
+                        CustomName = "Неизвестное растение",
+                        Description = item.DesiredPlantDescription,
+                        Plant = new Plant
+                        {
+                            NamePlant = "Неизвестно"
+                        }
+                    };
+
+                    item.ImageUrl = "background_listik_profile.png";
+                }
 
                 Offers.Add(item);
             }
@@ -186,21 +221,35 @@ namespace PlantApp.ViewModels
 
             var items = await _swapService.GetAllOffersAsync(false, 0, PageSize);
 
+            using var db = _dbContextFactory.CreateDbContext();
+
             foreach (var item in items)
             {
-                var plant = _db.UserPlants
+                var plant = db.UserPlants
                     .Include(p => p.Plant)
                     .FirstOrDefault(x => x.Id == item.UserPlantId);
 
-                if (plant == null)
+                if (plant != null)
                 {
-                    Console.WriteLine($"PLANT NULL FOR OFFER {item.Id}");
-                    continue;
-                }
+                    item.ImageUrl = plant.ImageUrl;
 
-                item.ImageUrl = plant.ImageUrl;
-                item.PlantName = plant.PlantName;
-                item.Description = plant.Description;
+                    item.Plant = plant; // ВАЖНО!!!
+                }
+                else
+                {
+                    // создаем фейковый plant чтобы XAML не умер
+                    item.Plant = new UserPlant
+                    {
+                        CustomName = "Неизвестное растение",
+                        Description = item.DesiredPlantDescription,
+                        Plant = new Plant
+                        {
+                            NamePlant = "Неизвестно"
+                        }
+                    };
+
+                    item.ImageUrl = "background_listik_profile.png";
+                }
 
                 Offers.Add(item);
             }

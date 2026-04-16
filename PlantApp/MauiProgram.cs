@@ -24,6 +24,9 @@ namespace PlantApp
         {
             var builder = MauiApp.CreateBuilder();
 
+            builder.Logging.AddDebug();
+            builder.Logging.SetMinimumLevel(LogLevel.Trace);
+
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
@@ -125,7 +128,7 @@ namespace PlantApp
             builder.Services.AddTransient<FavoritesPageViewModel>();
             builder.Services.AddTransient<ProfilePageViewModel>();
             builder.Services.AddTransient<PlantDetailsViewModel>();
-            builder.Services.AddTransient<SwapPageViewModel>();
+            builder.Services.AddSingleton<SwapPageViewModel>();
 
             builder.Services.AddTransient<AddPlantPopupViewModel>();
             builder.Services.AddTransient<EditProfilePopupViewModel>();

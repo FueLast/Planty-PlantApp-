@@ -11,6 +11,7 @@ public partial class SwapPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
         _vm = vm;
+        System.Diagnostics.Debug.WriteLine("BINDING CONTEXT SET");
     }
 
     protected override async void OnAppearing()

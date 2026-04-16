@@ -91,6 +91,10 @@ public partial class CreateSwapOfferPopupViewModel : ObservableObject
                 "OK");
             return;
         }
+        Console.WriteLine("BUTTON CLICKED");
+        Console.WriteLine($"UserId: {_authService.GetUserId()}");
+        Console.WriteLine($"SelectedPlantId: {SelectedPlant?.Id}");
+        Console.WriteLine($"DesiredText: {DesiredText}");
 
         await _swapService.CreateOfferAsync(
             _authService.GetUserId(),
