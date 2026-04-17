@@ -14,22 +14,12 @@ namespace PlantApp.Converters
             var path = value as string;
 
             if (string.IsNullOrWhiteSpace(path))
-                return ImageSource.FromFile("background_listik_profile.png");
+                return "background_listik_profile.png";
 
-            try
-            {
-                if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-                    return ImageSource.FromUri(new Uri(path));
+            if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                return path;
 
-                if (File.Exists(path))
-                    return ImageSource.FromFile(path);
-            }
-            catch
-            {
-                // игнор, упадём в placeholder
-            }
-
-            return ImageSource.FromFile("background_listik_profile.png");
+            return "background_listik_profile.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -18,5 +18,6 @@ namespace PlantApp.Services
         Task UpdateRequestStatusAsync(int requestId, SwapStatus status);
 
         Task<List<SwapRequest>> GetIncomingRequestsAsync(int ownerId);
+        Task<int> GetOffersCountAsync();
     }
 }

@@ -37,6 +37,26 @@ namespace PlantApp.ViewModels
         [ObservableProperty]
         private bool isLoadingMore;
 
+
+        [ObservableProperty]
+        private int currentPage = 1;
+
+        [ObservableProperty]
+        private int totalPages;
+
+        [ObservableProperty]
+        private int totalCount;
+
+        // Replaced source-generator-backed field with an explicit property to avoid missing symbol
+        private bool isSkeletonVisible;
+        public bool IsSkeletonVisible
+        {
+            get => isSkeletonVisible;
+            set => SetProperty(ref isSkeletonVisible, value);
+        }
+
+        public ObservableCollection<int> Pages { get; } = new();
+
         public ObservableCollection<SwapOffer> Offers { get; } = new();
           
         public SwapPageViewModel(
@@ -73,9 +93,8 @@ namespace PlantApp.ViewModels
 
                     if (plant != null)
                     {
-                        item.ImageUrl = plant.ImageUrl;
-
-                        item.Plant = plant; // ВАЖНО!!!
+                        item.ImageUrl ??= plant.ImageUrl; // НЕ перезаписываем если уже есть
+                        item.Plant = plant;
                     }
                     else
                     {
@@ -107,15 +126,19 @@ namespace PlantApp.ViewModels
 
         [RelayCommand]
         public async Task LoadAsync()
-        {
-            System.Diagnostics.Debug.WriteLine("LOAD ASYNC CALLED");
-            if (IsInitialLoading || _isInitialized) return;
+        { 
+            if (IsInitialLoading || _isInitialized)
+                return;
 
             IsInitialLoading = true;
             _isInitialized = true;
 
+            IsSkeletonVisible = true;
+
             try
             {
+                System.Diagnostics.Debug.WriteLine("LOAD ASYNC CALLED");
+
                 Offers.Clear();
                 _page = 0;
                 IsFullMode = false;
@@ -127,20 +150,19 @@ namespace PlantApp.ViewModels
                 using var db = _dbContextFactory.CreateDbContext();
 
                 foreach (var item in items)
-                {
+                { 
+
                     var plant = db.UserPlants
                         .Include(p => p.Plant)
                         .FirstOrDefault(x => x.Id == item.UserPlantId);
 
                     if (plant != null)
                     {
-                        item.ImageUrl = plant.ImageUrl;
-
-                        item.Plant = plant; // ВАЖНО!!!
+                        item.ImageUrl ??= plant.ImageUrl; // НЕ перезаписываем если уже есть
+                        item.Plant = plant;
                     }
                     else
                     {
-                        // создаем фейковый plant чтобы XAML не умер
                         item.Plant = new UserPlant
                         {
                             CustomName = "Неизвестное растение",
@@ -153,12 +175,13 @@ namespace PlantApp.ViewModels
 
                         item.ImageUrl = "background_listik_profile.png";
                     }
-
+                    System.Diagnostics.Debug.WriteLine($"IMAGE URL: {item.ImageUrl}");
                     Offers.Add(item);
                 }
             }
             finally
             {
+                IsSkeletonVisible = false;
                 IsInitialLoading = false;
             }
         }
@@ -216,6 +239,15 @@ namespace PlantApp.ViewModels
         [RelayCommand]
         public async Task ShowAll()
         {
+            TotalCount = await _swapService.GetOffersCountAsync(); // добавь в сервис
+
+            TotalPages = (int)Math.Ceiling((double)TotalCount / PageSize);
+
+            Pages.Clear();
+            for (int i = 1; i <= TotalPages; i++)
+                Pages.Add(i);
+
+
             IsFullMode = true;
             Offers.Clear();
 
@@ -252,8 +284,42 @@ namespace PlantApp.ViewModels
                 }
 
                 Offers.Add(item);
+
             }
         }
+
+        [RelayCommand]
+        public async Task GoToPage(int page)
+        {
+            if (page == CurrentPage) return;
+
+            CurrentPage = page;
+
+            Offers.Clear();
+
+            var items = await _swapService.GetAllOffersAsync(
+                onlyPreview: false,
+                skip: (page - 1) * PageSize,
+                take: PageSize);
+
+            using var db = _dbContextFactory.CreateDbContext();
+
+            foreach (var item in items)
+            {
+                var plant = db.UserPlants
+                    .Include(p => p.Plant)
+                    .FirstOrDefault(x => x.Id == item.UserPlantId);
+
+                item.Plant = plant ?? new UserPlant
+                {
+                    CustomName = "Неизвестное растение",
+                    Plant = new Plant { NamePlant = "Неизвестно" }
+                };
+
+                Offers.Add(item);
+            }
+        }
+
 
         [RelayCommand]
         private async Task OpenCreateOfferPopup()

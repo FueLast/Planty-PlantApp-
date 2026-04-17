@@ -20,6 +20,12 @@ public class SwapService : ISwapService
         _auth = auth;
     }
 
+    public async Task<int> GetOffersCountAsync()
+    {
+        var offers = await _supabase.GetOffersAsync();
+        return offers.Count;
+    }
+
     public async Task CreateOfferAsync(int ownerId, int plantId, string? desired)
     {
         var offer = new SwapOffer
@@ -80,27 +86,20 @@ public class SwapService : ISwapService
     {
         var offers = await _supabase.GetOffersAsync();
 
-        using var db = await _dbFactory.CreateDbContextAsync();
+        // пагинация НА СЕРВИСЕ
+        offers = offers
+            .Skip(skip)
+            .Take(take)
+            .ToList();
 
-        // текущий пользователь
-        var currentUser = await db.Users
-            .Include(x => x.Profile)
-            .FirstOrDefaultAsync(x => x.Id == 1); // потом заменишь
+        using var db = await _dbFactory.CreateDbContextAsync();
 
         foreach (var offer in offers)
         {
-            // подгружаем растение
             offer.Plant = await db.UserPlants
                 .Include(x => x.Plant)
                 .FirstOrDefaultAsync(x => x.Id == offer.UserPlantId);
 
-            if (offer.Plant == null)
-            {
-                System.Diagnostics.Debug.WriteLine($"PLANT NULL FOR OFFER {offer.Id}");
-                continue;
-            }
-
-            // владелец
             var owner = await db.Users
                 .Include(x => x.Profile)
                 .FirstOrDefaultAsync(x => x.Id == offer.OwnerId);
