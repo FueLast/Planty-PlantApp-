@@ -15,7 +15,9 @@ namespace PlantApp.ViewModels
         private readonly AuthService _authService;
         private readonly PlantService _plantService;
 
-        private Chat _chat;
+        // числовой id чата из Supabase
+        private int _chatId;
+        private string _otherUserUuid = string.Empty;
 
         [ObservableProperty]
         private ObservableCollection<ChatMessage> messages = new();
@@ -23,7 +25,6 @@ namespace PlantApp.ViewModels
         [ObservableProperty]
         private string messageText;
 
-        private string _otherUserId = string.Empty;// swap, для прогрузки собеседника
         public IAsyncRelayCommand SendCommand { get; }
 
         public ChatPageViewModel(
@@ -39,33 +40,36 @@ namespace PlantApp.ViewModels
 
             SendCommand = new AsyncRelayCommand(SendAsync);
         }
-          
+
         public async Task LoadMessagesAsync()
         {
             var user = _authService.CurrentUser;
             if (user == null) return;
 
-            _chat = await GetOrCreateChatAsync(_authService.GetUserUuid()); // string uuid
+            // получаем числовой id чата
+            _chatId = await _realtimeChatService.GetOrCreateChatAsync(
+                _authService.GetUserUuid(),
+                _otherUserUuid);
 
-            var msgs = await _realtimeChatService.GetMessagesAsync(_chat.Id.ToString());
+            var msgs = await _realtimeChatService.GetMessagesAsync(_chatId);
             Messages.Clear();
 
             foreach (var m in msgs)
             {
                 var msg = new ChatMessage
                 {
-                    ChatId = int.Parse(m.ChatId),
-                    Role = m.SenderId == _authService.GetUserUuid() ? "user" : "assistant", // string == string
+                    ChatId = m.ChatId,
+                    Role = m.SenderId == _authService.GetUserUuid() ? "user" : "assistant",
                     CreatedAt = m.CreatedAt
                 };
 
-                if (m.Content.StartsWith("PLANT|"))
+                if (m.Content != null && m.Content.StartsWith("PLANT|"))
                 {
                     var parts = m.Content.Split('|');
                     msg.MessageType = "plant";
-                    msg.PlantId = int.Parse(parts[1]);
-                    msg.PlantName = parts[2];
-                    msg.PlantImage = parts[3];
+                    msg.PlantId = int.TryParse(parts.ElementAtOrDefault(1), out var pid) ? pid : 0;
+                    msg.PlantName = parts.ElementAtOrDefault(2);
+                    msg.PlantImage = parts.ElementAtOrDefault(3);
                 }
                 else
                 {
@@ -84,12 +88,12 @@ namespace PlantApp.ViewModels
             var user = _authService.CurrentUser;
             if (user == null) return;
 
-            if (_chat == null)
+            if (_chatId == 0)
                 await LoadMessagesAsync();
 
             var userMsg = new ChatMessage
             {
-                ChatId = _chat.Id,
+                ChatId = _chatId,
                 Role = "user",
                 Content = MessageText,
                 CreatedAt = DateTime.Now
@@ -98,44 +102,35 @@ namespace PlantApp.ViewModels
             Messages.Add(userMsg);
 
             await _realtimeChatService.SendMessageAsync(
-                _chat.Id.ToString(),
+                _chatId,
                 MessageText,
-                _authService.GetUserUuid() // string uuid 
-            );
+                _authService.GetUserUuid());
 
-            if (string.IsNullOrEmpty(_otherUserId)) // AI чат
+            // AI чат — только если нет собеседника
+            if (string.IsNullOrEmpty(_otherUserUuid))
             {
                 var aiResponse = await _aiService.SendAsync(MessageText, user);
                 Messages.Add(new ChatMessage
                 {
-                    ChatId = _chat.Id,
+                    ChatId = _chatId,
                     Role = "assistant",
                     Content = aiResponse,
                     CreatedAt = DateTime.Now
                 });
             }
+
+            MessageText = string.Empty;
         }
 
-        public async Task Load(string otherUserId)  // string  
+        // вызывается из SwapPageViewModel при открытии чата
+        public async Task Load(string otherUserUuid)
         {
-            _otherUserId = otherUserId;
+            _otherUserUuid = otherUserUuid;
             await LoadMessagesAsync();
-        }
-
-        private async Task<Chat> GetOrCreateChatAsync(string otherUserId) // string  
-        {
-            var currentUserId = _authService.GetUserUuid(); // string uuid
-            var chatId = ChatHelper.GetChatId(currentUserId, otherUserId); // string, string  
-
-            return new Chat
-            {
-                Id = Math.Abs(chatId.GetHashCode())
-            };
         }
 
         public async Task SendSystemMessage(string text)
         {
-            // Устанавливаем текст и переиспользуем существующую логику отправки
             MessageText = text;
             await SendAsync();
         }
@@ -146,14 +141,11 @@ namespace PlantApp.ViewModels
             var plant = await _plantService.GetUserPlantById(plantId);
             if (plant == null) return;
 
-            // берем реальную сущность Plant
             var plantEntity = plant.Plant;
 
-            // достаем VM из DI
             var vm = App.Current.Handler.MauiContext.Services
                 .GetRequiredService<PlantDetailsViewModel>();
 
-            // инициализация
             vm.Initialize(plantEntity);
 
             var page = new PlantDetailsPage(vm);
@@ -166,19 +158,19 @@ namespace PlantApp.ViewModels
             var user = _authService.CurrentUser;
             if (user == null) return;
 
-            if (_chat == null)
+            if (_chatId == 0)
             {
-                if (string.IsNullOrEmpty(_otherUserId)) // string проверка (было == 0)
+                if (string.IsNullOrEmpty(_otherUserUuid))
                     return;
 
-                _chat = await GetOrCreateChatAsync(_otherUserId);
+                await LoadMessagesAsync();
             }
 
             var content = $"PLANT|{plant.Id}|{plant.CustomName}|{plant.ImageUrl}";
 
             var msg = new ChatMessage
             {
-                ChatId = _chat.Id,
+                ChatId = _chatId,
                 Role = "user",
                 MessageType = "plant",
                 PlantId = plant.Id,
@@ -190,12 +182,9 @@ namespace PlantApp.ViewModels
             Messages.Add(msg);
 
             await _realtimeChatService.SendMessageAsync(
-                _chat.Id.ToString(),
+                _chatId,
                 content,
-                _authService.GetUserUuid() // string uuid  
-            );
+                _authService.GetUserUuid());
         }
-
-
     }
 }

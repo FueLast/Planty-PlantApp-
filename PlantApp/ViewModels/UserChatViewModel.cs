@@ -15,7 +15,7 @@ namespace PlantApp.ViewModels
         private readonly AuthService _authService;
 
         private CancellationTokenSource _cts;
-        private string _chatId;
+        private int _chatId;
 
         [ObservableProperty]
         private ObservableCollection<RealtimeMessage> messages = new();
@@ -40,28 +40,35 @@ namespace PlantApp.ViewModels
 
         public async Task Init(int friendId)
         {
-            var myId = _authService.GetUserUuid();
+            var myUuid = _authService.GetUserUuid();
 
             using var db = await _dbFactory.CreateDbContextAsync();
             var friend = await db.Users.FindAsync(friendId);
-            var friendUuid = friend?.SupabaseUuid ?? friendId.ToString(); // fallback
+            var friendUuid = friend?.SupabaseUuid;
 
-            _chatId = ChatHelper.GetChatId(myId, friendUuid);
+            if (string.IsNullOrEmpty(friendUuid))
+            {
+                Debug.WriteLine("friend uuid not found");
+                return;
+            }
+
+            // получаем числовой id чата из Supabase
+            _chatId = await _chatService.GetOrCreateChatAsync(myUuid, friendUuid);
             await LoadMessages();
         }
 
         private async Task LoadMessages()
         {
-            if (string.IsNullOrEmpty(_chatId)) return;
+            if (_chatId == 0) return;
 
             var msgs = await _chatService.GetMessagesAsync(_chatId);
             Messages.Clear();
 
-            var myId = _authService.GetUserUuid(); // string
+            var myUuid = _authService.GetUserUuid();
 
             foreach (var m in msgs)
             {
-                m.IsMine = m.SenderId == myId; // string == string  
+                m.IsMine = m.SenderId == myUuid;
                 Messages.Add(m);
             }
         }
@@ -69,14 +76,14 @@ namespace PlantApp.ViewModels
         private async Task SendAsync()
         {
             if (string.IsNullOrWhiteSpace(MessageText)) return;
-            if (string.IsNullOrEmpty(_chatId)) return;
+            if (_chatId == 0) return;
 
-            var myId = _authService.GetUserUuid(); // string uuid
+            var myUuid = _authService.GetUserUuid();
 
             var msg = new RealtimeMessage
             {
                 ChatId = _chatId,
-                SenderId = myId, // string  
+                SenderId = myUuid,
                 Content = MessageText,
                 CreatedAt = DateTime.Now,
                 IsMine = true
@@ -84,11 +91,7 @@ namespace PlantApp.ViewModels
 
             Messages.Add(msg);
 
-            await _chatService.SendMessageAsync(
-                _chatId,
-                MessageText,
-                myId// string ✅
-            );
+            await _chatService.SendMessageAsync(_chatId, MessageText, myUuid);
 
             MessageText = string.Empty;
         }
