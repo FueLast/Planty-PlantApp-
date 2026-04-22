@@ -13,6 +13,14 @@ public class PlantService
         _factory = factory;
     }
 
+    //метод обновления
+    public async Task UpdatePlant(UserPlant plant)
+    {
+        using var db = await _factory.CreateDbContextAsync();
+        db.UserPlants.Update(plant);
+        await db.SaveChangesAsync();
+    }
+
     // получить ВСЕ растения (каталог)
     public async Task<List<Plant>> GetPlants()
     {
@@ -69,5 +77,15 @@ public class PlantService
 
         return result;
     }
-        
+
+    public async Task<UserPlant?> GetUserPlantById(int id)
+    {
+        using var db = await _factory.CreateDbContextAsync();
+
+        return await db.UserPlants
+            .Include(x => x.Plant)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+
 }

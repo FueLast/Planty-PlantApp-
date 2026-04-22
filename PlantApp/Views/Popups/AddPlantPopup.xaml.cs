@@ -1,9 +1,10 @@
 using CommunityToolkit.Maui.Views;
 using PlantApp.ViewModels;
+using System.Threading.Tasks;
 
 namespace PlantApp.Views.Popups;
 
-public partial class AddPlantPopup : Popup
+public partial class AddPlantPopup : CommunityToolkit.Maui.Views.Popup
 {
     private readonly TaskCompletionSource<bool> _result = new();
     public Task<bool> Result => _result.Task;
@@ -14,10 +15,13 @@ public partial class AddPlantPopup : Popup
         BindingContext = vm; 
     }
 
-    async void OnCancelClicked(object sender, EventArgs e)
+    // Compatibility helper: set the result and close the popup
+    public void Close(bool result)
     {
-        _result.TrySetResult(false);
-        await CloseAsync();
+        // TrySetResult in case Close is called multiple times
+        _result.TrySetResult(result);
+        // Close the underlying popup page asynchronously
+        _ = CloseAsync();
     }
 
     async void OnSaveClicked(object sender, EventArgs e)
@@ -26,15 +30,22 @@ public partial class AddPlantPopup : Popup
         try
         {
             await vm.SavePlant();
-            _result.TrySetResult(true);
+            // ВАЖНО: Метод Close() позволяет передать результат
+            this.Close(true);
         }
-        catch
-        {
+        catch (Exception ex)
+        { 
             await Application.Current.MainPage.DisplayAlert("ошибка", "не удалось сохранить", "ok");
-            _result.TrySetResult(false);
+            this.Close(false);
         }
-        await CloseAsync();
     }
-     
+
+    async void OnCancelClicked(object sender, EventArgs e)
+    {
+        this.Close(false);
+    }
+
+
+
     // Кнопка "Добавить фото" уже привязана к команде в VM, поэтому здесь нет кода.
 }

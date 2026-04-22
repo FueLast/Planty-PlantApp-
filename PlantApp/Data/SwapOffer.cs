@@ -10,7 +10,7 @@ namespace PlantApp.Data
     {
         public int Id { get; set; }
 
-        public int OwnerId { get; set; } 
+        public string OwnerId { get; set; } = null!; //uuid
 
         public int UserPlantId { get; set; }
 

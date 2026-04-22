@@ -1,0 +1,91 @@
+<toolkit:Popup 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" 
+    x:Class="PlantApp.Views.Popups.MyPlantsPopup" 
+    x:Name="RootPopup"
+    Background="#F0EEE9">
+    <Border 
+        Stroke="Transparent" 
+        Background="White" 
+        StrokeShape="RoundRectangle 30" 
+        Padding="20">
+        
+        <StackLayout Spacing="15">
+            
+            <Label 
+                Text="Выберите растение" 
+                FontSize="24" 
+                FontFamily="Montserrat" 
+                FontAttributes="Bold" />
+            
+            <CollectionView 
+                Grid.Row="1" 
+                ItemsSource="{Binding VisiblePlants}">
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        
+                        <Border 
+                            Padding="10" 
+                            Margin="0,5" 
+                            Stroke="Transparent">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={x:Reference RootPopup}, 
+                                        Path=BindingContext.SelectPlantCommand}" 
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="60,*">
+                                
+                                <Border StrokeThickness="0">
+                                    
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="15"/>
+                                    </Border.StrokeShape>
+                                    
+                                    <Image Source="{Binding ImageUrl}" 
+                                           HeightRequest="60" 
+                                           WidthRequest="60" 
+                                           Aspect="AspectFill"/>
+                                
+                                </Border>
+                                
+                                <StackLayout Grid.Column="1">
+                                    
+                                    <Label FontFamily="Montserrat" Text="{Binding CustomName}" 
+                                           FontAttributes="Bold" Margin="10, 0"/>
+                                    <Label FontFamily="Montserrat" Text="{Binding PlantName}" 
+                                           FontSize="12" Margin="10, 0"/>
+                                    <Label FontFamily="Montserrat" Text="{Binding Description}" 
+                                           FontSize="11" TextColor="Gray" Margin="10, 0"/>
+                                
+                                </StackLayout>
+                                
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label 
+                Text="У вас пока нет растений" 
+                TextColor="Gray" 
+                FontSize="16" 
+                HorizontalOptions="Center"/>
+
+            <Button 
+                Text="Добавить растение" 
+                FontSize="16" 
+                FontFamily="Montserrat" 
+                Command="{Binding AddPlantCommand}" 
+                CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Popup}}}" 
+                BackgroundColor="#2E7D32" />
+
+        </StackLayout>
+        
+    </Border>
+    
+</toolkit:Popup>

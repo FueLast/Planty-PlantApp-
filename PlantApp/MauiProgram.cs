@@ -63,15 +63,13 @@ namespace PlantApp
             builder.Services.AddScoped<FavoriteService>();
             builder.Services.AddScoped<ProfileService>(); 
             builder.Services.AddScoped<FriendService>();
-            builder.Services.AddScoped<UserService>();
-            builder.Services.AddScoped<PlantService>();
+            builder.Services.AddScoped<UserService>(); 
 
 
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<SecurityService>();
             builder.Services.AddSingleton<SupabaseStorageService>();
-            builder.Services.AddSingleton<INavigationService, NavigationService>();
-            builder.Services.AddScoped<ISwapService, SwapService>();
+            builder.Services.AddSingleton<INavigationService, NavigationService>(); 
 
 
             // HTTP клиент для AI
@@ -83,11 +81,12 @@ namespace PlantApp
             });
 
             // подключаем HttpClient для чата
-            builder.Services.AddHttpClient<RealtimeChatService>();
-            builder.Services.AddSingleton<RealtimeChatService>();
+            builder.Services.AddHttpClient<RealtimeChatService>(); 
 
             // подключаем HttpClient для swap'а
-            builder.Services.AddHttpClient<SupabaseSwapService>(); 
+            builder.Services.AddHttpClient<SupabaseSwapService>();
+            builder.Services.AddScoped<ISwapService, SwapService>();
+            builder.Services.AddHttpClient<SupabaseUserPlantService>();
 
 
             // страницы
@@ -101,6 +100,7 @@ namespace PlantApp
             builder.Services.AddTransient<EditProfilePopup>();
             builder.Services.AddTransient<UserPlantDetailsPopup>();
             builder.Services.AddTransient<CreateSwapOfferPopup>();
+            builder.Services.AddTransient<MyPlantsPopup>();
             //чаты
             builder.Services.AddTransient<UserChatPage>();
             builder.Services.AddTransient<ChatPage>();
@@ -134,6 +134,7 @@ namespace PlantApp
             builder.Services.AddTransient<EditProfilePopupViewModel>();
             builder.Services.AddTransient<UserPlantDetailsPopupViewModel>();
             builder.Services.AddTransient<CreateSwapOfferPopupViewModel>();
+            builder.Services.AddTransient<MyPlantsPopupViewModel>();
             //чаты ViewModels
             builder.Services.AddTransient<ChatPageViewModel>();
             builder.Services.AddTransient<UserChatViewModel>();

@@ -26,17 +26,17 @@ public class SwapService : ISwapService
         return offers.Count;
     }
 
-    public async Task CreateOfferAsync(int ownerId, int plantId, string? desired)
+    public async Task CreateOfferAsync(string ownerId, int plantId, string? desired)  
     {
         var offer = new SwapOffer
         {
-            OwnerId = ownerId,
+            OwnerId = ownerId,  // owner string uuid
             UserPlantId = plantId,
             DesiredPlantDescription = desired
         };
 
         await _supabase.CreateOfferAsync(offer);
-    } 
+    }
 
     public async Task SendRequestAsync(int offerId, int fromUserId, int plantId)
     {
@@ -66,13 +66,13 @@ public class SwapService : ISwapService
         await db.SaveChangesAsync();
     }
 
-    public async Task<List<SwapRequest>> GetIncomingRequestsAsync(int ownerId)
+    public async Task<List<SwapRequest>> GetIncomingRequestsAsync(string ownerId)
     {
         using var db = await _dbFactory.CreateDbContextAsync();
 
         return await db.SwapRequests
             .Include(x => x.SwapOffer)
-            .Where(x => x.SwapOffer!.OwnerId == ownerId)
+            .Where(x => x.SwapOffer!.OwnerId == ownerId) 
             .ToListAsync();
     }
 
@@ -98,11 +98,11 @@ public class SwapService : ISwapService
         {
             offer.Plant = await db.UserPlants
                 .Include(x => x.Plant)
-                .FirstOrDefaultAsync(x => x.Id == offer.UserPlantId);
+                .FirstOrDefaultAsync(x => x.SupabaseId == offer.UserPlantId);
 
             var owner = await db.Users
                 .Include(x => x.Profile)
-                .FirstOrDefaultAsync(x => x.Id == offer.OwnerId);
+                .FirstOrDefaultAsync(x => x.SupabaseUuid == offer.OwnerId);
 
             offer.OwnerName = owner?.Login;
             offer.OwnerCity = owner?.Profile?.City;

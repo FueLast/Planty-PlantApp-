@@ -86,23 +86,29 @@ public partial class CreateSwapOfferPopupViewModel : ObservableObject
         if (SelectedPlant == null)
         {
             await Application.Current.MainPage.DisplayAlert(
+                "Ошибка", "Выберите растение", "OK");
+            return;
+        }
+
+        // ПРОВЕРЯЕМ что SupabaseId есть
+        if (!SelectedPlant.SupabaseId.HasValue)
+        {
+            await Application.Current.MainPage.DisplayAlert(
                 "Ошибка",
-                "Выберите растение",
+                "Растение не синхронизировано с сервером. " +
+                "Попробуйте удалить и добавить растение заново.",
                 "OK");
             return;
         }
-        Console.WriteLine("BUTTON CLICKED");
-        Console.WriteLine($"UserId: {_authService.GetUserId()}");
-        Console.WriteLine($"SelectedPlantId: {SelectedPlant?.Id}");
-        Console.WriteLine($"DesiredText: {DesiredText}");
+
+        System.Diagnostics.Debug.WriteLine($"SupabaseId для свопа: {SelectedPlant.SupabaseId}");
 
         await _swapService.CreateOfferAsync(
-            _authService.GetUserId(),
-            SelectedPlant.Id,
+            _authService.GetUserUuid(),
+            SelectedPlant.SupabaseId.Value, // только Supabase Id!
             DesiredText
         );
 
-        // закрываем popup
         CloseAction?.Invoke();
     }
 }

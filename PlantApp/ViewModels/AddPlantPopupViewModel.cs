@@ -10,7 +10,7 @@ public partial class AddPlantPopupViewModel : ObservableObject
 {
     private readonly AuthService _authService;
     private readonly SupabaseStorageService _storageService;
-
+    private readonly SupabaseUserPlantService _supabaseUserPlantService;
     private readonly PlantService _plantService;
 
     // список растений для Picker
@@ -34,16 +34,18 @@ public partial class AddPlantPopupViewModel : ObservableObject
     public AddPlantPopupViewModel(
         AuthService authService,
         SupabaseStorageService storageService,
-        PlantService plantService)
+        PlantService plantService,
+        SupabaseUserPlantService supabaseUserPlantService) 
     {
         _authService = authService;
         _storageService = storageService;
         _plantService = plantService;
+        _supabaseUserPlantService = supabaseUserPlantService; 
 
         LoadPlants();
     }
 
-    async Task LoadPlants()
+    public async Task LoadPlants()
     {
         var list = await _plantService.GetPlants();
         Plants.Clear();
@@ -68,35 +70,27 @@ public partial class AddPlantPopupViewModel : ObservableObject
 
     // метод сохранения UserPlant
     public async Task SavePlant()
-    {
+    { 
         try
         {
             if (SelectedPlant == null)
             {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Ошибка", 
-                    "Выберите растение", 
-                    "OK");
+                await Application.Current.MainPage.DisplayAlert("Ошибка", "Выберите растение", "OK");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(AgeDays))
             {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Ошибка",
-                    "Введите возраст растения",
-                    "OK");
+                await Application.Current.MainPage.DisplayAlert("Ошибка", "Введите возраст растения", "OK");
                 return;
             }
 
             var userId = _authService.GetUserId();
-
             string imageUrl = null;
 
             if (!string.IsNullOrEmpty(ImagePath))
             {
                 using var stream = File.OpenRead(ImagePath);
-
                 imageUrl = await _storageService.UploadPlantImage(stream, userId);
             }
 
@@ -110,7 +104,44 @@ public partial class AddPlantPopupViewModel : ObservableObject
                 ImageUrl = imageUrl
             };
 
+            // 1. Сохраняем в SQLite — получаем локальный Id
             await _plantService.AddPlant(plant);
+
+            // 2. Синхронизируем с Supabase — получаем Supabase Id
+            try
+            {
+                var userUuid = _authService.GetUserUuid();
+
+                if (!string.IsNullOrEmpty(userUuid))
+                {
+                    var supabaseId = await _supabaseUserPlantService.AddAsync(
+                        userUuid,
+                        SelectedPlant.Id,
+                        CustomName ?? "",
+                        Description ?? "",
+                        imageUrl ?? ""
+                    );
+
+                    if (supabaseId.HasValue)
+                    {
+                        // 3. Сохраняем SupabaseId обратно в SQLite
+                        plant.SupabaseId = supabaseId.Value;
+                        await _plantService.UpdatePlant(plant);
+
+                        System.Diagnostics.Debug.WriteLine(
+                            $"✅ SupabaseId сохранён: {supabaseId.Value}");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine(
+                            "⚠️ Supabase вернул null — SupabaseId не сохранён");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Supabase sync failed: {ex.Message}");
+            }
         }
         catch (Exception ex)
         {
@@ -121,10 +152,7 @@ public partial class AddPlantPopupViewModel : ObservableObject
 
             System.Diagnostics.Debug.WriteLine(message);
 
-            await Application.Current.MainPage.DisplayAlert(
-                "ERROR",
-                message,
-                "OK");
+            await Application.Current.MainPage.DisplayAlert("ERROR", message, "OK");
         }
     }
 }

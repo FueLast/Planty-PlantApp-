@@ -35,12 +35,12 @@ namespace PlantApp.Services
         }
 
         // единый метод отправки
-        public async Task SendMessageAsync(string chatId, string content, int senderId)
+        public async Task SendMessageAsync(string chatId, string content, string senderId)
         {
             var payload = new
             {
                 chat_id = chatId,
-                sender_id = senderId,
+                sender_id = senderId, 
                 content = content,
                 created_at = DateTime.UtcNow
             };
@@ -57,10 +57,18 @@ namespace PlantApp.Services
 
         public async Task<List<RealtimeMessage>> GetMessagesAsync(string chatId)
         {
-            var url = $"{_baseUrl}?chat_id=eq.{chatId}&order=created_at.asc";
+            try
+            {
+                var url = $"{_baseUrl}?chat_id=eq.{chatId}&order=created_at.asc";
 
-            return await _http.GetFromJsonAsync<List<RealtimeMessage>>(url)
-                   ?? new List<RealtimeMessage>();
+                return await _http.GetFromJsonAsync<List<RealtimeMessage>>(url)
+                       ?? new List<RealtimeMessage>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"getmessages error: {ex.Message}");
+                return new List<RealtimeMessage>();
+            }
         }
     }
 }

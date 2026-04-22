@@ -7,7 +7,7 @@ using System.Globalization;
 
 public partial class PlantDetailsViewModel : ObservableObject, IInitialize<Plant>
 {
-    [ObservableProperty] private Plant plant;
+    [ObservableProperty] private Plant plant;   
     [ObservableProperty] private bool isFavorite;
 
     private int _plantId;

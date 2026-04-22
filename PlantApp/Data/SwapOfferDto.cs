@@ -9,7 +9,7 @@ namespace PlantApp.Data
     public class SwapOfferDto
     {
         public int id { get; set; }
-        public int owner_id { get; set; }
+        public string owner_id { get; set; } = null!; //uuid
         public int user_plant_id { get; set; }
 
         public string? desired_plant_description { get; set; }

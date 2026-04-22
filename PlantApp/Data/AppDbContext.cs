@@ -28,6 +28,9 @@ namespace PlantApp.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<SwapOffer>()
+                .Ignore(x => x.Owner);
+
             modelBuilder.Entity<Chat>()
                 .HasMany(c => c.Messages)
                 .WithOne(m => m.Chat)

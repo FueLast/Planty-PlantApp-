@@ -1,0 +1,2 @@
+using PlantApp.ViewModels;
+namespace PlantApp.Views.Popups; public partial class MyPlantsPopup : CommunityToolkit.Maui.Views.Popup { public MyPlantsPopup(MyPlantsPopupViewModel vm) { InitializeComponent(); BindingContext = vm; } }

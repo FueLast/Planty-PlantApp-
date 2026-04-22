@@ -16,7 +16,10 @@ public class SupabaseSwapService
         var baseUrl = config["Supabase:BaseUrl"];
         _baseUrl = $"{baseUrl}/rest/v1/swap_offers";
 
-        var apiKey = config["Supabase:ApiKey"];
+        // для отладки:
+        System.Diagnostics.Debug.WriteLine($"[SupabaseSwapService] BaseUrl = {_baseUrl}");
+
+        var apiKey = config["Supabase:ApiKey"]; 
 
         _http.DefaultRequestHeaders.Clear();
         _http.DefaultRequestHeaders.Add("apikey", apiKey);

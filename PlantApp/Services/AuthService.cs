@@ -24,8 +24,8 @@ namespace PlantApp.Services
             if (CurrentUser == null)
                 throw new Exception("Пользователь не авторизован");
 
-            // Return string representation (UUID) of the current user's Id
-            return CurrentUser.Id.ToString();
+            return CurrentUser.SupabaseUuid
+                   ?? throw new Exception("У пользователя нет Supabase UUID");
         }
 
         public int GetUserId()

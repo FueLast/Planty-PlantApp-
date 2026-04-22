@@ -8,12 +8,11 @@ namespace PlantApp.Helpers
 {
     public static class ChatHelper
     {
-        public static string GetChatId(int user1, int user2)
+        public static string GetChatId(string user1, string user2)
         {
-            var min = Math.Min(user1, user2);
-            var max = Math.Max(user1, user2);
-
-            return $"{min}_{max}";
+            var ids = new[] { user1, user2 };
+            Array.Sort(ids, StringComparer.Ordinal);
+            return $"{ids[0]}_{ids[1]}";
         }
     }
 }

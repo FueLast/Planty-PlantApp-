@@ -6,7 +6,7 @@
     xmlns:viewmodels="clr-namespace:PlantApp.ViewModels"
     xmlns:converters="clr-namespace:PlantApp.Converters"
     x:DataType="viewmodels:SwapPageViewModel"
-    BackgroundColor="#F5F5F5">
+    Background="#F0EEE9">
 
     <Grid RowDefinitions="Auto,*">
 
@@ -116,7 +116,8 @@
                                     <Button
                                     FontFamily="Montserrat"
                                     Text="Предложить обмен"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SendRequestCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                            Path=BindingContext.OpenSelectPlantCommand}"
                                     CommandParameter="{Binding .}"
                                     BackgroundColor="#2E7D32"
                                     TextColor="White"

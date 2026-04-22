@@ -9,7 +9,7 @@ public class RealtimeMessage
     public string ChatId { get; set; }
 
     [JsonPropertyName("sender_id")]
-    public int SenderId { get; set; }
+    public string SenderId { get; set; } = null!;
 
     [JsonPropertyName("content")]
     public string Content { get; set; }
