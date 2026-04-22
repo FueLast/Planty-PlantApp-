@@ -24,6 +24,9 @@ namespace PlantApp
         {
             var builder = MauiApp.CreateBuilder();
 
+            builder.Logging.AddDebug();
+            builder.Logging.SetMinimumLevel(LogLevel.Trace);
+
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
@@ -31,6 +34,13 @@ namespace PlantApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+                    fonts.AddFont("Montserrat-Regular.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-Bold.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-ExtraBold.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-SemiBold.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-Light.ttf", "Montserrat");
+                    fonts.AddFont("Montserrat-Thin.ttf", "Montserrat");
                 })
                 .ConfigureSyncfusionCore();
 
@@ -51,15 +61,15 @@ namespace PlantApp
             builder.Services.AddScoped<AIChatService>();
             builder.Services.AddScoped<AIService>();
             builder.Services.AddScoped<FavoriteService>();
-            builder.Services.AddScoped<ProfileService>();
-            builder.Services.AddScoped<UserPlantService>();
+            builder.Services.AddScoped<ProfileService>(); 
             builder.Services.AddScoped<FriendService>();
             builder.Services.AddScoped<UserService>(); 
+
 
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<SecurityService>();
             builder.Services.AddSingleton<SupabaseStorageService>();
-            builder.Services.AddSingleton<INavigationService, NavigationService>();
+            builder.Services.AddSingleton<INavigationService, NavigationService>(); 
 
 
             // HTTP клиент для AI
@@ -71,9 +81,12 @@ namespace PlantApp
             });
 
             // подключаем HttpClient для чата
-            builder.Services.AddHttpClient<RealtimeChatService>();
-            builder.Services.AddSingleton<RealtimeChatService>();
+            builder.Services.AddHttpClient<RealtimeChatService>(); 
 
+            // подключаем HttpClient для swap'а
+            builder.Services.AddHttpClient<SupabaseSwapService>();
+            builder.Services.AddScoped<ISwapService, SwapService>();
+            builder.Services.AddHttpClient<SupabaseUserPlantService>();
 
 
             // страницы
@@ -86,6 +99,8 @@ namespace PlantApp
             builder.Services.AddTransient<AddPlantPopup>();
             builder.Services.AddTransient<EditProfilePopup>();
             builder.Services.AddTransient<UserPlantDetailsPopup>();
+            builder.Services.AddTransient<CreateSwapOfferPopup>();
+            builder.Services.AddTransient<MyPlantsPopup>();
             //чаты
             builder.Services.AddTransient<UserChatPage>();
             builder.Services.AddTransient<ChatPage>();
@@ -99,7 +114,8 @@ namespace PlantApp
             // внутренние страницы
             builder.Services.AddTransient<GPTPage>();
             builder.Services.AddTransient<EncyclopediaPage>();
-            builder.Services.AddTransient<RemindersPage>();
+            builder.Services.AddTransient<SwapPage>();
+            builder.Services.AddTransient<RemindersPage>(); //скоро удалится
             builder.Services.AddTransient<FavoritesPage>();
 
             // ViewModels
@@ -112,10 +128,13 @@ namespace PlantApp
             builder.Services.AddTransient<FavoritesPageViewModel>();
             builder.Services.AddTransient<ProfilePageViewModel>();
             builder.Services.AddTransient<PlantDetailsViewModel>();
+            builder.Services.AddSingleton<SwapPageViewModel>();
 
             builder.Services.AddTransient<AddPlantPopupViewModel>();
             builder.Services.AddTransient<EditProfilePopupViewModel>();
             builder.Services.AddTransient<UserPlantDetailsPopupViewModel>();
+            builder.Services.AddTransient<CreateSwapOfferPopupViewModel>();
+            builder.Services.AddTransient<MyPlantsPopupViewModel>();
             //чаты ViewModels
             builder.Services.AddTransient<ChatPageViewModel>();
             builder.Services.AddTransient<UserChatViewModel>();
@@ -128,4 +147,4 @@ namespace PlantApp
             return builder.Build();
         }
     }
-}
+} 

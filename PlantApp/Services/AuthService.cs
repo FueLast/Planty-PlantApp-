@@ -19,6 +19,15 @@ namespace PlantApp.Services
             CurrentUser = user;
         }
 
+        public string GetUserUuid()
+        {
+            if (CurrentUser == null)
+                throw new Exception("Пользователь не авторизован");
+
+            return CurrentUser.SupabaseUuid
+                   ?? throw new Exception("У пользователя нет Supabase UUID");
+        }
+
         public int GetUserId()
         {
             if (CurrentUser == null)

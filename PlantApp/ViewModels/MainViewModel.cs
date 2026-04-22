@@ -35,7 +35,7 @@ namespace PlantApp.ViewModels
 
             OnEncyclopediaCommand = new AsyncRelayCommand(OpenEncyclopedia);
             OnGPTCommand = new AsyncRelayCommand(OpenGPT);
-            OnRemindersCommand = new AsyncRelayCommand(OpenReminders);
+            OnSwapCommand = new AsyncRelayCommand(OpenSwap);
             OnFavoritesCommand = new AsyncRelayCommand(OpenFavorites);
 
             OpenPlantDetailsCommand = new AsyncRelayCommand<object>(OpenPlantDetails);
@@ -61,7 +61,7 @@ namespace PlantApp.ViewModels
 
         public ICommand OnEncyclopediaCommand { get; }
         public ICommand OnGPTCommand { get; }
-        public ICommand OnRemindersCommand { get; }
+        public ICommand OnSwapCommand { get; }
         public ICommand OnFavoritesCommand { get; }
         public ICommand OnHomePageCommand { get; }
         public ICommand OnChatPageCommand { get; }
@@ -78,9 +78,9 @@ namespace PlantApp.ViewModels
             await _navigationService.NavigateToAsync<GPTPage>();
         }
 
-        private async Task OpenReminders()
+        private async Task OpenSwap()
         {
-            await _navigationService.NavigateToAsync<RemindersPage>();
+            await _navigationService.NavigateToAsync<SwapPage>();
         }
         private async Task OpenFavorites()
         {

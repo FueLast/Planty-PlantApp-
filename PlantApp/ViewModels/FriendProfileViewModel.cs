@@ -15,8 +15,9 @@ public partial class FriendProfileViewModel : ObservableObject
     private readonly FriendService _friendService;
     private readonly AuthService _authService;
     private readonly INavigationService _navigation;
-    private readonly UserPlantService _plantService;
     private readonly IServiceProvider _serviceProvider;
+
+    private readonly PlantService _plantService;
 
     private int _currentUserId;
     private int _friendUserId;
@@ -26,15 +27,15 @@ public partial class FriendProfileViewModel : ObservableObject
         FriendService friendService,
         AuthService authService,
         INavigationService navigation,
-        UserPlantService plantService,
-        IServiceProvider serviceProvider) 
+        IServiceProvider serviceProvider,
+        PlantService plantService) 
     {
         _factory = factory;
         _friendService = friendService;
         _authService = authService;
-        _navigation = navigation;
+        _navigation = navigation; 
+        _serviceProvider = serviceProvider;
         _plantService = plantService;
-        _serviceProvider = serviceProvider; 
     }
 
     // ---------------- профиль ----------------

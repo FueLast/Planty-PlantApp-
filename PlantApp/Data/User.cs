@@ -18,6 +18,8 @@ namespace PlantApp.Data
         // Навигационное свойство: ссылка на профиль
         public UserProfile Profile { get; set; } = null!;
 
+        public string? SupabaseUuid { get; set; }
+
         [NotMapped]
         public bool IsRequestSent { get; set; }
     }

@@ -42,15 +42,13 @@ namespace PlantApp.Services
             {
                 var response = await _http.PostAsJsonAsync(
                     "https://llm.api.cloud.yandex.net/foundationModels/v1/completion",
-                    request);
+                    request); 
 
-                var jsonString = await response.Content.ReadAsStringAsync(); 
+                var jsonString = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    // сервер присылает детальное описание ошибки в теле ответа
-                    var errorDetail = await response.Content.ReadAsStringAsync();
-                    return $"Ошибка API: {response.StatusCode}. Детали: {errorDetail}";
+                    return $"Ошибка API: {response.StatusCode}. Детали: {jsonString}";
                 }
 
                 using var doc = JsonDocument.Parse(jsonString);

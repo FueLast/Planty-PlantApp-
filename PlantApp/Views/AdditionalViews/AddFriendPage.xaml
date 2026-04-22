@@ -47,7 +47,7 @@
                             <StackLayout Grid.Column="1" VerticalOptions="Center">
 
                                 <Label
-                                    Text="{Binding Login}"
+                                    Text="{Binding Profile.UserName}"
                                     TextColor="Black"
                                     FontAttributes="Bold"
                                     FontSize="16"/>

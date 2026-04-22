@@ -20,11 +20,16 @@ namespace PlantApp.Data
         public DbSet<FavoritePlant> FavoritePlants { get; set; }
         public DbSet<UserPlant> UserPlants { get; set; }
         public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<SwapOffer> SwapOffers { get; set; }
+        public DbSet<SwapRequest> SwapRequests { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<SwapOffer>()
+                .Ignore(x => x.Owner);
 
             modelBuilder.Entity<Chat>()
                 .HasMany(c => c.Messages)

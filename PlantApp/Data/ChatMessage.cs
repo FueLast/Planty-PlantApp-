@@ -11,5 +11,11 @@
         public DateTime CreatedAt { get; set; }
 
         public Chat Chat { get; set; }
+
+        public string MessageType { get; set; } = "text"; // text | plant
+
+        public int? PlantId { get; set; }
+        public string? PlantName { get; set; }
+        public string? PlantImage { get; set; }
     }
 }

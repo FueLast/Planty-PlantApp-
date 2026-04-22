@@ -1,0 +1,239 @@
+<ContentPage
+    x:Class="PlantApp.Views.SwapPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:data="clr-namespace:PlantApp.Data"
+    xmlns:viewmodels="clr-namespace:PlantApp.ViewModels"
+    xmlns:converters="clr-namespace:PlantApp.Converters"
+    x:DataType="viewmodels:SwapPageViewModel"
+    Background="#F0EEE9">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
+        <VerticalStackLayout Padding="20,20,20,10" Spacing="10">
+
+            <Label 
+                FontFamily="Montserrat"
+                Text="Обмен растениями 🌿"
+                FontSize="24"
+                FontAttributes="Bold"
+                TextColor="#1E1E1E"/>
+
+            <Label 
+                FontFamily="Montserrat"
+                Text="{Binding Offers.Count, StringFormat='Найдено предложений: {0}'}"
+                FontSize="13"
+                TextColor="#777"/>
+
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1">
+
+            <!-- LIST -->
+            <CollectionView
+                ItemsSource="{Binding Offers}"
+                IsVisible="True"
+                SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="data:SwapOffer">
+
+                        <Border
+                        Margin="16,0,16,12"
+                        Padding="12"
+                        BackgroundColor="White"
+                        Stroke="#EAEAEA"
+                        StrokeShape="RoundRectangle 20">
+
+                            <Grid ColumnDefinitions="100,*" ColumnSpacing="12">
+
+                                <!-- AVATAR (TOP RIGHT) -->
+                                <Border
+                                Grid.ColumnSpan="2"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                ZIndex="10"
+                                Margin="0,3,3,0"
+                                Stroke="DarkGreen"
+                                StrokeShape="Ellipse">
+
+                                    <Image
+                                    Source="{Binding OwnerProfile, Converter={StaticResource AvatarHelper}}"
+                                    Aspect="AspectFill"/>
+                                </Border>
+
+                                <!-- IMAGE -->
+                                <Border StrokeShape="RoundRectangle 15"
+                                    HeightRequest="100"
+                                    WidthRequest="100"
+                                    Stroke="Transparent">
+
+                                    <Border.Shadow>
+                                        <Shadow Brush="Black"
+                                        Offset="3,3"
+                                        Radius="5"
+                                        Opacity="0.1" />
+                                    </Border.Shadow>
+
+                                    <Image
+                                    Source="{Binding ImageUrl, Converter={StaticResource ImagePathConverter}}"
+                                    Aspect="AspectFill"/>
+                                </Border>
+
+                                <!-- CONTENT -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="6">
+
+                                    <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.CustomName, TargetNullValue='Без названия'}"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    TextColor="#1E1E1E"/>
+
+                                    <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding Plant.Plant.NamePlant}"
+                                    FontSize="14"
+                                    TextColor="#666"/>
+
+                                    <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding OwnerName, StringFormat='Владелец: {0}'}"
+                                    FontSize="12"
+                                    TextColor="#888"/>
+
+                                    <Label
+                                    FontFamily="Montserrat"
+                                    Text="{Binding DesiredPlantDescription}"
+                                    FontSize="13"
+                                    TextColor="#444"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"/>
+
+                                    <Button
+                                    FontFamily="Montserrat"
+                                    Text="Предложить обмен"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                            Path=BindingContext.OpenSelectPlantCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    CornerRadius="10"
+                                    HeightRequest="36"
+                                    FontSize="16"/>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+
+            <!-- SKELETON -->
+            <CollectionView
+        IsVisible="{Binding IsSkeletonVisible}"
+        SelectionMode="None">
+
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:Int32}">
+                        <x:Int32>1</x:Int32>
+                        <x:Int32>2</x:Int32>
+                        <x:Int32>3</x:Int32>
+                        <x:Int32>4</x:Int32>
+                        <x:Int32>5</x:Int32>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                    Margin="16,0,16,12"
+                    Padding="12"
+                    BackgroundColor="#EAEAEA"
+                    StrokeShape="RoundRectangle 20">
+
+                            <Grid ColumnDefinitions="100,*" ColumnSpacing="12">
+
+                                <BoxView
+                            HeightRequest="100"
+                            WidthRequest="100"
+                            Color="#DDDDDD"
+                            CornerRadius="15"/>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="6">
+
+                                    <BoxView HeightRequest="16" WidthRequest="120" Color="#DDDDDD"/>
+                                    <BoxView HeightRequest="14" WidthRequest="80" Color="#DDDDDD"/>
+                                    <BoxView HeightRequest="12" WidthRequest="140" Color="#DDDDDD"/>
+                                    <BoxView HeightRequest="30" WidthRequest="120" Color="#DDDDDD"/>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+
+            <!-- FLOAT BUTTON -->
+            <Button
+            Grid.Row="1"
+            Text="+"
+            Command="{Binding OpenCreateOfferPopupCommand}"
+            WidthRequest="60"
+            HeightRequest="60"
+            CornerRadius="30"
+            BackgroundColor="#2E7D32"
+            TextColor="White"
+            FontSize="28"
+            VerticalOptions="End"
+            HorizontalOptions="End"
+            Margin="20"/>
+
+
+            <HorizontalStackLayout
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Margin="0,0,0,90"
+            Spacing="6"
+            IsVisible="{Binding TotalPages, Converter={StaticResource GreaterThanOneConverter}}">
+
+                <CollectionView
+                ItemsSource="{Binding Pages}"
+                ItemsLayout="HorizontalList"
+                SelectionMode="None">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                            Text="{Binding .}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToPageCommand}"
+                            CommandParameter="{Binding .}"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            CornerRadius="10"
+                            BackgroundColor="#E0E0E0"
+                            TextColor="Black"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </HorizontalStackLayout>
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

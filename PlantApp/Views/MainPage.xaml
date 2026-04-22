@@ -221,7 +221,7 @@
                             HorizontalOptions="Center"
                             VerticalOptions="Center">
 
-                            <Image Source="encyclopedia5.png" 
+                            <Image Source="encyclopedia.png" 
                                    HeightRequest="40"/>
 
                             <Label Text="Энциклопедия"
@@ -232,7 +232,7 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <!-- Reminders -->
+                    <!-- Swap -->
                     <Border Margin="8"
                             Grid.Row="1"
                             Grid.Column="0" 
@@ -248,7 +248,7 @@
                         </Border.Shadow>
 
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OnRemindersCommand}"/>
+                            <TapGestureRecognizer Command="{Binding OnSwapCommand}"/>
                         </Border.GestureRecognizers>
 
 
@@ -256,10 +256,10 @@
                             HorizontalOptions="Center"
                             VerticalOptions="Center">
 
-                            <Image Source="calendar.png" 
+                            <Image Source="swap_logo.png" 
                                    HeightRequest="40"/>
 
-                            <Label Text="Напоминания"
+                            <Label Text="Своп-маркет"
                                     FontSize="14" 
                                     FontFamily="Montserrat"
                                     TextColor="#2E7D32"
